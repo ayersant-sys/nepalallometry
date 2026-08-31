@@ -1,7 +1,8 @@
 #' Inspect the FRTC 2025 total-biomass model registry
 #'
 #' @return A data frame containing equations, coefficients, fit statistics,
-#'   units, biomass boundary, and source information.
+#'   observed model-development DBH and height ranges, units, biomass boundary,
+#'   and source information.
 #' @export
 frtc_models <- function() {
   species <- frtc_species()
