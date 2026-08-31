@@ -1,0 +1,17 @@
+Package: nepalallometry
+Type: Package
+Title: Allometric Estimation for Nepal's Forest Trees
+Version: 0.5.2.9000
+Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
+    email = "ayer.sant@gmail.com")
+Author: Santosh Ayer [aut, cre]
+Maintainer: Santosh Ayer <ayer.sant@gmail.com>
+Description: Implements published species-specific allometric equations for
+    estimating tree volume and biomass in Nepal. The initial development
+    version implements total aboveground biomass equations reported by the
+    Forest Research and Training Centre in 2025.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+Imports:
+    openxlsx

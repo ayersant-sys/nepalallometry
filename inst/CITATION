@@ -1,0 +1,26 @@
+citHeader("To cite nepalallometry and its FRTC model source, use:")
+
+citEntry(
+  entry = "Manual",
+  title = "nepalallometry: Allometric estimation for Nepal's forest trees",
+  author = personList(as.person("Santosh Ayer")),
+  year = "2026",
+  note = "R package, development version",
+  textVersion = paste(
+    "Ayer, S. (2026). nepalallometry: Allometric estimation for Nepal's",
+    "forest trees. R package, development version."
+  )
+)
+
+citEntry(
+  entry = "TechReport",
+  title = "Allometric Equations for Seven Major Tree Species of Nepal, Volume I",
+  author = personList(as.person("Forest Research and Training Centre")),
+  institution = "Forest Research and Training Centre, Government of Nepal",
+  year = "2025",
+  textVersion = paste(
+    "Forest Research and Training Centre (FRTC). (2025). Allometric",
+    "Equations for Seven Major Tree Species of Nepal, Volume I. Government",
+    "of Nepal."
+  )
+)

@@ -1,0 +1,14 @@
+species_id,dbh_class_cm,density_g_cm3,density_basis,source
+alnus_nepalensis,all,0.4318,species_average,FRTC 2025 Table 11
+castanopsis_spp,not required,,not_required,FRTC 2025 Table 11
+lagerstroemia_parviflora,all,0.5651,species_average,FRTC 2025 Table 11
+pinus_roxburghii,not required,,not_required,FRTC 2025 Table 11
+shorea_robusta,5-10,0.5042,dbh_class,FRTC 2025 Table 11
+shorea_robusta,>10-30,0.5573,dbh_class,FRTC 2025 Table 11
+shorea_robusta,>30-50,0.6331,dbh_class,FRTC 2025 Table 11
+shorea_robusta,>50,0.6551,dbh_class,FRTC 2025 Table 11
+schima_wallichii,all,0.4869,species_average,FRTC 2025 Table 11
+terminalia_alata,5-10,0.4865,dbh_class,FRTC 2025 Table 11
+terminalia_alata,>10-30,0.5780,dbh_class,FRTC 2025 Table 11
+terminalia_alata,>30-50,0.6472,dbh_class,FRTC 2025 Table 11
+terminalia_alata,>50,0.6819,dbh_class,FRTC 2025 Table 11
