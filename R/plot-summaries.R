@@ -360,7 +360,7 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
     Item = c(
       "Input file", "Model source", "Response", "Biomass boundary",
       "Carbon fraction", "Biomass unit", "Carbon unit",
-      "Important interpretation"
+      "Calibration ranges", "Important interpretation"
     ),
     Description = c(
       normalizePath(input, mustWork = FALSE),
@@ -370,6 +370,10 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
       "0.47",
       "Mg/ha (numerically equal to metric tonnes per hectare)",
       "Mg C/ha (metric tonnes of carbon per hectare)",
+      paste(
+        "Observed species-specific DBH and height limits from the FRTC",
+        "model-development dataset; predictions outside them are extrapolations."
+      ),
       paste(
         "Partial estimates include only species supported by FRTC models.",
         "Check coverage and summary-status columns before interpretation."
@@ -386,9 +390,19 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
   openxlsx::setRowHeights(wb, "About", rows = 3:(nrow(about) + 3),
                           heights = 32)
 
+  model_registry <- frtc_models()
+  calibration_ranges <- model_registry[, c(
+    "species_id", "nepali_name", "scientific_name", "sample_size",
+    "dbh_min_cm", "dbh_max_cm", "height_min_m", "height_max_m",
+    "calibration_range_basis", "calibration_range_source"
+  )]
   workbook_tables <- c(
     tables,
-    list(model_registry = frtc_models(), density_rules = frtc_density())
+    list(
+      model_registry = model_registry,
+      calibration_ranges = calibration_ranges,
+      density_rules = frtc_density()
+    )
   )
   sheet_names <- c(
     tree_results = "Tree Results",
@@ -397,6 +411,7 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
     dbh_class_summary = "DBH Class Summary",
     forest_summary = "Forest Summary",
     model_registry = "Model Registry",
+    calibration_ranges = "Calibration Ranges",
     density_rules = "Density Rules"
   )
   for (nm in names(workbook_tables)) {
