@@ -106,6 +106,20 @@ frtc_total_biomass <- function(dbh, height, species, keep_inputs = FALSE) {
     dbh[dbh_height_model]^model$b[dbh_height_model] *
     height[dbh_height_model]^model$c[dbh_height_model]
 
+  calibration <- .frtc_calibration_info(code, dbh, height)
+  extrapolated <- supported &
+    !is.na(calibration$within_calibration_range) &
+    !calibration$within_calibration_range
+  if (any(extrapolated)) {
+    warning(
+      sum(extrapolated),
+      " supported tree(s) are outside the observed FRTC model-development ",
+      "DBH or height range. Predictions were returned but are extrapolations. ",
+      "Use `keep_inputs = TRUE` and inspect `calibration_status`.",
+      call. = FALSE
+    )
+  }
+
   if (!keep_inputs) return(biomass)
 
   species_table <- frtc_species()
@@ -127,6 +141,12 @@ frtc_total_biomass <- function(dbh, height, species, keep_inputs = FALSE) {
       supported, "estimated",
       ifelse(missing_species, "missing_species", "unsupported_species")
     ),
+    calibration_dbh_min_cm = calibration$calibration_dbh_min_cm,
+    calibration_dbh_max_cm = calibration$calibration_dbh_max_cm,
+    calibration_height_min_m = calibration$calibration_height_min_m,
+    calibration_height_max_m = calibration$calibration_height_max_m,
+    within_calibration_range = calibration$within_calibration_range,
+    calibration_status = calibration$calibration_status,
     biomass_boundary = ifelse(
       supported, "above 0.30 m; stump excluded", NA_character_
     ),
