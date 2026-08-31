@@ -63,6 +63,26 @@ FRTC-recommended wood density is selected internally when an equation requires
 density. User-supplied density is intentionally not accepted in this
 implementation.
 
+## Calibration ranges and extrapolation
+
+For every supported species, the package compares DBH and height with the
+observed minimum and maximum values in the FRTC model-development dataset.
+
+```r
+frtc_models()[, c(
+  "species_id", "sample_size",
+  "dbh_min_cm", "dbh_max_cm",
+  "height_min_m", "height_max_m"
+)]
+```
+
+Predictions outside either observed range are still returned, but the package
+issues a warning and marks them with
+`within_calibration_range = FALSE`. Use `keep_inputs = TRUE` and inspect
+`calibration_status` to identify whether DBH, height, or both are outside the
+observed range. These flags identify extrapolation; they are not formal
+prediction intervals.
+
 ## Analyse an inventory in R
 
 The required columns are `tree_id`, `plot_id`, `plot_area_ha`,
@@ -125,6 +145,7 @@ The workbook contains:
 - DBH Class Summary
 - Forest Summary
 - Model Registry
+- Calibration Ranges
 - Density Rules
 
 Use `output_format = "csv"` for separate CSV outputs or
@@ -153,6 +174,8 @@ operational RMSE obtained using the recommended densities in Table 11.
 - Partial plot estimates are not estimates of whole-plot biomass.
 - The current version does not estimate roots, dead wood, litter, soil carbon,
   missing height, stump biomass, or formal prediction uncertainty.
+- Predictions outside the observed species-specific DBH or height range are
+  extrapolations and are explicitly flagged.
 - Predictions should not be treated as direct measurements of biomass or
   carbon.
 

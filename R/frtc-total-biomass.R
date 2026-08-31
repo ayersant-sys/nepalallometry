@@ -40,11 +40,13 @@
 #' @param species Species code, scientific name, or supported Nepali common
 #'   name. Run [frtc_species()] for the canonical list.
 #' @param keep_inputs If `TRUE`, return a data frame containing inputs,
-#'   normalized species, density provenance, and biomass. If `FALSE`, return
-#'   only the biomass vector.
+#'   normalized species, density provenance, calibration limits and status,
+#'   and biomass. If `FALSE`, return only the biomass vector.
 #'
 #' @return Biomass in kg/tree, excluding the 0-30 cm stump. A numeric vector
-#'   when `keep_inputs = FALSE`; otherwise a data frame.
+#'   when `keep_inputs = FALSE`; otherwise a data frame containing observed
+#'   calibration limits, `within_calibration_range`, and
+#'   `calibration_status`.
 #' @export
 #'
 #' @examples
@@ -106,6 +108,20 @@ frtc_total_biomass <- function(dbh, height, species, keep_inputs = FALSE) {
     dbh[dbh_height_model]^model$b[dbh_height_model] *
     height[dbh_height_model]^model$c[dbh_height_model]
 
+  calibration <- .frtc_calibration_info(code, dbh, height)
+  extrapolated <- supported &
+    !is.na(calibration$within_calibration_range) &
+    !calibration$within_calibration_range
+  if (any(extrapolated)) {
+    warning(
+      sum(extrapolated),
+      " supported tree(s) are outside the observed FRTC model-development ",
+      "DBH or height range. Predictions were returned but are extrapolations. ",
+      "Use `keep_inputs = TRUE` and inspect `calibration_status`.",
+      call. = FALSE
+    )
+  }
+
   if (!keep_inputs) return(biomass)
 
   species_table <- frtc_species()
@@ -127,6 +143,12 @@ frtc_total_biomass <- function(dbh, height, species, keep_inputs = FALSE) {
       supported, "estimated",
       ifelse(missing_species, "missing_species", "unsupported_species")
     ),
+    calibration_dbh_min_cm = calibration$calibration_dbh_min_cm,
+    calibration_dbh_max_cm = calibration$calibration_dbh_max_cm,
+    calibration_height_min_m = calibration$calibration_height_min_m,
+    calibration_height_max_m = calibration$calibration_height_max_m,
+    within_calibration_range = calibration$within_calibration_range,
+    calibration_status = calibration$calibration_status,
     biomass_boundary = ifelse(
       supported, "above 0.30 m; stump excluded", NA_character_
     ),

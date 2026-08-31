@@ -18,3 +18,20 @@ stopifnot(pinus_density$density_source == "not_required")
 equation <- capture.output(info <- frtc_equation("chilaune"))
 stopifnot(any(grepl("Schima wallichii", equation, fixed = TRUE)))
 stopifnot(info$species_id == "schima_wallichii")
+
+
+stopifnot(all(c(
+  "dbh_min_cm", "dbh_max_cm", "height_min_m", "height_max_m"
+) %in% names(models)))
+stopifnot(models$dbh_min_cm[
+  models$species_id == "shorea_robusta"
+] == 6.7)
+stopifnot(models$dbh_max_cm[
+  models$species_id == "shorea_robusta"
+] == 102.4)
+stopifnot(models$sample_size[
+  models$species_id == "schima_wallichii"
+] == 47L)
+stopifnot(models$height_min_m[
+  models$species_id == "schima_wallichii"
+] == 5.0)

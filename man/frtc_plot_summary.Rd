@@ -10,7 +10,8 @@ frtc_plot_summary(data)
 \item{data}{Output from [estimate_frtc_biomass()].}
 }
 \value{
-One row per plot, with biomass and carbon in Mg/ha and coverage.
+One row per plot, with biomass and carbon in Mg/ha, supported-species
+coverage, extrapolated-tree counts, and calibration summary status.
 }
 \description{
 Summarize FRTC-supported biomass and carbon by plot

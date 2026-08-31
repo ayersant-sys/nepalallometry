@@ -76,6 +76,20 @@ The fourth tree is unsupported. A warning is expected, its biomass is `NA`,
 and its status is `unsupported_species`. The package does not substitute a
 model from another species.
 
+For supported trees, inspect `within_calibration_range` and
+`calibration_status`. The package compares each DBH and height with the
+observed species-specific limits in the FRTC model-development dataset.
+A prediction outside either limit is returned but identified as an
+extrapolation.
+
+```{r calibration-registry}
+frtc_models()[, c(
+  "species_id", "sample_size",
+  "dbh_min_cm", "dbh_max_cm",
+  "height_min_m", "height_max_m"
+)]
+```
+
 ## 4. Produce plot and forest summaries
 
 ```{r summaries}
@@ -151,5 +165,9 @@ The current package does not:
 - estimate the excluded stump, roots, dead wood, litter, or soil carbon;
 - provide formal prediction intervals or uncertainty propagation;
 - convert a partial supported-species estimate into total plot biomass.
+
+Calibration flags describe whether a prediction is inside the observed DBH and
+height domain. They do not quantify prediction uncertainty or guarantee that
+an in-range prediction is accurate.
 
 Users should cite both `nepalallometry` and the original FRTC (2025) report.

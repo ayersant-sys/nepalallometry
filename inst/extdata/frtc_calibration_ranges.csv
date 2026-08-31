@@ -1,0 +1,8 @@
+species_code,species_id,scientific_name,sample_size,dbh_min_cm,dbh_max_cm,height_min_m,height_max_m,range_basis,source
+An,alnus_nepalensis,Alnus nepalensis,52,7.4,83.4,4.5,36.6,observed model-development sample,FRTC 2025 dataset
+Cs,castanopsis_spp,Castanopsis spp.,52,5.4,76.4,4.55,29.4,observed model-development sample,FRTC 2025 dataset
+Lp,lagerstroemia_parviflora,Lagerstroemia parviflora,46,7.1,58.1,5.5,29.3,observed model-development sample,FRTC 2025 dataset
+Pr,pinus_roxburghii,Pinus roxburghii,96,6.7,91.2,2.5,36.4,observed model-development sample,FRTC 2025 dataset
+Sr,shorea_robusta,Shorea robusta,122,6.7,102.4,4.9,42.0,observed model-development sample,FRTC 2025 dataset
+Sw,schima_wallichii,Schima wallichii,47,5.5,67.5,5.0,32.8,observed model-development sample,FRTC 2025 dataset
+Ta,terminalia_alata,Terminalia alata,61,5.4,103.2,4.8,38.4,observed model-development sample,FRTC 2025 dataset

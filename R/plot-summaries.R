@@ -33,7 +33,8 @@
 #' @param data A data frame containing `tree_id`, `plot_id`, `plot_area_ha`,
 #'   `species`, `dbh_cm`, and `height_m`.
 #' @return The original rows with FRTC model metadata, biomass, carbon, basal
-#'   area, and estimation status appended.
+#'   area, estimation status, observed calibration limits, and extrapolation
+#'   status appended.
 #' @export
 estimate_frtc_biomass <- function(data) {
   required <- c("tree_id", "plot_id", "plot_area_ha", "species", "dbh_cm",
@@ -66,6 +67,12 @@ estimate_frtc_biomass <- function(data) {
   result$frtc_carbon_kg <- result$frtc_total_biomass_kg * 0.47
   result$basal_area_m2 <- pi * (as.numeric(result$dbh_cm) / 200)^2
   result$estimation_status <- estimates$estimation_status
+  result$calibration_dbh_min_cm <- estimates$calibration_dbh_min_cm
+  result$calibration_dbh_max_cm <- estimates$calibration_dbh_max_cm
+  result$calibration_height_min_m <- estimates$calibration_height_min_m
+  result$calibration_height_max_m <- estimates$calibration_height_max_m
+  result$within_calibration_range <- estimates$within_calibration_range
+  result$calibration_status <- estimates$calibration_status
   result$biomass_boundary <- estimates$biomass_boundary
   result$model_source <- ifelse(
     result$estimation_status == "estimated", "FRTC 2025 Table 9", NA_character_
@@ -77,6 +84,14 @@ estimate_frtc_biomass <- function(data) {
   estimated <- x$estimation_status == "estimated"
   area <- unique(x$plot_area_ha)
   n_estimated <- sum(estimated)
+  extrapolated <- estimated & !is.na(x$within_calibration_range) &
+    !x$within_calibration_range
+  within_range <- estimated & !is.na(x$within_calibration_range) &
+    x$within_calibration_range
+  calibration_unassessed <- estimated & is.na(x$within_calibration_range)
+  n_extrapolated <- sum(extrapolated)
+  n_within_range <- sum(within_range)
+  n_calibration_unassessed <- sum(calibration_unassessed)
   agb_kg <- if (n_estimated > 0) {
     sum(x$frtc_total_biomass_kg[estimated], na.rm = TRUE)
   } else {
@@ -96,6 +111,14 @@ estimate_frtc_biomass <- function(data) {
       total_trees = nrow(x),
       estimated_trees = n_estimated,
       unsupported_or_missing_trees = sum(!estimated),
+      within_calibration_trees = n_within_range,
+      extrapolated_trees = n_extrapolated,
+      calibration_not_assessed_trees = n_calibration_unassessed,
+      extrapolated_tree_pct_of_estimated = if (n_estimated > 0) {
+        100 * n_extrapolated / n_estimated
+      } else {
+        NA_real_
+      },
       stem_coverage_pct = 100 * n_estimated / nrow(x),
       basal_area_coverage_pct = if (total_ba > 0) 100 * supported_ba / total_ba else NA_real_,
       frtc_supported_agb_kg = agb_kg,
@@ -104,6 +127,15 @@ estimate_frtc_biomass <- function(data) {
       frtc_supported_carbon_Mg_ha = carbon_kg / (1000 * area),
       summary_status = if (all(estimated)) "complete_frtc_estimate" else
         "partial_frtc_estimate",
+      calibration_summary_status = if (n_estimated == 0L) {
+        "not_applicable"
+      } else if (n_extrapolated > 0L) {
+        "contains_extrapolation"
+      } else if (n_calibration_unassessed > 0L) {
+        "contains_unassessed_measurements"
+      } else {
+        "all_supported_trees_within_range"
+      },
       biomass_boundary = "above 0.30 m; stump excluded",
       stringsAsFactors = FALSE
     )
@@ -113,11 +145,13 @@ estimate_frtc_biomass <- function(data) {
 #' Summarize FRTC-supported biomass and carbon by plot
 #'
 #' @param data Output from [estimate_frtc_biomass()].
-#' @return One row per plot, with biomass and carbon in Mg/ha and coverage.
+#' @return One row per plot, with biomass and carbon in Mg/ha, model coverage,
+#'   and calibration-range/extrapolation counts.
 #' @export
 frtc_plot_summary <- function(data) {
   required <- c("plot_id", "plot_area_ha", "estimation_status",
-                "frtc_total_biomass_kg", "frtc_carbon_kg", "basal_area_m2")
+                "frtc_total_biomass_kg", "frtc_carbon_kg", "basal_area_m2",
+                "within_calibration_range")
   .require_inventory_columns(data, required)
   .validate_plot_areas(data)
   groups <- split(data, data$plot_id, drop = TRUE)
@@ -137,7 +171,8 @@ frtc_plot_summary <- function(data) {
 frtc_species_summary <- function(data) {
   required <- c("plot_id", "plot_area_ha", "species", "species_standardized",
                 "estimation_status", "frtc_total_biomass_kg",
-                "frtc_carbon_kg", "basal_area_m2")
+                "frtc_carbon_kg", "basal_area_m2",
+                "within_calibration_range")
   .require_inventory_columns(data, required)
   .validate_plot_areas(data)
   species_label <- ifelse(is.na(data$species_standardized),
@@ -162,7 +197,8 @@ frtc_species_summary <- function(data) {
 #' @export
 frtc_dbh_summary <- function(data) {
   required <- c("plot_id", "plot_area_ha", "dbh_cm", "estimation_status",
-                "frtc_total_biomass_kg", "frtc_carbon_kg", "basal_area_m2")
+                "frtc_total_biomass_kg", "frtc_carbon_kg", "basal_area_m2",
+                "within_calibration_range")
   .require_inventory_columns(data, required)
   .validate_plot_areas(data)
   classes <- cut(
@@ -326,7 +362,7 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
     Item = c(
       "Input file", "Model source", "Response", "Biomass boundary",
       "Carbon fraction", "Biomass unit", "Carbon unit",
-      "Important interpretation"
+      "Calibration ranges", "Important interpretation"
     ),
     Description = c(
       normalizePath(input, mustWork = FALSE),
@@ -336,6 +372,10 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
       "0.47",
       "Mg/ha (numerically equal to metric tonnes per hectare)",
       "Mg C/ha (metric tonnes of carbon per hectare)",
+      paste(
+        "Observed species-specific DBH and height limits from the FRTC",
+        "model-development dataset; predictions outside them are extrapolations."
+      ),
       paste(
         "Partial estimates include only species supported by FRTC models.",
         "Check coverage and summary-status columns before interpretation."
@@ -352,9 +392,19 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
   openxlsx::setRowHeights(wb, "About", rows = 3:(nrow(about) + 3),
                           heights = 32)
 
+  model_registry <- frtc_models()
+  calibration_ranges <- model_registry[, c(
+    "species_id", "nepali_name", "scientific_name", "sample_size",
+    "dbh_min_cm", "dbh_max_cm", "height_min_m", "height_max_m",
+    "calibration_range_basis", "calibration_range_source"
+  )]
   workbook_tables <- c(
     tables,
-    list(model_registry = frtc_models(), density_rules = frtc_density())
+    list(
+      model_registry = model_registry,
+      calibration_ranges = calibration_ranges,
+      density_rules = frtc_density()
+    )
   )
   sheet_names <- c(
     tree_results = "Tree Results",
@@ -363,6 +413,7 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
     dbh_class_summary = "DBH Class Summary",
     forest_summary = "Forest Summary",
     model_registry = "Model Registry",
+    calibration_ranges = "Calibration Ranges",
     density_rules = "Density Rules"
   )
   for (nm in names(workbook_tables)) {

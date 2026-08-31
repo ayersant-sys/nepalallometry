@@ -1,12 +1,16 @@
 #' Inspect the FRTC 2025 total-biomass model registry
 #'
 #' @return A data frame containing equations, coefficients, fit statistics,
-#'   units, biomass boundary, and source information.
+#'   observed model-development DBH and height ranges, units, biomass boundary,
+#'   and source information.
 #' @export
 frtc_models <- function() {
   species <- frtc_species()
   model <- .frtc_total_biomass_models
   idx <- match(model$species_code, species$species_code)
+  range_idx <- match(model$species_code,
+                     .frtc_calibration_ranges$species_code)
+  calibration <- .frtc_calibration_ranges[range_idx, , drop = FALSE]
   data.frame(
     species_id = species$species_id[idx],
     nepali_name = species$nepali_name[idx],
@@ -20,7 +24,13 @@ frtc_models <- function() {
     a = model$a,
     b = model$b,
     c = model$c,
-    sample_size = c(52, 52, 46, 96, 122, 47, 61),
+    sample_size = calibration$sample_size,
+    dbh_min_cm = calibration$dbh_min_cm,
+    dbh_max_cm = calibration$dbh_max_cm,
+    height_min_m = calibration$height_min_m,
+    height_max_m = calibration$height_max_m,
+    calibration_range_basis = "observed model-development sample",
+    calibration_range_source = "FRTC 2025 dataset",
     aic = c(572.91, 599.48, 455.63, 1110.16, 1522.86, 494.61, 736.85),
     fit_rmse_kg = c(148.1, 265.0, 80.4, 223.3, 384.1, 98.8, 433.2),
     mean_bias_kg = c(-6.34, -18.14, -2.10, 2.84, 13.57, 9.56, -71.49),
@@ -81,7 +91,9 @@ frtc_equation <- function(species) {
     "Sample size: ", info$sample_size, "\n",
     "Fit RMSE: ", info$fit_rmse_kg, " kg\n",
     "Operational RMSE: ", info$operational_rmse_kg, " kg\n",
-    "Source: FRTC 2025, Tables 9 and 11\n",
+    "Observed DBH range: ", info$dbh_min_cm, "-", info$dbh_max_cm, " cm\n",
+    "Observed height range: ", info$height_min_m, "-", info$height_max_m, " m\n",
+    "Source: FRTC 2025, Tables 9 and 11; calibration ranges from the FRTC dataset\n",
     sep = ""
   )
   invisible(info)
