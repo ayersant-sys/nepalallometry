@@ -40,11 +40,13 @@
 #' @param species Species code, scientific name, or supported Nepali common
 #'   name. Run [frtc_species()] for the canonical list.
 #' @param keep_inputs If `TRUE`, return a data frame containing inputs,
-#'   normalized species, density provenance, and biomass. If `FALSE`, return
-#'   only the biomass vector.
+#'   normalized species, density provenance, calibration limits and status,
+#'   and biomass. If `FALSE`, return only the biomass vector.
 #'
 #' @return Biomass in kg/tree, excluding the 0-30 cm stump. A numeric vector
-#'   when `keep_inputs = FALSE`; otherwise a data frame.
+#'   when `keep_inputs = FALSE`; otherwise a data frame containing observed
+#'   calibration limits, `within_calibration_range`, and
+#'   `calibration_status`.
 #' @export
 #'
 #' @examples
