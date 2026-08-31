@@ -1,7 +1,7 @@
 # nepalallometry
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml)
 <!-- badges: end -->
 
 `nepalallometry` provides reproducible access to published allometric
