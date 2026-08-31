@@ -11,8 +11,9 @@ estimate_frtc_biomass(data)
 `species`, `dbh_cm`, and `height_m`.}
 }
 \value{
-The original rows with FRTC model metadata, biomass, carbon, basal
-  area, and estimation status appended.
+The original rows with FRTC model metadata, biomass, carbon, basal area,
+  estimation status, observed calibration limits, and extrapolation flags
+  appended.
 }
 \description{
 Estimate FRTC biomass and carbon for an inventory data frame
