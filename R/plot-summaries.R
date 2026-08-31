@@ -33,7 +33,8 @@
 #' @param data A data frame containing `tree_id`, `plot_id`, `plot_area_ha`,
 #'   `species`, `dbh_cm`, and `height_m`.
 #' @return The original rows with FRTC model metadata, biomass, carbon, basal
-#'   area, and estimation status appended.
+#'   area, estimation status, observed calibration limits, and extrapolation
+#'   status appended.
 #' @export
 estimate_frtc_biomass <- function(data) {
   required <- c("tree_id", "plot_id", "plot_area_ha", "species", "dbh_cm",
@@ -144,7 +145,8 @@ estimate_frtc_biomass <- function(data) {
 #' Summarize FRTC-supported biomass and carbon by plot
 #'
 #' @param data Output from [estimate_frtc_biomass()].
-#' @return One row per plot, with biomass and carbon in Mg/ha and coverage.
+#' @return One row per plot, with biomass and carbon in Mg/ha, model coverage,
+#'   and calibration-range/extrapolation counts.
 #' @export
 frtc_plot_summary <- function(data) {
   required <- c("plot_id", "plot_area_ha", "estimation_status",
