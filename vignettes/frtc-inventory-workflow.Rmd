@@ -1,0 +1,155 @@
+---
+title: "Estimating FRTC Biomass and Carbon from a Forest Inventory"
+author: "Santosh Ayer"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Estimating FRTC Biomass and Carbon from a Forest Inventory}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(nepalallometry)
+```
+
+## Purpose
+
+This vignette demonstrates the complete `nepalallometry` workflow: preparing
+tree inventory data, estimating FRTC-supported biomass and carbon, summarizing
+results, handling unsupported species, and exporting one Excel workbook.
+
+The implemented response is total aboveground biomass **above 0.30 m**. The
+0-0.30 m stump is excluded.
+
+## 1. Check supported species
+
+```{r species}
+frtc_species()
+```
+
+Use the standardized lowercase identifier (for example,
+`schima_wallichii`) or the supported Nepali name (for example,
+`chilaune`). An unsupported species remains in the output but receives
+`NA` biomass.
+
+## 2. Prepare inventory data
+
+Each row represents one tree. The following columns are required:
+
+- `tree_id`: unique tree identifier;
+- `plot_id`: plot identifier;
+- `plot_area_ha`: sampled plot area in hectares;
+- `species`: standardized scientific identifier or supported Nepali name;
+- `dbh_cm`: diameter at breast height in centimetres;
+- `height_m`: total tree height in metres.
+
+```{r inventory}
+inventory <- data.frame(
+  tree_id = 1:4,
+  plot_id = c("p01", "p01", "p02", "p02"),
+  plot_area_ha = c(0.05, 0.05, 0.10, 0.10),
+  species = c("sal", "chilaune", "pinus_roxburghii", "acacia_catechu"),
+  dbh_cm = c(30, 25, 30, 20),
+  height_m = c(20, 18, 20, 15)
+)
+
+inventory
+```
+
+Plot area must be positive and constant within each plot. Tree identifiers
+must be present and unique.
+
+## 3. Estimate tree biomass and carbon
+
+```{r tree-estimates}
+tree_results <- estimate_frtc_biomass(inventory)
+tree_results
+```
+
+The result includes standardized species names, FRTC density provenance,
+biomass in kg/tree, carbon in kg/tree, basal area, model source, and estimation
+status. Carbon is calculated using a constant fraction of 0.47.
+
+The fourth tree is unsupported. A warning is expected, its biomass is `NA`,
+and its status is `unsupported_species`. The package does not substitute a
+model from another species.
+
+## 4. Produce plot and forest summaries
+
+```{r summaries}
+plot_results <- frtc_plot_summary(tree_results)
+species_results <- frtc_species_summary(tree_results)
+dbh_results <- frtc_dbh_summary(tree_results)
+forest_results <- frtc_forest_summary(plot_results)
+
+plot_results
+forest_results
+```
+
+Biomass is expressed in Mg/ha, which is numerically equal to metric tonnes per
+hectare. Carbon is expressed in Mg C/ha.
+
+Plot `p01` is a complete FRTC estimate because both trees are supported.
+Plot `p02` is a partial estimate because one tree is unsupported. Its biomass
+and carbon totals represent only the supported portion of that plot.
+
+Before interpretation, inspect:
+
+- `summary_status`;
+- `unsupported_or_missing_trees`;
+- `stem_coverage_pct`;
+- `basal_area_coverage_pct`.
+
+A partial estimate must not be described as whole-plot biomass.
+
+## 5. Work from a CSV file
+
+A blank CSV template can be created with:
+
+```{r template, eval=FALSE}
+frtc_inventory_template("frtc_inventory.csv", rows = 100)
+```
+
+After filling the template, run:
+
+```{r csv-workflow, eval=FALSE}
+results <- frtc_biomass_from_csv(
+  input = "frtc_inventory.csv",
+  output_format = "excel"
+)
+
+results$tree_results
+results$plot_summary
+results$species_summary
+results$dbh_class_summary
+results$forest_summary
+results$files
+```
+
+The Excel workbook contains an interpretation sheet, all result tables, the
+model registry, and the density rules. Use `output_format = "csv"` for
+separate CSV files or `output_format = "both"` for both formats.
+
+## 6. Inspect model information
+
+```{r transparency}
+frtc_equation("sal")
+frtc_density("sal", dbh = 30)
+```
+
+Use `frtc_models()` and `frtc_density()` to inspect all equations and
+recommended densities.
+
+## Interpretation limits
+
+The current package does not:
+
+- estimate biomass for species outside the seven FRTC models;
+- predict missing tree heights;
+- estimate the excluded stump, roots, dead wood, litter, or soil carbon;
+- provide formal prediction intervals or uncertainty propagation;
+- convert a partial supported-species estimate into total plot biomass.
+
+Users should cite both `nepalallometry` and the original FRTC (2025) report.
