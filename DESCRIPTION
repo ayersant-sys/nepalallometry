@@ -7,14 +7,18 @@ Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
 Author: Santosh Ayer [aut, cre]
 Maintainer: Santosh Ayer <ayer.sant@gmail.com>
 Description: Implements published species-specific allometric equations for
-    estimating tree volume and biomass in Nepal. The initial development
-    version implements total aboveground biomass equations reported by the
-    Forest Research and Training Centre in 2025.
+    forest trees in Nepal. The current development version estimates total
+    aboveground biomass using equations reported by the Forest Research and
+    Training Centre in 2025 and provides tree-, plot-, species-, diameter-class-,
+    and forest-level biomass and carbon summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 Imports:
     openxlsx
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 URL: https://github.com/ayersant-sys/nepalallometry
 BugReports: https://github.com/ayersant-sys/nepalallometry/issues
-
