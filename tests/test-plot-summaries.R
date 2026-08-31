@@ -47,3 +47,21 @@ excel_result <- suppressWarnings(frtc_biomass_from_csv(
 ))
 stopifnot(length(excel_result$files) == 1L)
 stopifnot(file.exists(excel_result$files[[1]]))
+
+
+stopifnot(all(plots$extrapolated_trees == 0L))
+stopifnot(all(plots$calibration_summary_status[
+  plots$estimated_trees > 0L
+] == "all_supported_trees_within_range"))
+
+extrapolation_inventory <- inventory[1, , drop = FALSE]
+extrapolation_inventory$tree_id <- 100L
+extrapolation_inventory$dbh_cm <- 110
+extrapolation_inventory$height_m <- 45
+extrapolation_tree <- suppressWarnings(
+  estimate_frtc_biomass(extrapolation_inventory)
+)
+extrapolation_plot <- frtc_plot_summary(extrapolation_tree)
+stopifnot(extrapolation_plot$extrapolated_trees == 1L)
+stopifnot(extrapolation_plot$calibration_summary_status ==
+            "contains_extrapolation")
