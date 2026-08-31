@@ -1,7 +1,7 @@
 Package: nepalallometry
 Type: Package
 Title: Allometric Estimation for Nepal's Forest Trees
-Version: 0.5.2.9000
+Version: 0.5.3.9000
 Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
     email = "ayer.sant@gmail.com")
 Author: Santosh Ayer [aut, cre]
@@ -15,3 +15,5 @@ Encoding: UTF-8
 RoxygenNote: 7.3.3
 Imports:
     openxlsx
+URL: https://github.com/ayersant-sys/nepalallometry
+BugReports: https://github.com/ayersant-sys/nepalallometry/issues
