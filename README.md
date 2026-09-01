@@ -83,6 +83,30 @@ issues a warning and marks them with
 observed range. These flags identify extrapolation; they are not formal
 prediction intervals.
 
+## Sharma-Pukkala biomass
+
+The development version also implements the Sharma and Pukkala (1990)
+air-dry biomass method for 21 named species and the explicit
+`miscellaneous_terai` and `miscellaneous_hills` groups.
+
+```r
+sharma_pukkala_species()
+
+sharma_pukkala_biomass(
+  dbh = 30,
+  height = 20,
+  species = "sal",
+  keep_inputs = TRUE
+)
+```
+
+The function estimates stem biomass internally from the published stem-volume
+equation and density, then adds branch and foliage biomass using DBH-interpolated
+ratios. Outputs are labelled `air_dry`. Observed calibration limits are available
+for DBH only; species-specific height limits were not reported. Miscellaneous
+Terai and Hills groups must be entered explicitly and are never selected
+automatically.
+
 ## Analyse an inventory in R
 
 The required columns are `tree_id`, `plot_id`, `plot_area_ha`,
