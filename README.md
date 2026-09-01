@@ -107,6 +107,43 @@ for DBH only; species-specific height limits were not reported. Miscellaneous
 Terai and Hills groups must be entered explicitly and are never selected
 automatically.
 
+## Chave et al. (2014) biomass
+
+The package implements the height-inclusive pantropical equation:
+
+```text
+AGB = 0.0673 * (wood_density * DBH^2 * height)^0.976
+```
+
+```r
+chave_biomass(
+  dbh = 30,
+  height = 20,
+  species = "Dalbergia sissoo",
+  keep_inputs = TRUE
+)
+```
+
+Basic density is selected automatically using this hierarchy:
+
+1. FRTC (2025) density for *Alnus nepalensis*, *Lagerstroemia parviflora*,
+   *Shorea robusta*, *Schima wallichii*, and *Terminalia alata*;
+2. GWDD v2.2 exact infraspecific match;
+3. GWDD v2.2 binomial match; and
+4. GWDD v2.2 genus match.
+
+The remaining FRTC taxa, *Pinus roxburghii* and *Castanopsis* spp., use GWDD
+binomial and genus densities, respectively. GWDD lookup uses the model-derived
+trunk estimate `wsg_est_trunk`, not the raw mean. Genus matches trigger a
+warning, while taxa with no match return `NA`. The detailed result records the
+density source, match level, matched taxon, and database version. Users with a
+verified basic-density measurement may override the automatic lookup with
+`wood_density`.
+
+Chave results are oven-dry AGB. They are not directly equivalent to
+Sharma–Pukkala air-dry biomass, and their biomass boundary differs from the
+FRTC boundary that excludes the 0–0.30 m stump.
+
 ## Analyse an inventory in R
 
 The required columns are `tree_id`, `plot_id`, `plot_area_ha`,

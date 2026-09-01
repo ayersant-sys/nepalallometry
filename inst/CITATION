@@ -24,3 +24,48 @@ citEntry(
     "of Nepal."
   )
 )
+
+citEntry(
+  entry = "Article",
+  title = paste(
+    "Improved allometric models to estimate the aboveground biomass of",
+    "tropical trees"
+  ),
+  author = personList(
+    as.person("Jerome Chave"),
+    as.person("Maxime Rejou-Mechain"),
+    as.person("Alberto Burquez"),
+    as.person("Emmanuel Chidumayo"),
+    as.person("Matthew S. Colgan")
+  ),
+  journal = "Global Change Biology",
+  year = "2014",
+  volume = "20",
+  pages = "3177--3190",
+  doi = "10.1111/gcb.12629",
+  textVersion = paste(
+    "Chave, J., Rejou-Mechain, M., Burquez, A., Chidumayo, E., Colgan,",
+    "M. S., et al. (2014). Improved allometric models to estimate the",
+    "aboveground biomass of tropical trees. Global Change Biology, 20,",
+    "3177-3190. https://doi.org/10.1111/gcb.12629"
+  )
+)
+
+citEntry(
+  entry = "Manual",
+  title = "Global Wood Density Database v2.2",
+  author = personList(
+    as.person("Fabian Jorg Fischer"),
+    as.person("Jerome Chave"),
+    as.person("Amy Zanne"),
+    as.person("Tommaso Jucker")
+  ),
+  year = "2026",
+  doi = "10.5281/zenodo.18262736",
+  note = "Dataset, CC BY 4.0",
+  textVersion = paste(
+    "Fischer, F. J., Chave, J., Zanne, A., Jucker, T., et al. (2026).",
+    "Global Wood Density Database v2.2 [Dataset]. Zenodo.",
+    "https://doi.org/10.5281/zenodo.18262736"
+  )
+)

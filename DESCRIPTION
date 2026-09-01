@@ -1,7 +1,7 @@
 Package: nepalallometry
 Type: Package
 Title: Allometric Estimation for Nepal's Forest Trees
-Version: 0.6.0.9000
+Version: 0.7.0.9000
 Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
     email = "ayer.sant@gmail.com")
 Author: Santosh Ayer [aut, cre]
@@ -10,8 +10,10 @@ Description: Implements published species-specific allometric equations for
     forest trees in Nepal. The current development version estimates total
     aboveground biomass using equations reported by the Forest Research and
     Training Centre in 2025 and the air-dry biomass method of Sharma and
-    Pukkala (1990). It provides tree-, plot-, species-, diameter-class-, and
-    forest-level biomass and carbon summaries.
+    Pukkala (1990), and the height-inclusive pantropical equation of Chave et
+    al. (2014), with basic wood density from FRTC (2025) and the Global Wood
+    Density Database v2.2. It provides tree-, plot-, species-, diameter-class-,
+    and forest-level biomass and carbon summaries.
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.3
