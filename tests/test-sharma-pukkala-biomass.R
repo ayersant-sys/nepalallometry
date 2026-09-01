@@ -1,3 +1,5 @@
+library(nepalallometry)
+
 models <- sharma_pukkala_species()
 stopifnot(nrow(models) == 23L)
 stopifnot(all(c(
