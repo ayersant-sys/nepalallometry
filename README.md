@@ -180,6 +180,25 @@ carbon concentration.
 
 ## CSV to one Excel workbook
 
+To calculate all three biomass methods from one inventory CSV, run:
+
+```r
+biomass_from_csv(
+  input = "forest_inventory.csv",
+  output = "forest_biomass_results.xlsx"
+)
+```
+
+The input requires `tree_id`, `plot_id`, `plot_area_ha`, `species`, `dbh_cm`,
+and `height_m`. Chave density is selected automatically from the package's
+FRTC/GWDD registry; the inventory does not require a density column. Additional
+inventory columns are retained. The workbook contains exactly four sheets:
+`Disclaimer`, `FRTC_2025`, `Sharma_Pukkala`, and `Chave_2014`. Each method
+sheet contains tree-level kg values and repeated plot-level Mg/ha values,
+coverage, calibration, and provenance fields. Method totals remain separate.
+
+The earlier FRTC-only workflow remains available:
+
 Create a blank inventory template:
 
 ```r
