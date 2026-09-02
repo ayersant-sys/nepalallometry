@@ -69,7 +69,7 @@
   ci95_lower_plot_biomass_Mg_ha = "Plot biomass 95% CI lower (Mg/ha)",
   ci95_upper_plot_biomass_Mg_ha = "Plot biomass 95% CI upper (Mg/ha)",
   uncertainty_status = "Uncertainty status", tree_id = "Tree ID", dbh_cm = "DBH (cm)",
-  height_m = "Height (m)", basal_area_m2 = "Basal area (m²)",
+  height_m = "Height (m)", basal_area_m2 = "Basal area (m\u00b2)",
   frtc_biomass_kg = "FRTC biomass (kg/tree)", frtc_carbon_kg = "FRTC carbon (kg/tree)",
   frtc_estimation_status = "FRTC status",
   sharma_pukkala_biomass_kg = "Sharma & Pukkala biomass (kg/tree)",
@@ -79,7 +79,7 @@
   chave_carbon_kg = "Chave carbon (kg/tree)", chave_estimation_status = "Chave status",
   carbon_fraction = "Carbon fraction", estimation_status = "Estimation status",
   calibration_status = "Calibration status",
-  wood_density_g_cm3 = "Wood density (g/cm³)", density_source = "Density source",
+  wood_density_g_cm3 = "Wood density (g/cm\u00b3)", density_source = "Density source",
   density_match_level = "Density match level", density_taxon_matched = "Matched taxon",
   biomass_moisture_basis = "Moisture basis", biomass_boundary = "Biomass boundary",
   model_citation = "Model citation")
