@@ -5,8 +5,17 @@
 \alias{dbh_summary}\alias{dbh_summary.nepal_biomass_result}
 \alias{tree_results}\alias{tree_results.nepal_biomass_result}
 \title{Extract biomass result tables}
-\usage{forest_summary(x, ...)\cr plot_summary(x, ...)\cr
-species_summary(x, ...)\cr dbh_summary(x, ...)\cr tree_results(x, ...)}
+\usage{
+forest_summary(x, ...)
+
+plot_summary(x, ...)
+
+species_summary(x, ...)
+
+dbh_summary(x, ...)
+
+tree_results(x, ...)
+}
 \arguments{\item{x}{A result returned by \code{biomass()}.}
 \item{...}{Reserved for future use.}}
 \value{The requested data frame.}
