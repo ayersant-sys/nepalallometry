@@ -12,8 +12,8 @@
 \item{methods}{Any of \code{"frtc"}, \code{"sharma_pukkala"}, and \code{"chave"}.}
 \item{carbon_fraction}{Biomass carbon fraction; default 0.47.}
 \item{dbh_breaks}{DBH class boundaries in centimetres.}}
-\value{A \code{nepal_biomass_result} containing calculation notes and forest,
-plot, species, DBH-class, and tree tables.}
+\value{A \code{nepal_biomass_result} containing calculation notes, forest,
+plot, species, DBH-class, tree, and method-audit tables.}
 \description{Runs selected published biomass methods without combining their
 totals. Required columns are \code{tree_id}, \code{plot_id},
 \code{plot_area_ha}, \code{species}, \code{dbh_cm}, and \code{height_m}.

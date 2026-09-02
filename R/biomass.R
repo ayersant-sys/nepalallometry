@@ -128,19 +128,12 @@
   }))
 }
 
-.wide_plot_summary <- function(method_tables) {
-  all <- do.call(rbind, lapply(method_tables, .plot_method_summary))
-  base <- unique(all[c("forest_id", "plot_id", "plot_area_ha", "total_trees")])
-  base <- base[order(base$forest_id, base$plot_id), ]
-  for (id in unique(all$method_id)) {
-    z <- all[all$method_id == id, ]; idx <- match(
-      paste(base$forest_id, base$plot_id), paste(z$forest_id, z$plot_id))
-    fields <- c("estimated_trees", "unestimated_trees", "extrapolated_trees",
-                "stem_coverage_pct", "basal_area_coverage_pct",
-                "biomass_Mg_ha", "carbon_Mg_ha", "coverage_status")
-    for (nm in fields) base[[paste(id, nm, sep = "_")]] <- z[[nm]][idx]
-  }
-  rownames(base) <- NULL; attr(base, "long") <- all; base
+.plot_summary_table <- function(method_tables) {
+  out <- do.call(rbind, lapply(method_tables, .plot_method_summary))
+  out <- out[order(out$forest_id, out$plot_id, out$method), ]
+  out$method_id <- NULL
+  rownames(out) <- NULL
+  out
 }
 
 .mean_stats <- function(values) {
@@ -148,14 +141,14 @@
   avg <- if (n) mean(values) else NA_real_
   sd <- if (n > 1) stats::sd(values) else NA_real_
   se <- if (n > 1) sd / sqrt(n) else NA_real_
-  margin <- if (n > 1) stats::qt(0.975, n - 1) * se else NA_real_
+  margin <- if (n >= 3) stats::qt(0.975, n - 1) * se else NA_real_
   c(n = n, mean = avg, sd = sd, se = se,
     lower = avg - margin, upper = avg + margin)
 }
 
 .forest_summary_table <- function(plot_long, inventory) {
   groups <- split(plot_long, interaction(plot_long$forest_id,
-                                         plot_long$method_id, drop = TRUE))
+                                         plot_long$method, drop = TRUE))
   out <- lapply(groups, function(z) {
     forest <- z$forest_id[1]
     area <- unique(stats::na.omit(inventory$forest_area_ha[
@@ -173,9 +166,6 @@
     data.frame(
       forest_id = forest, forest_area_ha = area, method = z$method[1],
       total_plots = nrow(z), plots_with_estimates = sum(is.finite(z$biomass_Mg_ha)),
-      complete_coverage_plots = sum(z$coverage_status == "complete_tree_coverage"),
-      partial_coverage_plots = sum(z$coverage_status == "partial_tree_coverage"),
-      no_estimate_plots = sum(z$coverage_status == "no_tree_estimates"),
       total_trees = sum(z$total_trees), estimated_trees = sum(z$estimated_trees),
       stem_coverage_pct = 100 * sum(z$estimated_trees) / sum(z$total_trees),
       basal_area_coverage_pct = if (any(is.finite(z$basal_area_coverage_pct)))
@@ -186,15 +176,13 @@
       ci95_upper_biomass_Mg_ha = b["upper"], mean_carbon_Mg_ha = c["mean"],
       sd_carbon_Mg_ha = c["sd"], se_carbon_Mg_ha = c["se"],
       ci95_lower_carbon_Mg_ha = c["lower"], ci95_upper_carbon_Mg_ha = c["upper"],
-      estimated_total_forest_biomass_Mg = b["mean"] * area,
-      ci95_lower_total_biomass_Mg = b["lower"] * area,
-      ci95_upper_total_biomass_Mg = b["upper"] * area,
-      estimated_total_forest_carbon_Mg = c["mean"] * area,
-      ci95_lower_total_carbon_Mg = c["lower"] * area,
-      ci95_upper_total_carbon_Mg = c["upper"] * area,
+      total_forest_biomass_Mg = b["mean"] * area,
+      total_forest_carbon_Mg = c["mean"] * area,
       plot_area_design = if (equal_plots) "equal_plot_area" else "unequal_plot_area_weighted_mean",
-      summary_status = if (!equal_plots) "unequal_plot_area_uncertainty_not_estimated"
-      else if (all(z$coverage_status == "no_tree_estimates")) "no_tree_estimates"
+      uncertainty_status = if (!equal_plots) "unequal_plot_area_uncertainty_not_estimated"
+      else if (sum(is.finite(z$biomass_Mg_ha)) < 3) "insufficient_plots"
+      else "estimated_from_plots",
+      summary_status = if (all(z$coverage_status == "no_tree_estimates")) "no_tree_estimates"
       else if (any(z$coverage_status != "complete_tree_coverage")) "partial_tree_coverage"
       else "complete_tree_coverage", stringsAsFactors = FALSE)
   })
@@ -212,11 +200,18 @@
                                 as.character(inventory[[category]]) == cat]
       z <- x[x$tree_id %in% ids, ]
       ok <- z$estimation_status == "estimated" & is.finite(z$biomass_kg)
+      plot_areas <- vapply(plot_keys, function(key)
+        unique(inventory$plot_area_ha[inventory$.plot_key == key])[1], numeric(1))
       pv <- vapply(plot_keys, function(key) {
         q <- z$plot_key == key & ok
         area <- unique(inventory$plot_area_ha[inventory$.plot_key == key])[1]
         sum(z$biomass_kg[q], na.rm = TRUE) / (1000 * area)
       }, numeric(1)); s <- .mean_stats(pv)
+      equal_plots <- length(unique(plot_areas)) == 1L
+      if (!equal_plots) {
+        s["mean"] <- stats::weighted.mean(pv, plot_areas)
+        s[c("sd", "se", "lower", "upper")] <- NA_real_
+      }
       result[[k]] <- data.frame(
         forest_id = forest, category = cat, method = .method_label(id),
         total_trees = nrow(z), estimated_trees = sum(ok),
@@ -225,7 +220,11 @@
         se_tree_biomass_kg = if (sum(ok) > 1) stats::sd(z$biomass_kg[ok]) / sqrt(sum(ok)) else NA_real_,
         mean_plot_biomass_Mg_ha = s["mean"], se_plot_biomass_Mg_ha = s["se"],
         ci95_lower_plot_biomass_Mg_ha = s["lower"],
-        ci95_upper_plot_biomass_Mg_ha = s["upper"], stringsAsFactors = FALSE)
+        ci95_upper_plot_biomass_Mg_ha = s["upper"],
+        uncertainty_status = if (equal_plots) {
+          if (length(pv) >= 3) "estimated_from_plots" else "insufficient_plots"
+        } else "unequal_plot_area_uncertainty_not_estimated",
+        stringsAsFactors = FALSE)
       names(result[[k]])[2] <- label; k <- k + 1L
     }
   }
@@ -236,13 +235,27 @@
   out <- inventory[setdiff(names(inventory), ".plot_key")]
   for (id in methods) {
     common <- method_tables[[id]][c(
-      "biomass_kg", "carbon_kg", "wood_density_g_cm3", "density_source",
-      "density_match_level", "density_taxon_matched",
-      "biomass_moisture_basis", "biomass_boundary",
-      "estimation_status", "calibration_status")]
+      "biomass_kg", "carbon_kg", "estimation_status")]
     names(common) <- paste0(id, "_", names(common)); out <- cbind(out, common)
   }
   out$carbon_fraction <- carbon_fraction; out
+}
+
+.method_audit_table <- function(method_tables) {
+  citations <- c(frtc = "Forest Research and Training Centre (2025)",
+                 sharma_pukkala = "Sharma and Pukkala (1990)",
+                 chave = "Chave et al. (2014)")
+  out <- do.call(rbind, lapply(names(method_tables), function(id) {
+    x <- method_tables[[id]][c(
+      "tree_id", "method", "estimation_status", "calibration_status",
+      "wood_density_g_cm3", "density_source", "density_match_level",
+      "density_taxon_matched", "biomass_moisture_basis", "biomass_boundary")]
+    x$model_citation <- citations[id]
+    x
+  }))
+  out <- out[order(out$tree_id, out$method), ]
+  rownames(out) <- NULL
+  out
 }
 
 #' Estimate biomass and produce complete inventory summaries
@@ -267,14 +280,15 @@ biomass <- function(input, output = NULL, sheet = 1,
                                 include.lowest = TRUE, right = FALSE)
   tables <- stats::setNames(lapply(methods, function(id)
     .calculate_method(inventory, id, carbon_fraction)), methods)
-  plot <- .wide_plot_summary(tables)
+  plot <- .plot_summary_table(tables)
   result <- list(
     calculation_notes = NULL,
-    forest_summary = .forest_summary_table(attr(plot, "long"), inventory),
+    forest_summary = .forest_summary_table(plot, inventory),
     plot_summary = plot,
     species_summary = .category_summary(tables, inventory, "species", "species"),
     dbh_class_summary = .category_summary(tables, inventory, "dbh_class_cm", "dbh_class_cm"),
-    tree_results = .tree_results_table(inventory, methods, tables, carbon_fraction))
+    tree_results = .tree_results_table(inventory, methods, tables, carbon_fraction),
+    method_audit = .method_audit_table(tables))
   class(result) <- c("nepal_biomass_result", "nepalallometry_result")
   attr(result, "methods") <- methods; attr(result, "input_source") <- source$source
   attr(result, "carbon_fraction") <- carbon_fraction
@@ -314,6 +328,11 @@ dbh_summary.nepal_biomass_result <- function(x, ...) x$dbh_class_summary
 tree_results <- function(x, ...) UseMethod("tree_results")
 #' @export
 tree_results.nepal_biomass_result <- function(x, ...) x$tree_results
+#' @rdname forest_summary
+#' @export
+method_audit <- function(x, ...) UseMethod("method_audit")
+#' @export
+method_audit.nepal_biomass_result <- function(x, ...) x$method_audit
 
 #' @export
 summary.nepal_biomass_result <- function(object, ...) structure(

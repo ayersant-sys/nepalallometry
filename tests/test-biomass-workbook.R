@@ -13,17 +13,19 @@ output <- tempfile(fileext = ".xlsx")
 result <- suppressWarnings(biomass(inventory, output = output))
 stopifnot(inherits(result, "nepal_biomass_result"), file.exists(output))
 stopifnot(identical(openxlsx::getSheetNames(output), c(
-  "Calculation_Notes", "Forest_Summary", "Plot_Summary", "Species_Summary",
-  "DBH_Class_Summary", "Tree_Results")))
+  "Read_Me", "Forest_Summary", "Plot_Summary", "Species_Summary",
+  "DBH_Summary", "Tree_Results", "Method_Audit")))
 stopifnot(nrow(tree_results(result)) == nrow(inventory))
-stopifnot(nrow(plot_summary(result)) == 2L)
+stopifnot(nrow(plot_summary(result)) == 6L)
 stopifnot(nrow(forest_summary(result)) == 3L)
 stopifnot(all(c("FRTC", "Sharma & Pukkala", "Chave") %in%
               forest_summary(result)$method))
 stopifnot(all(is.finite(forest_summary(result)$estimated_total_forest_carbon_Mg[
   forest_summary(result)$plots_with_estimates > 0])))
-stopifnot(any(plot_summary(result)$frtc_coverage_status ==
-              "partial_tree_coverage"))
+stopifnot(any(plot_summary(result)$method == "FRTC" &
+              plot_summary(result)$coverage_status == "partial_tree_coverage"))
+stopifnot(nrow(result$method_audit) == nrow(inventory) * 3L)
+stopifnot(ncol(tree_results(result)) < 25L)
 
 no_area <- inventory; no_area$forest_area_ha <- NULL
 x <- suppressWarnings(biomass(no_area, output = FALSE))
