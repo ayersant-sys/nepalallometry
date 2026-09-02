@@ -203,18 +203,25 @@ result <- biomass(
 
 The workbook contains six task-oriented sheets:
 
-- `Calculation_Notes`
+- `Read_Me`
 - `Forest_Summary`
 - `Plot_Summary`
 - `Species_Summary`
-- `DBH_Class_Summary`
+- `DBH_Summary`
 - `Tree_Results`
+- `Method_Audit`
 
 FRTC, Sharma & Pukkala, and Chave appear as method labels without dates in the
 result tables. Their publication years and full sources remain in calculation
 notes and model metadata. Wood density is handled automatically where required.
 The methods remain separate because their moisture bases, biomass boundaries,
 scope, and assumptions differ.
+
+The Excel sheets use simple, unmerged, copyable headings with units. Continuous
+values display four decimal places, while counts display as whole numbers.
+`Tree_Results` contains the main estimates; density, calibration, biomass
+boundary, moisture basis, and citations are retained separately in
+`Method_Audit`.
 
 The earlier `biomass_from_csv()` command remains available for compatibility,
 but new analyses should use `biomass()`.
