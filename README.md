@@ -144,7 +144,7 @@ Chave results are oven-dry AGB. They are not directly equivalent to
 Sharma–Pukkala air-dry biomass, and their biomass boundary differs from the
 FRTC boundary that excludes the 0–0.30 m stump.
 
-## Analyse an inventory in R
+## Complete biomass inventory workflow
 
 The required columns are `tree_id`, `plot_id`, `plot_area_ha`,
 `species`, `dbh_cm`, and `height_m`.
@@ -159,43 +159,65 @@ inventory <- data.frame(
   height_m = c(20, 18, 20, 15)
 )
 
-tree_results <- estimate_frtc_biomass(inventory)
-plot_results <- frtc_plot_summary(tree_results)
-species_results <- frtc_species_summary(tree_results)
-dbh_results <- frtc_dbh_summary(tree_results)
-forest_results <- frtc_forest_summary(plot_results)
+result <- biomass(inventory)
 
-plot_results
-forest_results
+summary(result)
+forest_summary(result)
+plot_summary(result)
+species_summary(result)
+dbh_summary(result)
+tree_results(result)
 ```
 
-Because `acacia_catechu` has no FRTC model in the current package,
-`p02` is marked as a partial estimate. Always inspect
-`summary_status`, `stem_coverage_pct`, and
-`basal_area_coverage_pct` before interpreting plot or forest summaries.
+The same command accepts a CSV or Excel workbook:
+
+```r
+biomass("forest_inventory.csv")
+biomass("forest_inventory.xlsx", sheet = "Inventory")
+```
+
+The required columns are `tree_id`, `plot_id`, `plot_area_ha`, `species`,
+`dbh_cm`, and `height_m`. `forest_id` and `forest_area_ha` are optional.
+Supplying forest area enables estimated total forest biomass and carbon; without
+it, the package reports per-hectare forest statistics only.
+
+Unsupported trees remain in the output with `NA` and create a
+`partial_tree_coverage` or `no_tree_estimates` flag. Always inspect stem and
+basal-area coverage before interpreting a plot or forest estimate.
 
 Carbon is calculated as biomass multiplied by 0.47. This constant can support
 consistent reporting, but it does not represent measured species-specific
 carbon concentration.
 
-## CSV to one Excel workbook
+## Excel output
 
-To calculate all three biomass methods from one inventory CSV, run:
+By default, `biomass()` writes one Excel workbook beside a file input, or in
+the working directory for a data-frame input. To choose the file name:
 
 ```r
-biomass_from_csv(
-  input = "forest_inventory.csv",
+result <- biomass(
+  "forest_inventory.csv",
   output = "forest_biomass_results.xlsx"
 )
 ```
 
-The input requires `tree_id`, `plot_id`, `plot_area_ha`, `species`, `dbh_cm`,
-and `height_m`. Chave density is selected automatically from the package's
-FRTC/GWDD registry; the inventory does not require a density column. Additional
-inventory columns are retained. The workbook contains exactly four sheets:
-`Disclaimer`, `FRTC_2025`, `Sharma_Pukkala`, and `Chave_2014`. Each method
-sheet contains tree-level kg values and repeated plot-level Mg/ha values,
-coverage, calibration, and provenance fields. Method totals remain separate.
+The workbook contains six task-oriented sheets:
+
+- `Calculation_Notes`
+- `Forest_Summary`
+- `Plot_Summary`
+- `Species_Summary`
+- `DBH_Class_Summary`
+- `Tree_Results`
+
+FRTC, Sharma & Pukkala, and Chave appear as method labels without dates in the
+result tables. Their publication years and full sources remain in calculation
+notes and model metadata. Wood density is handled automatically where required.
+The methods remain separate because their moisture bases, biomass boundaries,
+scope, and assumptions differ.
+
+The earlier `biomass_from_csv()` command remains available for compatibility,
+but new analyses should use `biomass()`.
 
 The earlier FRTC-only workflow remains available:
 
