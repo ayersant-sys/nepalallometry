@@ -15,11 +15,13 @@
   .validate_plot_areas(check); invisible(TRUE)
 }
 
-.biomass_calculation_notes <- function(result) data.frame(
+.biomass_calculation_notes <- function(result) {
+  refs <- .allometry_reference_registry()
+  notes <- data.frame(
   Topic = c("Package", "Calculation date", "Input", "Methods", "Units",
             "Carbon fraction", "Wood density", "FRTC", "Sharma & Pukkala",
             "Chave", "Coverage", "Forest totals", "Confidence intervals",
-            "Method comparison", "Stump adjustment", "Citations"),
+            "Method comparison", "Stump adjustment", "Citation guidance"),
   Description = c(
     paste0("nepalallometry ", tryCatch(
       as.character(utils::packageVersion("nepalallometry")),
@@ -27,18 +29,26 @@
     as.character(Sys.Date()), attr(result, "input_source"),
     paste(vapply(attr(result, "methods"), .method_label, character(1)), collapse = ", "),
     "Tree biomass/carbon: kg/tree. Plot and mean forest values: Mg/ha. Estimated forest stocks: Mg.",
-    as.character(attr(result, "carbon_fraction")),
+    paste0(as.character(attr(result, "carbon_fraction")),
+           " by default; source: IPCC (2006). Users may provide another documented fraction."),
     "Handled automatically where required. FRTC uses specified density rules; Sharma & Pukkala uses fixed species/group air-dry densities; Chave uses applicable FRTC basic density then GWDD v2.2 binomial or genus matches.",
     "FRTC (2025): oven-dry biomass above 0.30 m; stump excluded; seven supported taxa.",
-    "Sharma and Pukkala (1990): air-dry stem + branch + foliage biomass; stump boundary not specified.",
+    "Sharma and Pukkala (1990): air-dry stem + branch + foliage biomass; stump boundary not specified. Forest Regulations, 2079, Schedule 9, provides the regulatory basis for operational use of the Sharma-Pukkala tree-volume parameters.",
     "Chave et al. (2014): height-inclusive pantropical oven-dry aboveground biomass equation.",
     "Coverage describes model coverage of inventoried trees, not geographic sampling coverage. Partial estimates sum supported trees only.",
     "Calculated only when forest_area_ha is supplied. Otherwise total forest stock is NA.",
     "Plot-to-plot t intervals are reported for equal-area inventories with at least three plots. For unequal plot areas, a sampled-area-weighted mean is reported and uncertainty is NA.",
     "Methods remain separate. Differences between methods are not formal model uncertainty; do not add or average method totals.",
     "No stump biomass adjustment is applied.",
-    "Forest Research and Training Centre (2025); Sharma and Pukkala (1990); Chave et al. (2014); Global Wood Density Database v2.2."),
+    "Cite nepalallometry and every model, database, conversion factor, and regulatory source used in the analysis. Complete APA-style references follow."),
   stringsAsFactors = FALSE)
+  ref_rows <- data.frame(
+    Topic = paste0("Reference: ", refs$citation),
+    Description = refs$apa_reference,
+    stringsAsFactors = FALSE
+  )
+  rbind(notes, ref_rows)
+}
 
 .excel_column_labels <- function() c(
   forest_id = "Forest ID", forest_area_ha = "Forest area (ha)",

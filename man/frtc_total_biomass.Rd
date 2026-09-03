@@ -30,6 +30,11 @@ the result excludes stump biomass between ground level and 0.30 m. Predictions
 outside the observed species-specific DBH or height range are returned with an
 extrapolation warning.
 }
+\references{
+Forest Research and Training Centre. (2025). \emph{Allometric equations for
+seven major tree species of Nepal} (Vol. I). Ministry of Forests and
+Environment, Government of Nepal.
+}
 \examples{
 frtc_total_biomass(30, 20, "Shorea robusta")
 frtc_total_biomass(c(20, 30), c(15, 20), c("An", "Pr"))

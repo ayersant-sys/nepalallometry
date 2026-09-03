@@ -36,6 +36,14 @@
 #'   area, estimation status, observed calibration limits, and extrapolation
 #'   status appended.
 #' @export
+#' @references
+#' Forest Research and Training Centre. (2025). *Allometric equations for
+#' seven major tree species of Nepal* (Vol. I). Ministry of Forests and
+#' Environment, Government of Nepal.
+#'
+#' Intergovernmental Panel on Climate Change. (2006). *2006 IPCC guidelines
+#' for national greenhouse gas inventories: Volume 4. Agriculture, forestry
+#' and other land use*. IGES.
 estimate_frtc_biomass <- function(data) {
   required <- c("tree_id", "plot_id", "plot_area_ha", "species", "dbh_cm",
                 "height_m")
@@ -362,7 +370,8 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
     Item = c(
       "Input file", "Model source", "Response", "Biomass boundary",
       "Carbon fraction", "Biomass unit", "Carbon unit",
-      "Calibration ranges", "Important interpretation"
+      "Calibration ranges", "Important interpretation",
+      "Reference: FRTC", "Reference: carbon fraction"
     ),
     Description = c(
       normalizePath(input, mustWork = FALSE),
@@ -379,7 +388,13 @@ frtc_biomass_from_csv <- function(input, output_dir = dirname(input),
       paste(
         "Partial estimates include only species supported by FRTC models.",
         "Check coverage and summary-status columns before interpretation."
-      )
+      ),
+      .allometry_reference_registry()$apa_reference[
+        .allometry_reference_registry()$source_id == "frtc_2025"
+      ],
+      .allometry_reference_registry()$apa_reference[
+        .allometry_reference_registry()$source_id == "ipcc_2006"
+      ]
     ),
     stringsAsFactors = FALSE
   )

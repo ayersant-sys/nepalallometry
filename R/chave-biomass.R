@@ -131,13 +131,28 @@
 #'   defined as oven-dry mass divided by fresh volume. When supplied, it
 #'   overrides automatic FRTC/GWDD lookup.
 #' @param carbon_fraction Carbon fraction applied to oven-dry AGB. Defaults to
-#'   0.47.
+#'   0.47 following IPCC (2006).
 #' @param keep_inputs If `TRUE`, return inputs, density provenance, biomass,
 #'   carbon, and calibration status. If `FALSE`, return AGB in kg/tree.
 #'
 #' @return Oven-dry aboveground biomass in kg/tree, or a data frame when
 #'   `keep_inputs = TRUE`.
 #' @export
+#' @references
+#' Chave, J., et al. (2014). Improved allometric models to estimate the
+#' aboveground biomass of tropical trees. *Global Change Biology, 20*(10),
+#' 3177-3190. \doi{10.1111/gcb.12629}
+#'
+#' Fischer, F. J., et al. (2026a). Beyond species means: The intraspecific
+#' contribution to global wood density variation. *New Phytologist, 249*,
+#' 2630-2651. \doi{10.1111/nph.70860}
+#'
+#' Fischer, F. J., et al. (2026b). *Global Wood Density Database v2.2*
+#' [Data set]. Zenodo. \doi{10.5281/zenodo.18262736}
+#'
+#' Intergovernmental Panel on Climate Change. (2006). *2006 IPCC guidelines
+#' for national greenhouse gas inventories: Volume 4. Agriculture, forestry
+#' and other land use*. IGES.
 #'
 #' @examples
 #' chave_biomass(30, 20, "sal")

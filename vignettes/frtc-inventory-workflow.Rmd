@@ -70,7 +70,7 @@ tree_results
 
 The result includes standardized species names, FRTC density provenance,
 biomass in kg/tree, carbon in kg/tree, basal area, model source, and estimation
-status. Carbon is calculated using a constant fraction of 0.47.
+status. Carbon is calculated using the IPCC (2006) default fraction of 0.47.
 
 The fourth tree is unsupported. A warning is expected, its biomass is `NA`,
 and its status is `unsupported_species`. The package does not substitute a
@@ -170,4 +170,18 @@ Calibration flags describe whether a prediction is inside the observed DBH and
 height domain. They do not quantify prediction uncertainty or guarantee that
 an in-range prediction is accurate.
 
-Users should cite both `nepalallometry` and the original FRTC (2025) report.
+Users should cite `nepalallometry`, the original FRTC (2025) report, and IPCC
+(2006) when using the default carbon fraction. Run `allometry_references()` for
+the complete APA-style package reference registry.
+
+## References
+
+Forest Research and Training Centre. (2025). *Allometric equations for seven
+major tree species of Nepal* (Vol. I). Ministry of Forests and Environment,
+Government of Nepal.
+
+Intergovernmental Panel on Climate Change. (2006). *2006 IPCC guidelines for
+national greenhouse gas inventories: Volume 4. Agriculture, forestry and other
+land use* (H. S. Eggleston, L. Buendia, K. Miwa, T. Ngara, & K. Tanabe, Eds.).
+Institute for Global Environmental Strategies.
+https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html
