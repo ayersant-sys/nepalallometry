@@ -20,8 +20,9 @@ template:
 home:
   title: nepalallometry
   description: >
-    Transparent allometric biomass and carbon estimation for Nepal's forest
-    trees using FRTC, Sharma and Pukkala, and Chave pathways.
+    An extensible umbrella R package for transparent allometric estimation for
+    Nepal's forest trees. The first release focuses on biomass and carbon through
+    biomass(), using FRTC, Sharma and Pukkala, and Chave pathways.
 
 navbar:
   structure:

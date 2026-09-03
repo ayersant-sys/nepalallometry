@@ -49,16 +49,23 @@ a {
   text-underline-offset: 0.16em;
 }
 
-pre {
-  border: 0;
+pre,
+pre.sourceCode,
+.sourceCode pre,
+.contents .sourceCode,
+.template-home pre {
+  background: #f5f7f5 !important;
+  color: #1f2923 !important;
+  border: 1px solid var(--na-line);
   border-radius: 0.35rem;
   box-shadow: none;
 }
 
-.contents .sourceCode,
-.template-home pre {
-  background: #10251c;
-  color: #dcebe2;
+pre code,
+pre code span,
+pre.sourceCode code,
+pre.sourceCode code span {
+  color: #1f2923 !important;
 }
 
 .pkgdown-sidebar {

@@ -4,10 +4,19 @@
 [![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml)
 <!-- badges: end -->
 
-`nepalallometry` provides reproducible access to published allometric methods
-relevant to Nepal's forest trees. The current development version keeps three
-biomass pathways separate: Forest Research and Training Centre (FRTC, 2025),
-Sharma and Pukkala (1990), and Chave et al. (2014).
+***nepalallometry*** is an extensible umbrella R package for transparent and
+reproducible allometric estimation for Nepal's forest trees. It is designed to
+bring published equations, their assumptions, source documentation, validation
+checks, and practical inventory workflows into one auditable platform.
+
+## First release focus: biomass and carbon estimation
+
+The first release is centered on `biomass()`, the package's main inventory
+workflow for tree-, plot-, species-, DBH-class-, and forest-level biomass and
+carbon estimation. It keeps three pathways separate: Forest Research and
+Training Centre (FRTC, 2025), Sharma and Pukkala (1990), and Chave et al. (2014).
+They are not combined because their species coverage, moisture bases, biomass
+boundaries, density treatment, and assumptions differ.
 
 DBH is supplied in centimetres, total height in metres, biomass is returned in
 kg/tree, and plot-level biomass is reported in Mg/ha (numerically equal to
@@ -281,6 +290,16 @@ allometry_references()
 The model and density registries are also distributed as plain CSV files under
 `inst/extdata`. Model-fit RMSE from FRTC Table 9 is distinguished from
 operational RMSE obtained using the recommended densities in Table 11.
+
+## Future updates
+
+***nepalallometry*** is intended to grow beyond its first biomass-focused
+release. Planned development includes additional Nepal-relevant allometric
+models and species, stem-volume estimation, height-diameter relationships, and
+other inventory tools where suitable equations and supporting evidence are
+available. These additions will be introduced progressively, with their sources,
+units, calibration domains, and limitations documented explicitly. The roadmap
+describes intended directions and does not promise a particular release date.
 
 ## Important limitations
 
