@@ -20,22 +20,24 @@ another estimate. Unsupported species, unmeasured height, unusual tree
 form, and application outside the calibration domain create further
 practical uncertainty.
 
-`nepalallometry` provides a common, reproducible implementation while
-preserving those methodological differences. It records model and
+***nepalallometry*** provides a common, reproducible implementation
+while preserving those methodological differences. It records model and
 density provenance, identifies unsupported or extrapolated trees,
 reports model coverage, and keeps the outputs from different pathways
 separate. The package is intended to grow into a broader platform for
 allometric work in Nepal as additional models and inventory tools are
 incorporated.
 
-## First release: biomass estimation
+## First release focus: biomass and carbon estimation
 
 The first release focuses on tree-, plot-, species-, diameter-class-,
-and forest-level biomass and carbon estimation. It provides a single
-inventory workflow and an auditable Excel workbook designed for
-researchers, students, and operational forest managers. Its usefulness
-for operational decisions will increase as additional models, species,
-and allometric modules are added.
+and forest-level biomass and carbon estimation. Its main workflow is
+[`biomass()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/biomass.md),
+which accepts a forest inventory data frame, CSV file, or Excel workbook
+and returns auditable R summaries and a seven-sheet Excel report. It is
+designed for researchers, students, and operational forest managers. Its
+usefulness for operational decisions will increase as additional models,
+species, and allometric modules are added.
 
 The three pathways in this release are intentionally not averaged or
 combined:
@@ -84,9 +86,20 @@ then continued working on allometric models and found that the practical
 difficulty was not simply the absence of equations. Equations already
 exist, but their assumptions, response definitions, supporting data,
 regulatory use, and appropriate application are often difficult to trace
-through an operational workflow. I developed `nepalallometry` to make
-these choices explicit and to provide a foundation that can be expanded
-as new evidence and models become available.
+through an operational workflow. I developed ***nepalallometry*** to
+make these choices explicit and to provide a foundation that can be
+expanded as new evidence and models become available.
+
+## Future updates
+
+***nepalallometry*** is an umbrella package rather than a biomass-only
+project. Future releases are expected to incorporate additional
+Nepal-relevant equations and species, stem-volume estimation,
+height-diameter relationships, and other allometric or inventory tools
+where the underlying evidence supports a transparent implementation.
+Each addition will retain the package’s emphasis on source attribution,
+units, calibration domains, validation, and clearly stated limitations.
+These are planned directions, not fixed release commitments.
 
 ## References
 
