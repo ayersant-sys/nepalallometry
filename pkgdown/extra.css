@@ -54,9 +54,9 @@ pre.sourceCode,
 .sourceCode pre,
 .contents .sourceCode,
 .template-home pre {
-  background: #f5f7f5 !important;
-  color: #1f2923 !important;
-  border: 1px solid var(--na-line);
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #2f2f2f;
   border-radius: 0.35rem;
   box-shadow: none;
 }
@@ -65,7 +65,7 @@ pre code,
 pre code span,
 pre.sourceCode code,
 pre.sourceCode code span {
-  color: #1f2923 !important;
+  color: #ffffff !important;
 }
 
 .pkgdown-sidebar {
