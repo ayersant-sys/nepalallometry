@@ -243,7 +243,10 @@
 
 .method_audit_table <- function(method_tables) {
   citations <- c(frtc = "Forest Research and Training Centre (2025)",
-                 sharma_pukkala = "Sharma and Pukkala (1990)",
+                 sharma_pukkala = paste0(
+                   "Sharma and Pukkala (1990); Government of Nepal (2022), ",
+                   "Forest Regulations, 2079, Schedule 9"
+                 ),
                  chave = "Chave et al. (2014)")
   out <- do.call(rbind, lapply(names(method_tables), function(id) {
     x <- method_tables[[id]][c(
@@ -264,9 +267,15 @@
 #' @param sheet Excel sheet name or number when `input` is `.xlsx`.
 #' @param methods Any of `"frtc"`, `"sharma_pukkala"`, and `"chave"`.
 #' @param carbon_fraction Biomass carbon fraction, default 0.47.
+#'   The default follows IPCC (2006); users may provide a different documented
+#'   value appropriate to their application.
 #' @param dbh_breaks DBH class boundaries in cm.
 #' @return A `nepal_biomass_result` object.
 #' @export
+#' @references
+#' Run [allometry_references()] for the complete APA-style references for the
+#' package, model pathways, wood-density sources, default carbon fraction, and
+#' the regulatory use of Sharma-Pukkala tree-volume parameters.
 biomass <- function(input, output = NULL, sheet = 1,
                     methods = c("frtc", "sharma_pukkala", "chave"),
                     carbon_fraction = 0.47,

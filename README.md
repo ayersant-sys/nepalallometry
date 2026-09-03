@@ -4,16 +4,17 @@
 [![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml)
 <!-- badges: end -->
 
-`nepalallometry` provides reproducible access to published allometric
-equations for Nepal's forest trees. The current development version implements
-the Forest Research and Training Centre (FRTC, 2025) total aboveground biomass
-models for seven major commercial tree species.
+`nepalallometry` provides reproducible access to published allometric methods
+relevant to Nepal's forest trees. The current development version keeps three
+biomass pathways separate: Forest Research and Training Centre (FRTC, 2025),
+Sharma and Pukkala (1990), and Chave et al. (2014).
 
-The estimates represent biomass **above 0.30 m** and therefore exclude the
-stump between ground level and the FRTC felling height. DBH is supplied in
-centimetres, total height in metres, biomass is returned in kg/tree, and
-plot-level biomass is reported in Mg/ha (numerically equal to metric tonnes per
-hectare).
+DBH is supplied in centimetres, total height in metres, biomass is returned in
+kg/tree, and plot-level biomass is reported in Mg/ha (numerically equal to
+metric tonnes per hectare). The biomass definition is recorded for every
+pathway. FRTC estimates represent biomass **above 0.30 m** and exclude the stump
+between ground level and the FRTC felling height; the other pathways retain
+their published biomass boundaries and moisture bases.
 
 ## Installation
 
@@ -107,6 +108,11 @@ for DBH only; species-specific height limits were not reported. Miscellaneous
 Terai and Hills groups must be entered explicitly and are never selected
 automatically.
 
+Sharma and Pukkala (1990) is the original methodological source. Schedule 9 of
+Nepal's *Forest Regulations, 2079* provides the regulatory basis for using its
+tree-volume parameters. The regulation is therefore cited as an operational
+and legal source, not as the origin of the equations.
+
 ## Chave et al. (2014) biomass
 
 The package implements the height-inclusive pantropical equation:
@@ -185,9 +191,10 @@ Unsupported trees remain in the output with `NA` and create a
 `partial_tree_coverage` or `no_tree_estimates` flag. Always inspect stem and
 basal-area coverage before interpreting a plot or forest estimate.
 
-Carbon is calculated as biomass multiplied by 0.47. This constant can support
-consistent reporting, but it does not represent measured species-specific
-carbon concentration.
+Carbon is calculated as biomass multiplied by 0.47, the IPCC (2006) default
+fraction for aboveground forest biomass. This constant can support consistent
+reporting, but it does not represent measured species-specific carbon
+concentration. Users may supply another documented fraction where appropriate.
 
 ## Excel output
 
@@ -201,7 +208,7 @@ result <- biomass(
 )
 ```
 
-The workbook contains six task-oriented sheets:
+The workbook contains seven task-oriented sheets:
 
 - `Read_Me`
 - `Forest_Summary`
@@ -268,6 +275,7 @@ frtc_equation("sal")
 frtc_density()
 frtc_density("sal", dbh = 30)
 citation("nepalallometry")
+allometry_references()
 ```
 
 The model and density registries are also distributed as plain CSV files under
@@ -294,13 +302,64 @@ operational RMSE obtained using the recommended densities in Table 11.
 citation("nepalallometry")
 ```
 
-Please cite both the package and the original FRTC report when using these
-models.
+Use `allometry_references()` to obtain the complete APA-style source registry.
+Cite the package and every source used by the selected pathway:
 
-## Source
+- **FRTC:** Ayer (2026), Forest Research and Training Centre (2025), and IPCC
+  (2006) when the default carbon fraction is used.
+- **Sharma & Pukkala:** Ayer (2026), Sharma and Pukkala (1990), Government of
+  Nepal (2022) for the regulatory context, and IPCC (2006) when the default
+  carbon fraction is used.
+- **Chave:** Ayer (2026), Chave et al. (2014), FRTC (2025) when an FRTC density
+  is used, or both Fischer et al. (2026a, 2026b) when a GWDD density is used,
+  and IPCC (2006) when the default carbon fraction is used.
 
-Forest Research and Training Centre (FRTC). (2025). *Allometric Equations for
-Seven Major Tree Species of Nepal, Volume I*. Government of Nepal.
+The Excel `Read_Me` sheet includes the same references so exported analyses
+remain traceable when shared independently of R.
+
+## References
+
+Ayer, S. (2026). *nepalallometry: Allometric estimation for Nepal's forest
+trees* [R package]. https://github.com/ayersant-sys/nepalallometry
+
+Chave, J., Rejou-Mechain, M., Burquez, A., Chidumayo, E., Colgan, M. S.,
+Delitti, W. B. C., Duque, A., Eid, T., Fearnside, P. M., Goodman, R. C., Henry,
+M., Martinez-Yrizar, A., Mugasha, W. A., Muller-Landau, H. C., Mencuccini, M.,
+Nelson, B. W., Ngomanda, A., Nogueira, E. M., Ortiz-Malavassi, E., ...
+Vieilledent, G. (2014). Improved allometric models to estimate the aboveground
+biomass of tropical trees. *Global Change Biology, 20*(10), 3177-3190.
+https://doi.org/10.1111/gcb.12629
+
+Forest Research and Training Centre. (2025). *Allometric equations for seven
+major tree species of Nepal* (Vol. I). Ministry of Forests and Environment,
+Government of Nepal.
+
+Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A.,
+Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T.,
+Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G.,
+Arcanjo, F., Bastin, J.-F., Bilous, A., ... Zieminska, K. (2026a). Beyond species
+means: The intraspecific contribution to global wood density variation. *New
+Phytologist, 249*(6), 2630-2651. https://doi.org/10.1111/nph.70860
+
+Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A.,
+Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T.,
+Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G.,
+Arcanjo, F., Bastin, J.-F., Bilous, A., ... Zieminska, K. (2026b). *Global Wood
+Density Database v2.2* [Data set]. Zenodo.
+https://doi.org/10.5281/zenodo.18262736
+
+Government of Nepal. (2022). *Forest Regulations, 2079*. Nepal Law Commission.
+https://lawcommission.gov.np/content/12938/12938-forest-regulation-2079/
+
+Intergovernmental Panel on Climate Change. (2006). *2006 IPCC guidelines for
+national greenhouse gas inventories: Volume 4. Agriculture, forestry and other
+land use* (H. S. Eggleston, L. Buendia, K. Miwa, T. Ngara, & K. Tanabe, Eds.).
+Institute for Global Environmental Strategies.
+https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html
+
+Sharma, E. R., & Pukkala, T. (1990). *Volume equations and biomass prediction
+of forest trees of Nepal* (Publication No. 47). Forest Survey and Statistics
+Division, Ministry of Forests and Soil Conservation.
 
 ## Development status
 

@@ -18,3 +18,12 @@ The original rows with FRTC model metadata, biomass, carbon, basal area,
 \description{
 Estimate FRTC biomass and carbon for an inventory data frame
 }
+\references{
+Forest Research and Training Centre. (2025). \emph{Allometric equations for
+seven major tree species of Nepal} (Vol. I). Ministry of Forests and
+Environment, Government of Nepal.
+
+Intergovernmental Panel on Climate Change. (2006). \emph{2006 IPCC guidelines
+for national greenhouse gas inventories: Volume 4. Agriculture, forestry and
+other land use}. IGES.
+}

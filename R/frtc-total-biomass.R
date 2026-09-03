@@ -48,6 +48,10 @@
 #'   calibration limits, `within_calibration_range`, and
 #'   `calibration_status`.
 #' @export
+#' @references
+#' Forest Research and Training Centre. (2025). *Allometric equations for
+#' seven major tree species of Nepal* (Vol. I). Ministry of Forests and
+#' Environment, Government of Nepal.
 #'
 #' @examples
 #' frtc_total_biomass(30, 20, "Shorea robusta")
