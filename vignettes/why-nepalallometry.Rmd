@@ -1,0 +1,100 @@
+---
+title: "Why nepalallometry?"
+description: "Why Nepal needs a transparent and extensible allometry package, and why the first release focuses on biomass."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Why nepalallometry?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Why does Nepal need an allometry package?
+
+Forest inventories depend on allometric models to translate field measurements
+such as diameter and height into quantities used for management, research, and
+carbon accounting. In Nepal, those models are distributed across reports,
+regulations, publications, spreadsheets, and separate analytical traditions.
+Users must therefore identify the appropriate equation, reproduce its
+parameters, apply the correct units and wood density, interpret its calibration
+range, and understand exactly which parts of the tree its response represents.
+
+These decisions matter because Nepal's established pathways do not estimate an
+identical quantity. They differ in species coverage, moisture basis, density
+treatment, calibration information, and biomass boundary. Transferring an
+equation without its assumptions can produce a numerical result that appears
+precise but is not fully comparable with another estimate. Unsupported species,
+unmeasured height, unusual tree form, and application outside the calibration
+domain create further practical uncertainty.
+
+`nepalallometry` provides a common, reproducible implementation while preserving
+those methodological differences. It records model and density provenance,
+identifies unsupported or extrapolated trees, reports model coverage, and keeps
+the outputs from different pathways separate. The package is intended to grow
+into a broader platform for allometric work in Nepal as additional models and
+inventory tools are incorporated.
+
+## First release: biomass estimation
+
+The first release focuses on tree-, plot-, species-, diameter-class-, and
+forest-level biomass and carbon estimation. It provides a single inventory
+workflow and an auditable Excel workbook designed for researchers, students,
+and operational forest managers. Its usefulness for operational decisions will
+increase as additional models, species, and allometric modules are added.
+
+The three pathways in this release are intentionally not averaged or combined:
+
+<div class="pathway-grid">
+<div class="pathway-card">
+<h3>FRTC</h3>
+<p>The Forest Research and Training Centre (2025) pathway implements recent species-specific total-biomass equations for seven major tree taxa. The estimates are oven-dry biomass above the 0.30 m felling height, so the lower stump is excluded.</p>
+</div>
+<div class="pathway-card">
+<h3>Sharma &amp; Pukkala</h3>
+<p>Sharma and Pukkala (1990) provides air-dry stem, branch, and foliage biomass for named species and explicit miscellaneous groups. Schedule 9 of Nepal's <em>Forest Regulations, 2079</em> provides the regulatory basis for operational use of its tree-volume parameters (Government of Nepal, 2022).</p>
+</div>
+<div class="pathway-card">
+<h3>Chave</h3>
+<p>Chave et al. (2014) provides a height-inclusive pantropical oven-dry aboveground-biomass equation. The package supplies traceable basic wood density from the applicable FRTC source or Global Wood Density Database v2.2 matches (Fischer et al., 2026a, 2026b).</p>
+</div>
+</div>
+
+Carbon is calculated with a default fraction of 0.47 following IPCC (2006).
+Users may supply another documented fraction when appropriate. The default is a
+reporting conversion and should not be interpreted as a measured
+species-specific carbon concentration.
+
+## Who can use it?
+
+- **Researchers** can reproduce calculations and inspect the assumptions,
+  calibration flags, and source attached to each pathway.
+- **Students** can learn how measurements, equations, density, biomass
+  boundaries, and aggregation are connected.
+- **Operational managers** can create consistent summaries and retain an audit
+  record, while recognizing the present limits of species and model coverage.
+
+## Development perspective
+
+My first research in this area examined forest biomass estimation. I then
+continued working on allometric models and found that the practical difficulty
+was not simply the absence of equations. Equations already exist, but their
+assumptions, response definitions, supporting data, regulatory use, and
+appropriate application are often difficult to trace through an operational
+workflow. I developed `nepalallometry` to make these choices explicit and to
+provide a foundation that can be expanded as new evidence and models become
+available.
+
+## References
+
+Complete APA-style references for every model, database, regulatory source, and
+conversion factor used by the package are available with:
+
+```{r references, eval=FALSE}
+allometry_references()
+```
+
+They are also included in `citation("nepalallometry")` and in the `Read_Me`
+sheet of each exported workbook.

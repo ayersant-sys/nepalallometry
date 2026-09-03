@@ -25,5 +25,6 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://github.com/ayersant-sys/nepalallometry
+URL: https://ayersant-sys.github.io/nepalallometry/,
+    https://github.com/ayersant-sys/nepalallometry
 BugReports: https://github.com/ayersant-sys/nepalallometry/issues
