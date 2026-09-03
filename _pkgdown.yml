@@ -1,0 +1,102 @@
+url: https://ayersant-sys.github.io/nepalallometry/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#1e6a46"
+    bg: "#ffffff"
+    fg: "#17211c"
+    navbar-bg: "#123f2d"
+    navbar-light-color: "#d7e7dd"
+    navbar-light-hover-color: "#ffffff"
+    navbar-light-active-color: "#ffffff"
+    link-color: "#1e6a46"
+    border-color: "#d9e2dc"
+    code-bg: "#eef4f0"
+  includes:
+    in_header: |
+      <meta name="theme-color" content="#123f2d">
+
+home:
+  title: nepalallometry
+  description: >
+    Transparent allometric biomass and carbon estimation for Nepal's forest
+    trees using FRTC, Sharma and Pukkala, and Chave pathways.
+
+navbar:
+  structure:
+    left: [intro, why, reference, articles, developer]
+    right: [search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/frtc-inventory-workflow.html
+    why:
+      text: Why this package?
+      href: articles/why-nepalallometry.html
+    articles:
+      text: Articles
+      menu:
+      - text: Biomass inventory workflow
+        href: articles/frtc-inventory-workflow.html
+      - text: Why nepalallometry?
+        href: articles/why-nepalallometry.html
+    developer:
+      text: Developer
+      href: articles/developer.html
+
+reference:
+- title: Complete inventory workflow
+  desc: Estimate biomass and extract auditable summaries.
+  contents:
+  - biomass
+  - forest_summary
+  - plot_summary
+  - species_summary
+  - dbh_summary
+  - tree_results
+  - method_audit
+- title: Biomass pathways
+  desc: Run individual published biomass methods.
+  contents:
+  - frtc_total_biomass
+  - sharma_pukkala_biomass
+  - chave_biomass
+- title: Models, species, and sources
+  desc: Inspect supported taxa, equations, density rules, and references.
+  contents:
+  - frtc_species
+  - frtc_models
+  - frtc_equation
+  - frtc_density
+  - sharma_pukkala_species
+  - allometry_references
+- title: FRTC compatibility workflow
+  desc: Earlier FRTC-specific estimators and export functions.
+  contents:
+  - estimate_frtc_biomass
+  - frtc_plot_summary
+  - frtc_species_summary
+  - frtc_dbh_summary
+  - frtc_forest_summary
+  - frtc_inventory_template
+  - frtc_biomass_from_csv
+  - biomass_from_csv
+
+articles:
+- title: Package guidance
+  navbar: ~
+  contents:
+  - why-nepalallometry
+  - frtc-inventory-workflow
+  - developer
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with
+  components:
+    developed_by: Developed by Santosh Ayer.
+
+development:
+  mode: auto
