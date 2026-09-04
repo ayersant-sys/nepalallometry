@@ -157,7 +157,7 @@ sharma_pukkala_species <- function() {
 #'   `keep_inputs = TRUE`.
 #' @export
 #' @references
-#' Sharma, E. R., & Pukkala, T. (1990). *Volume equations and biomass
+#' Sharma, E. R., and Pukkala, T. (1990). *Volume equations and biomass
 #' prediction of forest trees of Nepal* (Publication No. 47). Forest Survey
 #' and Statistics Division, Ministry of Forests and Soil Conservation.
 #'

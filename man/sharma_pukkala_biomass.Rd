@@ -38,7 +38,7 @@ for DBH only because species-specific height ranges were not reported.
 The miscellaneous Terai and Hills groups must be selected explicitly.
 }
 \references{
-Sharma, E. R., \& Pukkala, T. (1990). \emph{Volume equations and biomass
+Sharma, E. R., and Pukkala, T. (1990). \emph{Volume equations and biomass
 prediction of forest trees of Nepal} (Publication No. 47). Forest Survey and
 Statistics Division, Ministry of Forests and Soil Conservation.
 
