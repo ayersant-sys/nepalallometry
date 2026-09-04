@@ -37,7 +37,7 @@ the outputs from different pathways separate. The package is intended to grow
 into a broader platform for allometric work in Nepal as additional models and
 inventory tools are incorporated.
 
-## First release focus: biomass and carbon estimation
+## First stable release: Biomass and Carbon Estimation
 
 The first release focuses on tree-, plot-, species-, diameter-class-, and
 forest-level biomass and carbon estimation. Its main workflow is `biomass()`,
@@ -80,14 +80,20 @@ species-specific carbon concentration.
 
 ## Development perspective
 
-My first research in this area examined forest biomass estimation. I then
-continued working on allometric models and found that the practical difficulty
-was not simply the absence of equations. Equations already exist, but their
-assumptions, response definitions, supporting data, regulatory use, and
-appropriate application are often difficult to trace through an operational
-workflow. I developed ***nepalallometry*** to make these choices explicit and to
-provide a foundation that can be expanded as new evidence and models become
-available.
+The motivation for developing ***nepalallometry*** grew from my forestry work
+in Nepal and subsequent research on forest biomass and carbon estimation. While
+working on the preparation of operational plans for community forests, and
+later conducting research involving biomass and carbon estimation, I repeatedly
+encountered practical difficulties in applying allometric methods. Relevant
+equations are distributed across different sources, their species coverage and
+input requirements vary, and calculations often require users to move between
+publications, equations, spreadsheets, and separate analytical procedures.
+
+These experiences motivated the development of ***nepalallometry*** as a
+transparent and reproducible framework that brings established allometric
+approaches together while preserving their original assumptions, applicability,
+and limitations. The package is intended to expand as additional authoritative
+equations and allometric tools relevant to Nepal become available.
 
 ## Future updates
 

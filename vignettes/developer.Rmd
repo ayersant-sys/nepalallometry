@@ -14,23 +14,27 @@ vignette: >
 
 ## Santosh Ayer
 
-I am a Graduate Research Assistant Fellow and graduate researcher in Forest
-Biology and Management at the University of Alberta, Canada. My graduate
-research evaluates how forest growth-and-yield models represent forest
-responses to thinning and how differences among modelling approaches affect
-the interpretation of stand development and forest-management outcomes.
+I am currently pursuing a master's degree in Forest Biology and Management at
+the University of Alberta, Canada, where I work as a Graduate Research Assistant
+Fellow in the Growth and Yield Lab. My graduate research focuses on evaluating
+the ability of forest growth-and-yield models to simulate thinning responses in
+western Canadian boreal and mountain forests, with particular interest in how
+different modelling approaches represent post-treatment stand development and
+forest-management outcomes.
 
 My broader research interests include forest biometrics, forest inventory,
-allometry, biomass and carbon estimation, growth modelling, and emerging
-approaches for tree measurement. Across these areas, I am particularly
-interested in making analytical methods transparent, reproducible, and
-practical for research, education, and forest management.
+growth-and-yield modelling, LiDAR and remote sensing, allometric modelling,
+biomass and carbon dynamics, and ecological modelling. I am particularly
+interested in integrating field-based forest measurements with quantitative
+and emerging technologies to improve the estimation and interpretation of
+forest structure, growth, biomass, and carbon.
 
-I want to contribute to Nepal's forestry sector by developing accessible and
-scientifically defensible tools that connect forestry research with education
-and operational decision-making. This goal guides the development of
-***nepalallometry*** and my wider research on Nepal's forest measurement and
-allometric challenges.
+My research interests are closely connected to practical forestry applications.
+I am interested in developing transparent, reproducible, and accessible
+analytical tools that can support forestry research, education, and forest
+management. ***nepalallometry*** is part of this broader effort, with a
+particular focus on improving access to and implementation of allometric
+methods relevant to Nepal's forests.
 
 [Google Scholar](https://scholar.google.ca/citations?user=gjUyDikAAAAJ&hl=en) ·
 [GitHub](https://github.com/ayersant-sys)
@@ -42,10 +46,9 @@ allometric challenges.
 
 I am the developer and maintainer of ***nepalallometry***, an extensible
 umbrella R package for allometric estimation relevant to Nepal's forest trees.
-The first release focuses on biomass and carbon estimation through
-`biomass()`, while the package is structured to support additional
-Nepal-relevant allometric and inventory tools in future releases.
-
+Version 1.0.0 is the first stable release and focuses on biomass and carbon
+estimation through `biomass()`, while the package is structured to support
+additional Nepal-relevant allometric and inventory tools in future releases.
 The package implements published methods but does not claim authorship of the
 underlying equations. Each model, dataset, regulatory document, and conversion
 factor is credited to its original source through the package reference

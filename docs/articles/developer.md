@@ -1,0 +1,60 @@
+# Developer
+
+![Santosh Ayer conducting forest fieldwork](../santosh-ayer-field.jpeg)
+
+## Santosh Ayer
+
+I am currently pursuing a master’s degree in Forest Biology and
+Management at the University of Alberta, Canada, where I work as a
+Graduate Research Assistant Fellow in the Growth and Yield Lab. My
+graduate research focuses on evaluating the ability of forest
+growth-and-yield models to simulate thinning responses in western
+Canadian boreal and mountain forests, with particular interest in how
+different modelling approaches represent post-treatment stand
+development and forest-management outcomes.
+
+My broader research interests include forest biometrics, forest
+inventory, growth-and-yield modelling, LiDAR and remote sensing,
+allometric modelling, biomass and carbon dynamics, and ecological
+modelling. I am particularly interested in integrating field-based
+forest measurements with quantitative and emerging technologies to
+improve the estimation and interpretation of forest structure, growth,
+biomass, and carbon.
+
+My research interests are closely connected to practical forestry
+applications. I am interested in developing transparent, reproducible,
+and accessible analytical tools that can support forestry research,
+education, and forest management. ***nepalallometry*** is part of this
+broader effort, with a particular focus on improving access to and
+implementation of allometric methods relevant to Nepal’s forests.
+
+[Google
+Scholar](https://scholar.google.ca/citations?user=gjUyDikAAAAJ&hl=en) ·
+[GitHub](https://github.com/ayersant-sys)
+
+## Role in ***nepalallometry***
+
+I am the developer and maintainer of ***nepalallometry***, an extensible
+umbrella R package for allometric estimation relevant to Nepal’s forest
+trees. Version 1.0.0 is the first stable release and focuses on biomass
+and carbon estimation through
+[`biomass()`](https://ayersant-sys.github.io/nepalallometry/reference/biomass.md),
+while the package is structured to support additional Nepal-relevant
+allometric and inventory tools in future releases. The package
+implements published methods but does not claim authorship of the
+underlying equations. Each model, dataset, regulatory document, and
+conversion factor is credited to its original source through the package
+reference registry.
+
+``` r
+allometry_references()
+```
+
+## Future development
+
+Planned directions for ***nepalallometry*** include additional
+allometric models and species, stem-volume estimation, height-diameter
+relationships, and other practical inventory modules where appropriate
+equations and supporting evidence are available. New components will
+continue to document their sources, units, calibration domains,
+assumptions, and limitations explicitly.
