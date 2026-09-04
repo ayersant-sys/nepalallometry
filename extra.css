@@ -126,3 +126,10 @@ pre.sourceCode code span {
     max-width: 300px;
   }
 }
+
+/* Package logo */
+.template-home .page-header img {
+  width: 180px;
+  height: auto;
+  max-height: none;
+}

@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>nepalallometry • nepalallometry</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -16,6 +21,7 @@
 ">
 <meta property="og:description" content="An extensible umbrella R package for transparent allometric estimation for Nepal's forest trees. The first release focuses on biomass and carbon through biomass(), using FRTC, Sharma and Pukkala, and Chave pathways.
 ">
+<meta property="og:image" content="https://ayersant-sys.github.io/nepalallometry/logo.png">
 <meta name="theme-color" content="#123f2d">
 </head>
 <body>
@@ -60,26 +66,28 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="nepalallometry">nepalallometry<a class="anchor" aria-label="anchor" href="#nepalallometry"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="nepalallometry">nepalallometry<a class="anchor" aria-label="anchor" href="#nepalallometry"></a>
+</h1>
+</div>
 <!-- badges: start -->
 
 <p><strong><em>nepalallometry</em></strong> is an extensible umbrella R package for transparent and reproducible allometric estimation for Nepal’s forest trees. It is designed to bring published equations, their assumptions, source documentation, validation checks, and practical inventory workflows into one auditable platform.</p>
 <div class="section level2">
-<h2 id="first-release-focus-biomass-and-carbon-estimation">First release focus: biomass and carbon estimation<a class="anchor" aria-label="anchor" href="#first-release-focus-biomass-and-carbon-estimation"></a>
+<h2 id="first-stable-release-biomass-and-carbon-estimation">First stable release: Biomass and Carbon Estimation<a class="anchor" aria-label="anchor" href="#first-stable-release-biomass-and-carbon-estimation"></a>
 </h2>
-<p>The first release is centered on <code><a href="reference/biomass.html">biomass()</a></code>, the package’s main inventory workflow for tree-, plot-, species-, DBH-class-, and forest-level biomass and carbon estimation. It keeps three pathways separate: Forest Research and Training Centre (FRTC, 2025), Sharma and Pukkala (1990), and Chave et al. (2014). They are not combined because their species coverage, moisture bases, biomass boundaries, density treatment, and assumptions differ.</p>
+<p>Version 1.0.0 is centered on <code><a href="reference/biomass.html">biomass()</a></code>, the package’s main inventory workflow for tree-, plot-, species-, DBH-class-, and forest-level biomass and carbon estimation. It keeps three pathways separate: Forest Research and Training Centre (FRTC, 2025), Sharma and Pukkala (1990), and Chave et al. (2014). They are not combined because their species coverage, moisture bases, biomass boundaries, density treatment, and assumptions differ.</p>
 <p>DBH is supplied in centimetres, total height in metres, biomass is returned in kg/tree, and plot-level biomass is reported in Mg/ha (numerically equal to metric tonnes per hectare). The biomass definition is recorded for every pathway. FRTC estimates represent biomass <strong>above 0.30 m</strong> and exclude the stump between ground level and the FRTC felling height; the other pathways retain their published biomass boundaries and moisture bases.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the current development version directly from GitHub:</p>
+<p>Install the stable release from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ayersant-sys/nepalallometry"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ayersant-sys.github.io/nepalallometry/">nepalallometry</a></span><span class="op">)</span></span></code></pre></div>
-<p>The package is not yet on CRAN. After a CRAN release, installation will use <code>install.packages("nepalallometry")</code>.</p>
+<p>The package is currently distributed through GitHub and archived on Zenodo. It is not currently available on CRAN.</p>
 </div>
 <div class="section level2">
 <h2 id="supported-species">Supported species<a class="anchor" aria-label="anchor" href="#supported-species"></a>
@@ -165,7 +173,7 @@
 <div class="section level2">
 <h2 id="sharma-pukkala-biomass">Sharma-Pukkala biomass<a class="anchor" aria-label="anchor" href="#sharma-pukkala-biomass"></a>
 </h2>
-<p>The development version also implements the Sharma and Pukkala (1990) air-dry biomass method for 21 named species and the explicit <code>miscellaneous_terai</code> and <code>miscellaneous_hills</code> groups.</p>
+<p>The package also implements the Sharma and Pukkala (1990) air-dry biomass method for 21 named species and the explicit <code>miscellaneous_terai</code> and <code>miscellaneous_hills</code> groups.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/sharma_pukkala_species.html">sharma_pukkala_species</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -332,7 +340,7 @@
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Ayer, S. (2026). <em>nepalallometry: Allometric estimation for Nepal’s forest trees</em> [R package]. <a href="https://github.com/ayersant-sys/nepalallometry" class="external-link uri">https://github.com/ayersant-sys/nepalallometry</a></p>
+<p>Ayer, S. (2026). <em>nepalallometry: Allometric estimation for Nepal’s forest trees</em> (Version 1.0.0) [R package]. Zenodo. <a href="https://doi.org/10.5281/zenodo.22299266" class="external-link uri">https://doi.org/10.5281/zenodo.22299266</a></p>
 <p>Chave, J., Rejou-Mechain, M., Burquez, A., Chidumayo, E., Colgan, M. S., Delitti, W. B. C., Duque, A., Eid, T., Fearnside, P. M., Goodman, R. C., Henry, M., Martinez-Yrizar, A., Mugasha, W. A., Muller-Landau, H. C., Mencuccini, M., Nelson, B. W., Ngomanda, A., Nogueira, E. M., Ortiz-Malavassi, E., … Vieilledent, G. (2014). Improved allometric models to estimate the aboveground biomass of tropical trees. <em>Global Change Biology, 20</em>(10), 3177-3190. <a href="https://doi.org/10.1111/gcb.12629" class="external-link uri">https://doi.org/10.1111/gcb.12629</a></p>
 <p>Forest Research and Training Centre. (2025). <em>Allometric equations for seven major tree species of Nepal</em> (Vol. I). Ministry of Forests and Environment, Government of Nepal.</p>
 <p>Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A., Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T., Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G., Arcanjo, F., Bastin, J.-F., Bilous, A., … Zieminska, K. (2026a). Beyond species means: The intraspecific contribution to global wood density variation. <em>New Phytologist, 249</em>(6), 2630-2651. <a href="https://doi.org/10.1111/nph.70860" class="external-link uri">https://doi.org/10.1111/nph.70860</a></p>

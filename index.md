@@ -6,9 +6,9 @@ designed to bring published equations, their assumptions, source
 documentation, validation checks, and practical inventory workflows into
 one auditable platform.
 
-## First release focus: biomass and carbon estimation
+## First stable release: Biomass and Carbon Estimation
 
-The first release is centered on
+Version 1.0.0 is centered on
 [`biomass()`](https://ayersant-sys.github.io/nepalallometry/reference/biomass.md),
 the package’s main inventory workflow for tree-, plot-, species-,
 DBH-class-, and forest-level biomass and carbon estimation. It keeps
@@ -27,7 +27,7 @@ moisture bases.
 
 ## Installation
 
-Install the current development version directly from GitHub:
+Install the stable release from GitHub:
 
 ``` r
 
@@ -36,8 +36,8 @@ remotes::install_github("ayersant-sys/nepalallometry")
 library(nepalallometry)
 ```
 
-The package is not yet on CRAN. After a CRAN release, installation will
-use `install.packages("nepalallometry")`.
+The package is currently distributed through GitHub and archived on
+Zenodo. It is not currently available on CRAN.
 
 ## Supported species
 
@@ -101,8 +101,8 @@ not formal prediction intervals.
 
 ## Sharma-Pukkala biomass
 
-The development version also implements the Sharma and Pukkala (1990)
-air-dry biomass method for 21 named species and the explicit
+The package also implements the Sharma and Pukkala (1990) air-dry
+biomass method for 21 named species and the explicit
 `miscellaneous_terai` and `miscellaneous_hills` groups.
 
 ``` r
@@ -370,8 +370,8 @@ analyses remain traceable when shared independently of R.
 ## References
 
 Ayer, S. (2026). *nepalallometry: Allometric estimation for Nepal’s
-forest trees* \[R package\].
-<https://github.com/ayersant-sys/nepalallometry>
+forest trees* (Version 1.0.0) \[R package\]. Zenodo.
+<https://doi.org/10.5281/zenodo.22299266>
 
 Chave, J., Rejou-Mechain, M., Burquez, A., Chidumayo, E., Colgan, M. S.,
 Delitti, W. B. C., Duque, A., Eid, T., Fearnside, P. M., Goodman, R. C.,

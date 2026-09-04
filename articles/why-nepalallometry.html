@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Why nepalallometry? • nepalallometry</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -14,6 +19,7 @@
 <meta property="og:title" content="Why nepalallometry?">
 <meta name="description" content="Why Nepal needs a transparent and extensible allometry package, and why the first release focuses on biomass.">
 <meta property="og:description" content="Why Nepal needs a transparent and extensible allometry package, and why the first release focuses on biomass.">
+<meta property="og:image" content="https://ayersant-sys.github.io/nepalallometry/logo.png">
 <meta name="theme-color" content="#123f2d">
 </head>
 <body>
@@ -62,11 +68,10 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Why nepalallometry?</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Why nepalallometry?</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ayersant-sys/nepalallometry/blob/v1.0.0/vignettes/why-nepalallometry.Rmd" class="external-link"><code>vignettes/why-nepalallometry.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ayersant-sys/nepalallometry/blob/main/vignettes/why-nepalallometry.Rmd" class="external-link"><code>vignettes/why-nepalallometry.Rmd</code></a></small>
       <div class="d-none name"><code>why-nepalallometry.Rmd</code></div>
     </div>
 
@@ -100,7 +105,7 @@ grow into a broader platform for allometric work in Nepal as additional
 models and inventory tools are incorporated.</p>
 </div>
 <div class="section level2">
-<h2 id="first-release-focus-biomass-and-carbon-estimation">First release focus: biomass and carbon estimation<a class="anchor" aria-label="anchor" href="#first-release-focus-biomass-and-carbon-estimation"></a>
+<h2 id="first-stable-release-biomass-and-carbon-estimation">First stable release: Biomass and Carbon Estimation<a class="anchor" aria-label="anchor" href="#first-stable-release-biomass-and-carbon-estimation"></a>
 </h2>
 <p>The first release focuses on tree-, plot-, species-, diameter-class-,
 and forest-level biomass and carbon estimation. Its main workflow is
@@ -173,15 +178,23 @@ limits of species and model coverage.</li>
 <div class="section level2">
 <h2 id="development-perspective">Development perspective<a class="anchor" aria-label="anchor" href="#development-perspective"></a>
 </h2>
-<p>My first research in this area examined forest biomass estimation. I
-then continued working on allometric models and found that the practical
-difficulty was not simply the absence of equations. Equations already
-exist, but their assumptions, response definitions, supporting data,
-regulatory use, and appropriate application are often difficult to trace
-through an operational workflow. I developed
-<strong><em>nepalallometry</em></strong> to make these choices explicit
-and to provide a foundation that can be expanded as new evidence and
-models become available.</p>
+<p>The motivation for developing
+<strong><em>nepalallometry</em></strong> grew from my forestry work in
+Nepal and subsequent research on forest biomass and carbon estimation.
+While working on the preparation of operational plans for community
+forests, and later conducting research involving biomass and carbon
+estimation, I repeatedly encountered practical difficulties in applying
+allometric methods. Relevant equations are distributed across different
+sources, their species coverage and input requirements vary, and
+calculations often require users to move between publications,
+equations, spreadsheets, and separate analytical procedures.</p>
+<p>These experiences motivated the development of
+<strong><em>nepalallometry</em></strong> as a transparent and
+reproducible framework that brings established allometric approaches
+together while preserving their original assumptions, applicability, and
+limitations. The package is intended to expand as additional
+authoritative equations and allometric tools relevant to Nepal become
+available.</p>
 </div>
 <div class="section level2">
 <h2 id="future-updates">Future updates<a class="anchor" aria-label="anchor" href="#future-updates"></a>
