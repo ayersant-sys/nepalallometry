@@ -80,7 +80,7 @@ sharma_pukkala_volume(
   height = 25,
   species = "sal"
 )
-#> Error in sharma_pukkala_volume(dbh = 60, height = 25, species = "sal"): could not find function "sharma_pukkala_volume"
+#> [1] 4.122617
 
 sharma_pukkala_volume(
   dbh = 60,
@@ -88,5 +88,20 @@ sharma_pukkala_volume(
   species = "sal",
   keep_inputs = TRUE
 )
-#> Error in sharma_pukkala_volume(dbh = 60, height = 25, species = "sal",     keep_inputs = TRUE): could not find function "sharma_pukkala_volume"
+#>   dbh_cm height_m species_input species_standardized scientific_name
+#> 1     60       25           sal       shorea_robusta  Shorea robusta
+#>   nepali_name coefficient_a coefficient_b coefficient_c stem_volume_m3
+#> 1         sal       -2.4554        1.9026        0.8352       3.050025
+#>   has_branches   branch_group branch_s branch_m branch_b branch_ratio
+#> 1         TRUE shorea_robusta    0.055    0.341    0.357    0.3516667
+#>   branch_volume_m3 total_tree_volume_m3 calibration_dbh_min_cm
+#> 1         1.072592             4.122617                   12.7
+#>   calibration_dbh_max_cm within_calibration_dbh_range        calibration_status
+#> 1                  144.5                         TRUE within_observed_dbh_range
+#>   height_calibration_status estimation_status        stem_volume_source
+#> 1 not_assessed_not_reported         estimated Sharma and Pukkala (1990)
+#>                        branch_volume_source stem_volume_unit branch_volume_unit
+#> 1 Nepal Forest Regulations 2079, Schedule 9          m3/tree            m3/tree
+#>   total_volume_unit
+#> 1           m3/tree
 ```
