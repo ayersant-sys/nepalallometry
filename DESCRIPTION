@@ -7,12 +7,15 @@ Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
 Author: Santosh Ayer [aut, cre]
 Maintainer: Santosh Ayer <ayer.sant@gmail.com>
 Description: Implements published allometric methods for estimating tree
-    biomass and carbon in Nepal. The first stable release implements equations
-    and procedures from the Forest Research and Training Centre (2025),
-    Sharma and Pukkala (1990), and Chave et al. (2014). It provides tree-,
-    plot-, species-, diameter-class-, and forest-level biomass and carbon
-    summaries, together with information on species coverage and calculation
-    methods.
+    biomass, carbon, and volume in Nepal. Biomass and carbon pathways include
+    equations and procedures from the Forest Research and Training Centre
+    (2025), Sharma and Pukkala (1990), and Chave et al. (2014). Tree-volume
+    estimation includes FRTC (2025) stem-volume equations and Sharma-Pukkala
+    (1990) stem-volume equations combined, where applicable, with branch-volume
+    ratios from Nepal's Forest Regulations 2079. The package provides auditable
+    tree- and inventory-level workflows while retaining method-specific species
+    coverage, units, component boundaries, calibration information, and source
+    documentation.
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.3
