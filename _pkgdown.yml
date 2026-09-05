@@ -20,9 +20,10 @@ template:
 home:
   title: nepalallometry
   description: >
-    An extensible umbrella R package for transparent allometric estimation for
-    Nepal's forest trees. The first release focuses on biomass and carbon through
-    biomass(), using FRTC, Sharma and Pukkala, and Chave pathways.
+    An extensible umbrella R package for transparent and reproducible allometric
+    estimation for Nepal's forest trees, with separate workflows for biomass,
+    carbon, and tree volume using published FRTC, Sharma and Pukkala, Chave,
+    and Forest Regulations methods.
   sidebar:
     structure: [status, links, license, citation, authors]
     components:
@@ -58,8 +59,8 @@ navbar:
       href: articles/developer.html
 
 reference:
-- title: Complete inventory workflow
-  desc: Estimate biomass and extract auditable summaries.
+- title: Biomass and carbon workflow
+  desc: Estimate biomass and carbon and extract auditable inventory summaries.
   contents:
   - biomass
   - forest_summary
@@ -74,8 +75,8 @@ reference:
   - frtc_total_biomass
   - sharma_pukkala_biomass
   - chave_biomass
-- title: Volume estimation
-  desc: Estimate individual-tree or forest-inventory volume using supported pathways.
+- title: Tree volume workflow
+  desc: Estimate individual-tree or forest-inventory volume using supported published pathways.
   contents:
   - volume
   - frtc_volume
