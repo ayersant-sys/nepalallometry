@@ -27,8 +27,10 @@ Run individual published biomass methods.
 
 ## Volume estimation
 
-Estimate Sharma-Pukkala stem volume and Forest Regulation branch volume.
+Estimate tree and inventory volume using supported volume pathways.
 
+- [`volume()`](https://ayersant-sys.github.io/nepalallometry/reference/volume.md)
+  : Estimate tree and inventory volume
 - [`sharma_pukkala_volume()`](https://ayersant-sys.github.io/nepalallometry/reference/sharma_pukkala_volume.md)
   : Estimate tree volume using Sharma-Pukkala and Forest Regulations
 - [`forest_regulation_branch_parameters()`](https://ayersant-sys.github.io/nepalallometry/reference/forest_regulation_branch_parameters.md)
