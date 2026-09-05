@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml)
 [![pkgdown](https://github.com/ayersant-sys/nepalallometry/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/pkgdown.yaml)
 [![release](https://img.shields.io/github/v/release/ayersant-sys/nepalallometry?label=release)](https://github.com/ayersant-sys/nepalallometry/releases/latest)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22299266.svg)](https://doi.org/10.5281/zenodo.22299266)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22388960.svg)](https://doi.org/10.5281/zenodo.22388960)
 <!-- badges: end -->
 
 ***nepalallometry*** is an extensible umbrella R package for transparent and reproducible allometric estimation for Nepal's forest trees. It brings published equations, assumptions, source documentation, validation checks, and practical inventory workflows into one auditable platform.
@@ -19,7 +19,7 @@ The package currently provides two separate operational workflows:
 
 The methods are reproduced according to their published equations, coefficients, units, and component boundaries. Methodologically different estimates are not silently substituted, averaged, or forced to agree.
 
-> **Release note:** Version 1.0.0 established the first stable biomass-and-carbon release. The current GitHub build extends the package with tree-volume estimation. The Zenodo DOI badge above refers to the archived Version 1.0.0 release.
+> **Release note:** Version 1.1.0 extends *nepalallometry* with tree-volume estimation while retaining the biomass and carbon workflows introduced in Version 1.0.0. The archived Version 1.1.0 release is available through Zenodo (DOI: 10.5281/zenodo.22388960).
 
 ## Installation
 
@@ -173,9 +173,11 @@ citation("nepalallometry")
 allometry_references()
 ```
 
-For the archived Version 1.0.0 release:
+For the current stable Version 1.1.0 release:
 
-Ayer, S. (2026). *nepalallometry: Allometric estimation for Nepal's forest trees* (Version 1.0.0) [R package]. Zenodo. DOI: 10.5281/zenodo.22299266
+Ayer, S. (2026). *nepalallometry: Allometric estimation for Nepal's forest trees* (Version 1.1.0) [R package]. Zenodo. DOI: 10.5281/zenodo.22388960
+
+Version 1.0.0 remains the archived first stable biomass-and-carbon release (DOI: 10.5281/zenodo.22299266).
 
 Users should also cite the methodological and regulatory sources used by their selected pathway, including FRTC (2025), Sharma and Pukkala (1990), Chave et al. (2014), Nepal's Forest Regulations 2079, IPCC (2006), and relevant wood-density sources as applicable.
 
@@ -185,4 +187,4 @@ Users should also cite the methodological and regulatory sources used by their s
 
 ## Development status
 
-The current development build is maintained on GitHub. Please report problems or suggestions through the GitHub issue tracker.
+The current stable release is Version 1.1.0. Ongoing development is maintained on GitHub. Please report problems or suggestions through the GitHub issue tracker.
