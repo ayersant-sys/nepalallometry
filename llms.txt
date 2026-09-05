@@ -15,9 +15,9 @@ The package currently provides two separate operational workflows:
   Sharma and Pukkala (1990), and Chave et al. (2014) pathways.
 - [`volume()`](https://ayersant-sys.github.io/nepalallometry/reference/volume.md)
   for tree-volume estimation using FRTC (2025) stem-volume equations and
-  Sharma-Pukkala (1990) stem-volume equations combined, where
-  applicable, with branch-volume ratios from Nepal’s Forest Regulations
-  2079.
+  Sharma-Pukkala (1990) stem-volume equations, with branch volume
+  derived where applicable using the branch-to-stem volume ratios
+  specified in Schedule 9 of Nepal’s Forest Regulations 2079.
 
 The methods are reproduced according to their published equations,
 coefficients, units, and component boundaries. Methodologically
@@ -132,11 +132,18 @@ The 10-cm and 20-cm equations were fitted independently in the source
 report. `nepalallometry` reproduces the published equations and does not
 alter their predictions to force mathematical monotonicity.
 
-### Sharma-Pukkala + Forest Regulation volume
+### Sharma-Pukkala volume with Forest Regulation branch ratios
 
 [`sharma_pukkala_volume()`](https://ayersant-sys.github.io/nepalallometry/reference/sharma_pukkala_volume.md)
-calculates stem volume from Sharma and Pukkala (1990) and branch volume
-using Schedule 9 ratios from Nepal’s Forest Regulations 2079.
+estimates **stem volume using the published equations of Sharma and
+Pukkala (1990)**. Where branch volume is required, the package applies
+the **branch-to-stem volume ratios specified in Schedule 9 of Nepal’s
+Forest Regulations 2079**. Thus, Sharma and Pukkala (1990) remains the
+source of the stem-volume equation, while the Forest Regulations provide
+the regulatory procedure for deriving branch volume.
+
+**Total tree volume = Sharma-Pukkala stem volume + branch volume derived
+from the applicable Forest Regulation ratio.**
 
 ``` r
 
@@ -154,8 +161,9 @@ classification automatically.
 The method label **total volume** does not imply an identical component
 boundary across methods:
 
-- Sharma-Pukkala + Forest Regulation total volume = stem + branch
-  volume.
+- Sharma-Pukkala with Forest Regulation branch ratios: total volume =
+  Sharma-Pukkala stem volume + branch volume derived from the applicable
+  regulatory ratio.
 - FRTC total volume = total stem volume over bark only; branches and the
   30-cm stump are excluded.
 
