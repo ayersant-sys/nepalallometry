@@ -17,9 +17,9 @@
 <link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="nepalallometry">
-<meta name="description" content="An extensible umbrella R package for transparent allometric estimation for Nepal's forest trees. The first release focuses on biomass and carbon through biomass(), using FRTC, Sharma and Pukkala, and Chave pathways.
+<meta name="description" content="An extensible umbrella R package for transparent and reproducible allometric estimation for Nepal's forest trees, with separate workflows for biomass, carbon, and tree volume using published FRTC, Sharma and Pukkala, Chave, and Forest Regulations methods.
 ">
-<meta property="og:description" content="An extensible umbrella R package for transparent allometric estimation for Nepal's forest trees. The first release focuses on biomass and carbon through biomass(), using FRTC, Sharma and Pukkala, and Chave pathways.
+<meta property="og:description" content="An extensible umbrella R package for transparent and reproducible allometric estimation for Nepal's forest trees, with separate workflows for biomass, carbon, and tree volume using published FRTC, Sharma and Pukkala, Chave, and Forest Regulations methods.
 ">
 <meta property="og:image" content="https://ayersant-sys.github.io/nepalallometry/logo.png">
 <meta name="theme-color" content="#123f2d">
@@ -72,147 +72,36 @@
 </div>
 <!-- badges: start -->
 
-<p><strong><em>nepalallometry</em></strong> is an extensible umbrella R package for transparent and reproducible allometric estimation for Nepal’s forest trees. It is designed to bring published equations, their assumptions, source documentation, validation checks, and practical inventory workflows into one auditable platform.</p>
+<p><strong><em>nepalallometry</em></strong> is an extensible umbrella R package for transparent and reproducible allometric estimation for Nepal’s forest trees. It brings published equations, assumptions, source documentation, validation checks, and practical inventory workflows into one auditable platform.</p>
 <div class="section level2">
-<h2 id="first-stable-release-biomass-and-carbon-estimation">First stable release: Biomass and Carbon Estimation<a class="anchor" aria-label="anchor" href="#first-stable-release-biomass-and-carbon-estimation"></a>
+<h2 id="biomass-carbon-and-tree-volume-estimation-for-nepal">Biomass, Carbon, and Tree Volume Estimation for Nepal<a class="anchor" aria-label="anchor" href="#biomass-carbon-and-tree-volume-estimation-for-nepal"></a>
 </h2>
-<p>Version 1.0.0 is centered on <code><a href="reference/biomass.html">biomass()</a></code>, the package’s main inventory workflow for tree-, plot-, species-, DBH-class-, and forest-level biomass and carbon estimation. It keeps three pathways separate: Forest Research and Training Centre (FRTC, 2025), Sharma and Pukkala (1990), and Chave et al. (2014). They are not combined because their species coverage, moisture bases, biomass boundaries, density treatment, and assumptions differ.</p>
-<p>DBH is supplied in centimetres, total height in metres, biomass is returned in kg/tree, and plot-level biomass is reported in Mg/ha (numerically equal to metric tonnes per hectare). The biomass definition is recorded for every pathway. FRTC estimates represent biomass <strong>above 0.30 m</strong> and exclude the stump between ground level and the FRTC felling height; the other pathways retain their published biomass boundaries and moisture bases.</p>
+<p>The package currently provides two separate operational workflows:</p>
+<ul>
+<li>
+<code><a href="reference/biomass.html">biomass()</a></code> for aboveground biomass and carbon estimation using FRTC (2025), Sharma and Pukkala (1990), and Chave et al. (2014) pathways.</li>
+<li>
+<code><a href="reference/volume.html">volume()</a></code> for tree-volume estimation using FRTC (2025) stem-volume equations and Sharma-Pukkala (1990) stem-volume equations, with branch volume derived where applicable using the branch-to-stem volume ratios specified in Schedule 9 of Nepal’s Forest Regulations 2079.</li>
+</ul>
+<p>The methods are reproduced according to their published equations, coefficients, units, and component boundaries. Methodologically different estimates are not silently substituted, averaged, or forced to agree.</p>
+<blockquote>
+<p><strong>Release note:</strong> Version 1.0.0 established the first stable biomass-and-carbon release. The current GitHub build extends the package with tree-volume estimation. The Zenodo DOI badge above refers to the archived Version 1.0.0 release.</p>
+</blockquote>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the stable release from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ayersant-sys/nepalallometry"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ayersant-sys.github.io/nepalallometry/">nepalallometry</a></span><span class="op">)</span></span></code></pre></div>
-<p>The package is currently distributed through GitHub and archived on Zenodo. It is not currently available on CRAN.</p>
+<p>The package is currently distributed through GitHub and archived on Zenodo; it is not currently available on CRAN.</p>
 </div>
 <div class="section level2">
-<h2 id="supported-species">Supported species<a class="anchor" aria-label="anchor" href="#supported-species"></a>
+<h2 id="biomass-and-carbon-workflow">Biomass and carbon workflow<a class="anchor" aria-label="anchor" href="#biomass-and-carbon-workflow"></a>
 </h2>
+<p>For inventory-level biomass analysis, provide one row per tree with <code>tree_id</code>, <code>plot_id</code>, <code>plot_area_ha</code>, <code>species</code>, <code>dbh_cm</code>, and <code>height_m</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_species.html">frtc_species</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
-</colgroup>
-<thead><tr class="header">
-<th>Standard identifier</th>
-<th>Nepali name</th>
-<th>Scientific name</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>alnus_nepalensis</code></td>
-<td><code>utis</code></td>
-<td><em>Alnus nepalensis</em></td>
-</tr>
-<tr class="even">
-<td><code>castanopsis_spp</code></td>
-<td><code>katus</code></td>
-<td>
-<em>Castanopsis</em> spp.</td>
-</tr>
-<tr class="odd">
-<td><code>lagerstroemia_parviflora</code></td>
-<td><code>botdhayero</code></td>
-<td><em>Lagerstroemia parviflora</em></td>
-</tr>
-<tr class="even">
-<td><code>pinus_roxburghii</code></td>
-<td><code>khotesallo</code></td>
-<td><em>Pinus roxburghii</em></td>
-</tr>
-<tr class="odd">
-<td><code>shorea_robusta</code></td>
-<td><code>sal</code></td>
-<td><em>Shorea robusta</em></td>
-</tr>
-<tr class="even">
-<td><code>schima_wallichii</code></td>
-<td><code>chilaune</code></td>
-<td><em>Schima wallichii</em></td>
-</tr>
-<tr class="odd">
-<td><code>terminalia_alata</code></td>
-<td><code>asna</code></td>
-<td><em>Terminalia alata</em></td>
-</tr>
-</tbody>
-</table>
-<p>Use either the lowercase scientific identifier or the listed Nepali name in inventory files. Unsupported species are retained with <code>NA</code> biomass and an <code>unsupported_species</code> status; another equation is never substituted silently.</p>
-</div>
-<div class="section level2">
-<h2 id="estimate-one-tree">Estimate one tree<a class="anchor" aria-label="anchor" href="#estimate-one-tree"></a>
-</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_total_biomass.html">frtc_total_biomass</a></span><span class="op">(</span></span>
-<span>  dbh <span class="op">=</span> <span class="fl">30</span>,</span>
-<span>  height <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>  species <span class="op">=</span> <span class="st">"sal"</span>,</span>
-<span>  keep_inputs <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>FRTC-recommended wood density is selected internally when an equation requires density. User-supplied density is intentionally not accepted in this implementation.</p>
-</div>
-<div class="section level2">
-<h2 id="calibration-ranges-and-extrapolation">Calibration ranges and extrapolation<a class="anchor" aria-label="anchor" href="#calibration-ranges-and-extrapolation"></a>
-</h2>
-<p>For every supported species, the package compares DBH and height with the observed minimum and maximum values in the FRTC model-development dataset.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_models.html">frtc_models</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"species_id"</span>, <span class="st">"sample_size"</span>,</span>
-<span>  <span class="st">"dbh_min_cm"</span>, <span class="st">"dbh_max_cm"</span>,</span>
-<span>  <span class="st">"height_min_m"</span>, <span class="st">"height_max_m"</span></span>
-<span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
-<p>Predictions outside either observed range are still returned, but the package issues a warning and marks them with <code>within_calibration_range = FALSE</code>. Use <code>keep_inputs = TRUE</code> and inspect <code>calibration_status</code> to identify whether DBH, height, or both are outside the observed range. These flags identify extrapolation; they are not formal prediction intervals.</p>
-</div>
-<div class="section level2">
-<h2 id="sharma-pukkala-biomass">Sharma-Pukkala biomass<a class="anchor" aria-label="anchor" href="#sharma-pukkala-biomass"></a>
-</h2>
-<p>The package also implements the Sharma and Pukkala (1990) air-dry biomass method for 21 named species and the explicit <code>miscellaneous_terai</code> and <code>miscellaneous_hills</code> groups.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/sharma_pukkala_species.html">sharma_pukkala_species</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/sharma_pukkala_biomass.html">sharma_pukkala_biomass</a></span><span class="op">(</span></span>
-<span>  dbh <span class="op">=</span> <span class="fl">30</span>,</span>
-<span>  height <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>  species <span class="op">=</span> <span class="st">"sal"</span>,</span>
-<span>  keep_inputs <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The function estimates stem biomass internally from the published stem-volume equation and density, then adds branch and foliage biomass using DBH-interpolated ratios. Outputs are labelled <code>air_dry</code>. Observed calibration limits are available for DBH only; species-specific height limits were not reported. Miscellaneous Terai and Hills groups must be entered explicitly and are never selected automatically.</p>
-<p>Sharma and Pukkala (1990) is the original methodological source. Schedule 9 of Nepal’s <em>Forest Regulations, 2079</em> provides the regulatory basis for using its tree-volume parameters. The regulation is therefore cited as an operational and legal source, not as the origin of the equations.</p>
-</div>
-<div class="section level2">
-<h2 id="chave-et-al-2014-biomass">Chave et al. (2014) biomass<a class="anchor" aria-label="anchor" href="#chave-et-al-2014-biomass"></a>
-</h2>
-<p>The package implements the height-inclusive pantropical equation:</p>
-<pre class="text"><code><span><span class="va">AGB</span> <span class="op">=</span> <span class="fl">0.0673</span> <span class="op">*</span> <span class="op">(</span><span class="va">wood_density</span> <span class="op">*</span> <span class="va">DBH</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">height</span><span class="op">)</span><span class="op">^</span><span class="fl">0.976</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/chave_biomass.html">chave_biomass</a></span><span class="op">(</span></span>
-<span>  dbh <span class="op">=</span> <span class="fl">30</span>,</span>
-<span>  height <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>  species <span class="op">=</span> <span class="st">"Dalbergia sissoo"</span>,</span>
-<span>  keep_inputs <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Basic density is selected automatically using this hierarchy:</p>
-<ol style="list-style-type: decimal">
-<li>FRTC (2025) density for <em>Alnus nepalensis</em>, <em>Lagerstroemia parviflora</em>, <em>Shorea robusta</em>, <em>Schima wallichii</em>, and <em>Terminalia alata</em>;</li>
-<li>GWDD v2.2 exact infraspecific match;</li>
-<li>GWDD v2.2 binomial match; and</li>
-<li>GWDD v2.2 genus match.</li>
-</ol>
-<p>The remaining FRTC taxa, <em>Pinus roxburghii</em> and <em>Castanopsis</em> spp., use GWDD binomial and genus densities, respectively. GWDD lookup uses the model-derived trunk estimate <code>wsg_est_trunk</code>, not the raw mean. Genus matches trigger a warning, while taxa with no match return <code>NA</code>. The detailed result records the density source, match level, matched taxon, and database version. Users with a verified basic-density measurement may override the automatic lookup with <code>wood_density</code>.</p>
-<p>Chave results are oven-dry AGB. They are not directly equivalent to Sharma–Pukkala air-dry biomass, and their biomass boundary differs from the FRTC boundary that excludes the 0–0.30 m stump.</p>
-</div>
-<div class="section level2">
-<h2 id="complete-biomass-inventory-workflow">Complete biomass inventory workflow<a class="anchor" aria-label="anchor" href="#complete-biomass-inventory-workflow"></a>
-</h2>
-<p>The required columns are <code>tree_id</code>, <code>plot_id</code>, <code>plot_area_ha</code>, <code>species</code>, <code>dbh_cm</code>, and <code>height_m</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">inventory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  tree_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
 <span>  plot_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p01"</span>, <span class="st">"p01"</span>, <span class="st">"p02"</span>, <span class="st">"p02"</span><span class="op">)</span>,</span>
@@ -224,135 +113,135 @@
 <span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/biomass.html">biomass</a></span><span class="op">(</span><span class="va">inventory</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/forest_summary.html">forest_summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/forest_summary.html">plot_summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/forest_summary.html">species_summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/forest_summary.html">dbh_summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/forest_summary.html">tree_results</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<p>The same command accepts a CSV or Excel workbook:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/biomass.html">biomass</a></span><span class="op">(</span><span class="st">"forest_inventory.csv"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/biomass.html">biomass</a></span><span class="op">(</span><span class="st">"forest_inventory.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Inventory"</span><span class="op">)</span></span></code></pre></div>
-<p>The required columns are <code>tree_id</code>, <code>plot_id</code>, <code>plot_area_ha</code>, <code>species</code>, <code>dbh_cm</code>, and <code>height_m</code>. <code>forest_id</code> and <code>forest_area_ha</code> are optional. Supplying forest area enables estimated total forest biomass and carbon; without it, the package reports per-hectare forest statistics only.</p>
-<p>Unsupported trees remain in the output with <code>NA</code> and create a <code>partial_tree_coverage</code> or <code>no_tree_estimates</code> flag. Always inspect stem and basal-area coverage before interpreting a plot or forest estimate.</p>
-<p>Carbon is calculated as biomass multiplied by 0.47, the IPCC (2006) default fraction for aboveground forest biomass. This constant can support consistent reporting, but it does not represent measured species-specific carbon concentration. Users may supply another documented fraction where appropriate.</p>
+<span><span class="fu"><a href="reference/forest_summary.html">tree_results</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/forest_summary.html">method_audit</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+<p>The three biomass pathways remain separate because their species coverage, moisture bases, biomass boundaries, density treatment, and assumptions differ. FRTC biomass represents biomass above the approximately 0.30-m felling height and therefore excludes the lower stump.</p>
+<div class="section level3">
+<h3 id="individual-biomass-functions">Individual biomass functions<a class="anchor" aria-label="anchor" href="#individual-biomass-functions"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_total_biomass.html">frtc_total_biomass</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="st">"sal"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sharma_pukkala_biomass.html">sharma_pukkala_biomass</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="st">"sal"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/chave_biomass.html">chave_biomass</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="st">"Dalbergia sissoo"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Carbon is calculated from biomass using a default carbon fraction of 0.47; users may provide another documented fraction where appropriate.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="excel-output">Excel output<a class="anchor" aria-label="anchor" href="#excel-output"></a>
+<h2 id="tree-volume-workflow">Tree volume workflow<a class="anchor" aria-label="anchor" href="#tree-volume-workflow"></a>
 </h2>
-<p>By default, <code><a href="reference/biomass.html">biomass()</a></code> writes one Excel workbook beside a file input, or in the working directory for a data-frame input. To choose the file name:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/biomass.html">biomass</a></span><span class="op">(</span></span>
-<span>  <span class="st">"forest_inventory.csv"</span>,</span>
-<span>  output <span class="op">=</span> <span class="st">"forest_biomass_results.xlsx"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The workbook contains seven task-oriented sheets:</p>
-<ul>
-<li><code>Read_Me</code></li>
-<li><code>Forest_Summary</code></li>
-<li><code>Plot_Summary</code></li>
-<li><code>Species_Summary</code></li>
-<li><code>DBH_Summary</code></li>
-<li><code>Tree_Results</code></li>
-<li><code>Method_Audit</code></li>
-</ul>
-<p>FRTC, Sharma &amp; Pukkala, and Chave appear as method labels without dates in the result tables. Their publication years and full sources remain in calculation notes and model metadata. Wood density is handled automatically where required. The methods remain separate because their moisture bases, biomass boundaries, scope, and assumptions differ.</p>
-<p>The Excel sheets use simple, unmerged, copyable headings with units. Continuous values display four decimal places, while counts display as whole numbers. <code>Tree_Results</code> contains the main estimates; density, calibration, biomass boundary, moisture basis, and citations are retained separately in <code>Method_Audit</code>.</p>
-<p>The earlier <code><a href="reference/biomass_from_csv.html">biomass_from_csv()</a></code> command remains available for compatibility, but new analyses should use <code><a href="reference/biomass.html">biomass()</a></code>.</p>
-<p>The earlier FRTC-only workflow remains available:</p>
-<p>Create a blank inventory template:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_inventory_template.html">frtc_inventory_template</a></span><span class="op">(</span><span class="st">"frtc_inventory.csv"</span>, rows <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
-<p>After entering the inventory data in that CSV, run:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/frtc_biomass_from_csv.html">frtc_biomass_from_csv</a></span><span class="op">(</span></span>
-<span>  input <span class="op">=</span> <span class="st">"frtc_inventory.csv"</span>,</span>
-<span>  output_format <span class="op">=</span> <span class="st">"excel"</span></span>
+<p>Volume estimation is intentionally separate from biomass estimation.</p>
+<p>For an individual tree, <code>plot_id</code> and <code>plot_area_ha</code> are not required:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  tree_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"T1"</span>, <span class="st">"T2"</span><span class="op">)</span>,</span>
+<span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sal"</span>, <span class="st">"pinus_roxburghii"</span><span class="op">)</span>,</span>
+<span>  dbh_cm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">45</span><span class="op">)</span>,</span>
+<span>  height_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">22</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">results</span><span class="op">$</span><span class="va">files</span></span></code></pre></div>
-<p>The workbook contains:</p>
+<span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/volume.html">volume</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span>
+<span><span class="va">v</span><span class="op">$</span><span class="va">tree_results</span></span>
+<span><span class="va">v</span><span class="op">$</span><span class="va">method_audit</span></span></code></pre></div>
+<p>When <code>plot_id</code> and <code>plot_area_ha</code> are supplied together, <code><a href="reference/volume.html">volume()</a></code> automatically provides inventory-level plot, species, DBH-class, and forest summaries.</p>
+<div class="section level3">
+<h3 id="frtc-2025-volume">FRTC 2025 volume<a class="anchor" aria-label="anchor" href="#frtc-2025-volume"></a>
+</h3>
+<p><code><a href="reference/frtc_volume.html">frtc_volume()</a></code> returns three published stem-volume outputs for the seven FRTC taxa:</p>
 <ul>
-<li>About</li>
-<li>Tree Results</li>
-<li>Plot Summary</li>
-<li>Species Summary</li>
-<li>DBH Class Summary</li>
-<li>Forest Summary</li>
-<li>Model Registry</li>
-<li>Calibration Ranges</li>
-<li>Density Rules</li>
+<li>total stem volume over bark from the 30-cm stump height to the tip;</li>
+<li>stem volume under bark to a 20-cm over-bark top diameter; and</li>
+<li>stem volume under bark to a 10-cm over-bark top diameter.</li>
 </ul>
-<p>Use <code>output_format = "csv"</code> for separate CSV outputs or <code>output_format = "both"</code> for both formats.</p>
+<p>Branches are excluded from all FRTC volume outputs, and the 30-cm stump is outside the FRTC stem-volume boundary.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_volume.html">frtc_volume</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">25</span>, <span class="st">"sal"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The 10-cm and 20-cm equations were fitted independently in the source report. <code>nepalallometry</code> reproduces the published equations and does not alter their predictions to force mathematical monotonicity.</p>
+</div>
+<div class="section level3">
+<h3 id="sharma-pukkala-volume-with-forest-regulation-branch-ratios">Sharma-Pukkala volume with Forest Regulation branch ratios<a class="anchor" aria-label="anchor" href="#sharma-pukkala-volume-with-forest-regulation-branch-ratios"></a>
+</h3>
+<p><code><a href="reference/sharma_pukkala_volume.html">sharma_pukkala_volume()</a></code> estimates <strong>stem volume using the published equations of Sharma and Pukkala (1990)</strong>. Where branch volume is required, the package applies the <strong>branch-to-stem volume ratios specified in Schedule 9 of Nepal’s Forest Regulations 2079</strong>. Thus, Sharma and Pukkala (1990) remains the source of the stem-volume equation, while the Forest Regulations provide the regulatory procedure for deriving branch volume.</p>
+<p><strong>Total tree volume = Sharma-Pukkala stem volume + branch volume derived from the applicable Forest Regulation ratio.</strong></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/sharma_pukkala_volume.html">sharma_pukkala_volume</a></span><span class="op">(</span><span class="fl">60</span>, <span class="fl">25</span>, <span class="st">"sal"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>For species with a species-specific regulatory branch category, no <code>branch_group</code> is needed. For other supported Sharma-Pukkala stem-volume species, users may explicitly assign <code>other_broadleaf</code> or <code>other_conifer</code> when appropriate. The package does not infer this classification automatically.</p>
+</div>
+<div class="section level3">
+<h3 id="important-volume-comparability-note">Important volume comparability note<a class="anchor" aria-label="anchor" href="#important-volume-comparability-note"></a>
+</h3>
+<p>The method label <strong>total volume</strong> does not imply an identical component boundary across methods:</p>
+<ul>
+<li>Sharma-Pukkala with Forest Regulation branch ratios: total volume = Sharma-Pukkala stem volume + branch volume derived from the applicable regulatory ratio.</li>
+<li>FRTC total volume = total stem volume over bark only; branches and the 30-cm stump are excluded.</li>
+</ul>
+<p>These outputs should therefore be reported with their method and boundary and should not be averaged as if they estimated the same physical quantity.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="inspect-equations-and-sources">Inspect equations and sources<a class="anchor" aria-label="anchor" href="#inspect-equations-and-sources"></a>
+<h2 id="file-and-excel-workflows">File and Excel workflows<a class="anchor" aria-label="anchor" href="#file-and-excel-workflows"></a>
 </h2>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_models.html">frtc_models</a></span><span class="op">(</span><span class="op">)</span></span>
+<p>Both high-level workflows accept R data frames, CSV files, and Excel workbooks.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/biomass.html">biomass</a></span><span class="op">(</span><span class="st">"forest_inventory.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Inventory"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/volume.html">volume</a></span><span class="op">(</span><span class="st">"tree_inventory.xlsx"</span><span class="op">)</span></span></code></pre></div>
+<p>For biomass inventories and inventory-level volume analyses, exported workbooks provide task-oriented summaries plus <code>Tree_Results</code> and <code>Method_Audit</code>. Tree-only volume inputs produce a compact workbook containing <code>Read_Me</code>, <code>Tree_Results</code>, and <code>Method_Audit</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="supported-taxa-and-model-information">Supported taxa and model information<a class="anchor" aria-label="anchor" href="#supported-taxa-and-model-information"></a>
+</h2>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/frtc_species.html">frtc_species</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sharma_pukkala_species.html">sharma_pukkala_species</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/frtc_models.html">frtc_models</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/frtc_equation.html">frtc_equation</a></span><span class="op">(</span><span class="st">"sal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/frtc_density.html">frtc_density</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/frtc_density.html">frtc_density</a></span><span class="op">(</span><span class="st">"sal"</span>, dbh <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"nepalallometry"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/forest_regulation_branch_parameters.html">forest_regulation_branch_parameters</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/allometry_references.html">allometry_references</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The model and density registries are also distributed as plain CSV files under <code>inst/extdata</code>. Model-fit RMSE from FRTC Table 9 is distinguished from operational RMSE obtained using the recommended densities in Table 11.</p>
+<p>Unsupported species are retained and flagged rather than silently assigned another equation. Calibration/extrapolation information is retained where the source data permit it.</p>
 </div>
 <div class="section level2">
-<h2 id="future-updates">Future updates<a class="anchor" aria-label="anchor" href="#future-updates"></a>
+<h2 id="core-principle">Core principle<a class="anchor" aria-label="anchor" href="#core-principle"></a>
 </h2>
-<p><strong><em>nepalallometry</em></strong> is intended to grow beyond its first biomass-focused release. Planned development includes additional Nepal-relevant allometric models and species, stem-volume estimation, height-diameter relationships, and other inventory tools where suitable equations and supporting evidence are available. These additions will be introduced progressively, with their sources, units, calibration domains, and limitations documented explicitly. The roadmap describes intended directions and does not promise a particular release date.</p>
+<p><strong><em>nepalallometry</em></strong> implements published methods; it does not make methodologically different estimates equivalent. The package can make calculations reproducible and expose assumptions, coverage, boundaries, and provenance, but it cannot remove biological or model uncertainty.</p>
 </div>
 <div class="section level2">
 <h2 id="important-limitations">Important limitations<a class="anchor" aria-label="anchor" href="#important-limitations"></a>
 </h2>
 <ul>
-<li>Models are available only for the seven listed species.</li>
-<li>Estimates require measured DBH and total height.</li>
-<li>Biomass excludes the 0-0.30 m stump.</li>
-<li>Unsupported or missing species are not included in supported-biomass totals.</li>
-<li>Partial plot estimates are not estimates of whole-plot biomass.</li>
-<li>The current version does not estimate roots, dead wood, litter, soil carbon, missing height, stump biomass, or formal prediction uncertainty.</li>
-<li>Predictions outside the observed species-specific DBH or height range are extrapolations and are explicitly flagged.</li>
-<li>Predictions should not be treated as direct measurements of biomass or carbon.</li>
+<li>FRTC biomass and volume currently cover the seven taxa published in FRTC (2025), Volume I.</li>
+<li>Measured DBH and total height are required by the current workflows.</li>
+<li>FRTC biomass excludes the 0-0.30 m stump.</li>
+<li>FRTC volume is stem-only and excludes the 0-0.30 m stump and branches.</li>
+<li>Unsupported or missing trees are not silently replaced by another model.</li>
+<li>Partial estimates are not estimates of the unsupported portion of a plot or forest.</li>
+<li>Calibration flags identify extrapolation; they are not formal prediction intervals.</li>
+<li>The package does not currently estimate roots, dead wood, litter, soil carbon, missing height, stump biomass, or formal allometric prediction uncertainty.</li>
+<li>Biomass, carbon, and volume outputs are model-based estimates, not direct measurements.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"nepalallometry"</span><span class="op">)</span></span></code></pre></div>
-<p>Use <code><a href="reference/allometry_references.html">allometry_references()</a></code> to obtain the complete APA-style source registry. Cite the package and every source used by the selected pathway:</p>
-<ul>
-<li>
-<strong>FRTC:</strong> Ayer (2026), Forest Research and Training Centre (2025), and IPCC
-<ol start="2006" style="list-style-type: decimal">
-<li>when the default carbon fraction is used.</li>
-</ol>
-</li>
-<li>
-<strong>Sharma &amp; Pukkala:</strong> Ayer (2026), Sharma and Pukkala (1990), Government of Nepal (2022) for the regulatory context, and IPCC (2006) when the default carbon fraction is used.</li>
-<li>
-<strong>Chave:</strong> Ayer (2026), Chave et al. (2014), FRTC (2025) when an FRTC density is used, or both Fischer et al. (2026a, 2026b) when a GWDD density is used, and IPCC (2006) when the default carbon fraction is used.</li>
-</ul>
-<p>The Excel <code>Read_Me</code> sheet includes the same references so exported analyses remain traceable when shared independently of R.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"nepalallometry"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/allometry_references.html">allometry_references</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>For the archived Version 1.0.0 release:</p>
+<p>Ayer, S. (2026). <em>nepalallometry: Allometric estimation for Nepal’s forest trees</em> (Version 1.0.0) [R package]. Zenodo. DOI: 10.5281/zenodo.22299266</p>
+<p>Users should also cite the methodological and regulatory sources used by their selected pathway, including FRTC (2025), Sharma and Pukkala (1990), Chave et al. (2014), Nepal’s Forest Regulations 2079, IPCC (2006), and relevant wood-density sources as applicable.</p>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="future-development">Future development<a class="anchor" aria-label="anchor" href="#future-development"></a>
 </h2>
-<p>Ayer, S. (2026). <em>nepalallometry: Allometric estimation for Nepal’s forest trees</em> (Version 1.0.0) [R package]. Zenodo. <a href="https://doi.org/10.5281/zenodo.22299266" class="external-link uri">https://doi.org/10.5281/zenodo.22299266</a></p>
-<p>Chave, J., Rejou-Mechain, M., Burquez, A., Chidumayo, E., Colgan, M. S., Delitti, W. B. C., Duque, A., Eid, T., Fearnside, P. M., Goodman, R. C., Henry, M., Martinez-Yrizar, A., Mugasha, W. A., Muller-Landau, H. C., Mencuccini, M., Nelson, B. W., Ngomanda, A., Nogueira, E. M., Ortiz-Malavassi, E., … Vieilledent, G. (2014). Improved allometric models to estimate the aboveground biomass of tropical trees. <em>Global Change Biology, 20</em>(10), 3177-3190. <a href="https://doi.org/10.1111/gcb.12629" class="external-link uri">https://doi.org/10.1111/gcb.12629</a></p>
-<p>Forest Research and Training Centre. (2025). <em>Allometric equations for seven major tree species of Nepal</em> (Vol. I). Ministry of Forests and Environment, Government of Nepal.</p>
-<p>Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A., Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T., Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G., Arcanjo, F., Bastin, J.-F., Bilous, A., … Zieminska, K. (2026a). Beyond species means: The intraspecific contribution to global wood density variation. <em>New Phytologist, 249</em>(6), 2630-2651. <a href="https://doi.org/10.1111/nph.70860" class="external-link uri">https://doi.org/10.1111/nph.70860</a></p>
-<p>Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A., Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T., Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G., Arcanjo, F., Bastin, J.-F., Bilous, A., … Zieminska, K. (2026b). <em>Global Wood Density Database v2.2</em> [Data set]. Zenodo. <a href="https://doi.org/10.5281/zenodo.18262736" class="external-link uri">https://doi.org/10.5281/zenodo.18262736</a></p>
-<p>Government of Nepal. (2022). <em>Forest Regulations, 2079</em>. Nepal Law Commission. <a href="https://lawcommission.gov.np/content/12938/12938-forest-regulation-2079/" class="external-link uri">https://lawcommission.gov.np/content/12938/12938-forest-regulation-2079/</a></p>
-<p>Intergovernmental Panel on Climate Change. (2006). <em>2006 IPCC guidelines for national greenhouse gas inventories: Volume 4. Agriculture, forestry and other land use</em> (H. S. Eggleston, L. Buendia, K. Miwa, T. Ngara, &amp; K. Tanabe, Eds.). Institute for Global Environmental Strategies. <a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html" class="external-link uri">https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html</a></p>
-<p>Sharma, E. R., &amp; Pukkala, T. (1990). <em>Volume equations and biomass prediction of forest trees of Nepal</em> (Publication No. 47). Forest Survey and Statistics Division, Ministry of Forests and Soil Conservation.</p>
+<p><strong><em>nepalallometry</em></strong> is designed as an umbrella package. Future development may add further officially published Nepal-relevant allometric equations, species coverage, height-diameter relationships, and other inventory tools. New modules will retain explicit sources, units, calibration domains, component boundaries, and limitations.</p>
 </div>
 <div class="section level2">
 <h2 id="development-status">Development status<a class="anchor" aria-label="anchor" href="#development-status"></a>
 </h2>
-<p>This is a development release. Please report problems or suggestions through the <a href="https://github.com/ayersant-sys/nepalallometry/issues" class="external-link">GitHub issue tracker</a>.</p>
+<p>The current development build is maintained on GitHub. Please report problems or suggestions through the GitHub issue tracker.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="package-status">
