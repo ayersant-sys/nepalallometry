@@ -1,7 +1,10 @@
 # nepalallometry
 
 <!-- badges: start -->
+[![test-coverage](https://github.com/ayersant-sys/nepalallometry/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/test-coverage.yaml)
 [![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml)
+[![pkgdown](https://github.com/ayersant-sys/nepalallometry/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/pkgdown.yaml)
+[![release](https://img.shields.io/github/v/release/ayersant-sys/nepalallometry?label=release)](https://github.com/ayersant-sys/nepalallometry/releases/latest)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22299266.svg)](https://doi.org/10.5281/zenodo.22299266)
 <!-- badges: end -->
 
