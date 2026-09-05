@@ -75,9 +75,10 @@ reference:
   - sharma_pukkala_biomass
   - chave_biomass
 - title: Volume estimation
-  desc: Estimate tree and inventory volume using supported volume pathways.
+  desc: Estimate individual-tree or forest-inventory volume using supported pathways.
   contents:
   - volume
+  - frtc_volume
   - sharma_pukkala_volume
   - forest_regulation_branch_parameters
 - title: Models, species, and sources
