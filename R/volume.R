@@ -6,7 +6,10 @@
 #' with branch-volume ratios from Schedule 9 of Nepal's Forest Regulations 2079.
 #'
 #' @param input A data frame or path to an existing `.csv` or `.xlsx` inventory.
-#' @param output Optional `.xlsx` path for exporting results.
+#' @param output Optional `.xlsx` path for exporting results. When `input` is a
+#'   `.csv` or `.xlsx` file and `output` is not supplied, an Excel workbook named
+#'   `<input>_volume_results.xlsx` is created automatically beside the input file.
+#'   Data-frame inputs are not written automatically.
 #' @param sheet Worksheet to read when `input` is an `.xlsx` file. Defaults to 1.
 #' @param methods Volume method(s). Currently only `"sharma_pukkala"` is
 #'   supported.
@@ -79,7 +82,14 @@ volume <- function(input, output = NULL, sheet = 1,
   attr(result, "input_source") <- read$source
   attr(result, "methods") <- methods
 
-  if (!is.null(output)) .write_volume_workbook(result, output)
+  if (is.null(output)) output <- read$default_output
+  if (!is.null(output)) {
+    .write_volume_workbook(result, output)
+    output_path <- normalizePath(output, mustWork = FALSE)
+    attr(result, "output_file") <- output_path
+    message("Volume results written to: ", output_path)
+  }
+
   result
 }
 
@@ -104,7 +114,9 @@ volume <- function(input, output = NULL, sheet = 1,
 
 .read_volume_input <- function(input, sheet = 1) {
   if (is.data.frame(input)) return(list(
-    data = input, source = "R data frame"
+    data = input,
+    source = "R data frame",
+    default_output = NULL
   ))
   if (length(input) != 1L || is.na(input) || !file.exists(input)) stop(
     "`input` must be a data frame or one existing .csv or .xlsx file.",
@@ -120,7 +132,12 @@ volume <- function(input, output = NULL, sheet = 1,
   } else {
     openxlsx::read.xlsx(input, sheet = sheet, check.names = FALSE)
   }
-  list(data = dat, source = normalizePath(input, mustWork = FALSE))
+  stem <- tools::file_path_sans_ext(basename(input))
+  list(
+    data = dat,
+    source = normalizePath(input, mustWork = FALSE),
+    default_output = file.path(dirname(input), paste0(stem, "_volume_results.xlsx"))
+  )
 }
 
 .prepare_volume_inventory <- function(data) {
@@ -387,12 +404,55 @@ volume <- function(input, output = NULL, sheet = 1,
   )
 }
 
+.volume_read_me <- function(result) {
+  data.frame(
+    item = c(
+      "Purpose",
+      "Current volume method",
+      "Stem volume",
+      "Branch volume",
+      "Total tree volume",
+      "Required inventory columns",
+      "Optional inventory columns",
+      "branch_group rule",
+      "Generic branch groups",
+      "Missing branch group",
+      "Tree-level units",
+      "Plot/forest units",
+      "Coverage",
+      "Calibration status",
+      "Uncertainty",
+      "Method audit"
+    ),
+    guidance = c(
+      "Inventory-level tree volume estimation with transparent tree, plot, species, DBH-class, and forest summaries.",
+      "Sharma & Pukkala stem-volume equations combined with Nepal Forest Regulations 2079 Schedule 9 branch-volume ratios.",
+      "Calculated from the Sharma & Pukkala (1990) logarithmic stem-volume equation and reported in m3/tree.",
+      "Calculated as the Forest Regulation branch ratio multiplied by stem volume.",
+      "Calculated as stem volume plus branch volume. Foliage is not included as volume.",
+      "tree_id, plot_id, plot_area_ha, species, dbh_cm, height_m",
+      "forest_id, forest_area_ha, branch_group",
+      "Leave branch_group blank for species with direct Forest Regulation branch parameters. For other supported species, the user must assign the appropriate generic group.",
+      "Use only other_broadleaf or other_conifer when a generic Forest Regulation branch category is required.",
+      "If a required generic branch group is missing, stem volume is retained but branch and total tree volume are NA; the package does not guess the category.",
+      "stem_volume_m3, branch_volume_m3, and total_tree_volume_m3 are m3/tree.",
+      "volume_m3_ha and mean_volume_m3_ha are m3/ha; total_forest_volume_m3 is m3 when forest_area_ha is supplied.",
+      "Tree and basal-area coverage show how much of the inventory received complete total-tree volume estimates. Partial coverage should be interpreted explicitly.",
+      "DBH calibration status indicates whether a prediction is within or outside the observed Sharma-Pukkala model-development DBH range.",
+      "SD, SE, and 95% CI in forest summaries describe variation among sampled plots where estimable; they do not represent allometric model uncertainty.",
+      "See Method_Audit for sources and counts of estimated, unsupported, or branch-group-required trees."
+    ),
+    stringsAsFactors = FALSE
+  )
+}
+
 .write_volume_workbook <- function(result, path) {
   if (length(path) != 1L || is.na(path) || !grepl("\\.xlsx$", path, ignore.case = TRUE)) stop(
     "`output` must be one .xlsx file path.", call. = FALSE
   )
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   tables <- list(
+    Read_Me = .volume_read_me(result),
     Forest_Summary = result$forest_summary,
     Plot_Summary = result$plot_summary,
     Species_Summary = result$species_summary,
@@ -405,16 +465,32 @@ volume <- function(input, output = NULL, sheet = 1,
     fgFill = "#E7E6E6", textDecoration = "bold",
     halign = "center", valign = "center", wrapText = TRUE
   )
+  wrap <- openxlsx::createStyle(valign = "top", wrapText = TRUE)
   for (sheet_name in names(tables)) {
     dat <- tables[[sheet_name]]
     openxlsx::addWorksheet(wb, sheet_name)
-    openxlsx::writeData(wb, sheet_name, dat, withFilter = TRUE)
+    openxlsx::writeData(
+      wb, sheet_name, dat,
+      withFilter = sheet_name != "Read_Me"
+    )
     openxlsx::addStyle(
       wb, sheet_name, header, rows = 1, cols = seq_len(ncol(dat)),
       gridExpand = TRUE
     )
     openxlsx::freezePane(wb, sheet_name, firstRow = TRUE)
-    openxlsx::setColWidths(wb, sheet_name, cols = seq_len(ncol(dat)), widths = "auto")
+    if (sheet_name == "Read_Me") {
+      openxlsx::addStyle(
+        wb, sheet_name, wrap,
+        rows = 2:(nrow(dat) + 1), cols = seq_len(ncol(dat)),
+        gridExpand = TRUE
+      )
+      openxlsx::setColWidths(wb, sheet_name, cols = 1, widths = 28)
+      openxlsx::setColWidths(wb, sheet_name, cols = 2, widths = 95)
+    } else {
+      openxlsx::setColWidths(
+        wb, sheet_name, cols = seq_len(ncol(dat)), widths = "auto"
+      )
+    }
   }
   openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
   invisible(path)
