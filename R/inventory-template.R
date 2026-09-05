@@ -1,5 +1,10 @@
 #' Create a simple FRTC inventory CSV template
 #'
+#' The template can also be used for Sharma-Pukkala volume estimation.
+#' For species without a species-specific Forest Regulation branch category,
+#' users may enter `other_conifer` or `other_broadleaf` in `branch_group`.
+#' Leave `branch_group` blank when a species-specific branch category exists.
+#'
 #' @param path Output CSV path.
 #' @param rows Number of blank data-entry rows.
 #' @return The normalized path, invisibly.
@@ -17,6 +22,7 @@ frtc_inventory_template <- function(path = "frtc_inventory_template.csv",
     species = rep("", rows),
     dbh_cm = rep(NA_real_, rows),
     height_m = rep(NA_real_, rows),
+    branch_group = rep("", rows),
     stringsAsFactors = FALSE
   )
   utils::write.csv(template, path, row.names = FALSE, na = "")
