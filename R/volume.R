@@ -1,11 +1,14 @@
-#' Estimate tree and inventory volume
+#' Estimate individual-tree or inventory volume
 #'
-#' Applies supported tree-volume methods to a forest inventory and returns
-#' tree-, plot-, species-, DBH-class-, and forest-level summaries. The current
-#' implementation supports the Sharma-Pukkala stem-volume equations combined
-#' with branch-volume ratios from Schedule 9 of Nepal's Forest Regulations 2079.
+#' Applies supported tree-volume methods to either individual trees or a forest
+#' inventory. When plot information is supplied, tree-, plot-, species-,
+#' DBH-class-, and forest-level summaries are produced. When plot information is
+#' absent, only individual-tree results and the method audit are produced. The
+#' current implementation supports the Sharma-Pukkala stem-volume equations
+#' combined with branch-volume ratios from Schedule 9 of Nepal's Forest
+#' Regulations 2079.
 #'
-#' @param input A data frame or path to an existing `.csv` or `.xlsx` inventory.
+#' @param input A data frame or path to an existing `.csv` or `.xlsx` file.
 #' @param output Optional `.xlsx` path for exporting results. When `input` is a
 #'   `.csv` or `.xlsx` file and `output` is not supplied, an Excel workbook named
 #'   `<input>_volume_results.xlsx` is created automatically beside the input file.
@@ -13,62 +16,77 @@
 #' @param sheet Worksheet to read when `input` is an `.xlsx` file. Defaults to 1.
 #' @param methods Volume method(s). Currently only `"sharma_pukkala"` is
 #'   supported.
-#' @param dbh_breaks Breaks used for DBH-class summaries.
+#' @param dbh_breaks Breaks used for DBH-class summaries when plot information
+#'   is supplied.
 #'
 #' @details
-#' Required inventory columns are `tree_id`, `plot_id`, `plot_area_ha`,
-#' `species`, `dbh_cm`, and `height_m`. Optional columns are `forest_id`,
-#' `forest_area_ha`, and `branch_group`.
+#' The minimum columns for individual-tree estimation are `tree_id`, `species`,
+#' `dbh_cm`, and `height_m`. `branch_group` is optional and is required only for
+#' supported species that must use a generic Forest Regulation branch category.
+#'
+#' For inventory-level summaries, both `plot_id` and `plot_area_ha` must also be
+#' supplied. If either one is supplied without the other, the function stops
+#' with an informative error. Optional inventory columns are `forest_id` and
+#' `forest_area_ha`.
 #'
 #' For species with a species-specific branch-volume row in the Forest
 #' Regulations, `branch_group` may be left blank. For other supported
 #' Sharma-Pukkala species, users must explicitly enter `other_broadleaf` or
 #' `other_conifer` where appropriate. The package does not infer this category.
 #'
-#' @return An object of class `nepal_volume_result` containing
-#' `forest_summary`, `plot_summary`, `species_summary`, `dbh_class_summary`,
-#' `tree_results`, and `method_audit`.
+#' @return An object of class `nepal_volume_result`. Tree-only inputs contain
+#' `tree_results` and `method_audit`; inventory inputs additionally contain
+#' `forest_summary`, `plot_summary`, `species_summary`, and `dbh_class_summary`.
 #' @export
 #'
 #' @examples
-#' inventory <- data.frame(
+#' trees <- data.frame(
 #'   tree_id = c("T1", "T2"),
-#'   plot_id = c("P1", "P1"),
-#'   plot_area_ha = c(0.05, 0.05),
 #'   species = c("sal", "terminalia_alata"),
 #'   dbh_cm = c(60, 45),
 #'   height_m = c(25, 22),
 #'   branch_group = c(NA, "other_broadleaf")
 #' )
-#' volume(inventory)
+#' volume(trees)
 volume <- function(input, output = NULL, sheet = 1,
                    methods = "sharma_pukkala",
                    dbh_breaks = c(0, 10, 20, 30, 40, 50, Inf)) {
   methods <- .volume_methods(methods)
   read <- .read_volume_input(input, sheet = sheet)
   inventory <- .prepare_volume_inventory(read$data)
+  analysis_level <- attr(inventory, "analysis_level")
 
   method_tables <- lapply(methods, function(method) {
     .calculate_volume_method(inventory, method)
   })
   names(method_tables) <- methods
 
-  plot_summary <- .volume_plot_summary_table(method_tables)
-  forest_summary <- .volume_forest_summary_table(plot_summary, inventory)
-  species_summary <- .volume_category_summary(
-    method_tables, inventory, category = "species", label = "species"
+  tree_results <- .volume_tree_results_table(
+    inventory, methods, method_tables,
+    tree_only = identical(analysis_level, "tree")
   )
-
-  inventory$dbh_class_cm <- cut(
-    inventory$dbh_cm, breaks = dbh_breaks, right = FALSE,
-    include.lowest = TRUE
-  )
-  dbh_class_summary <- .volume_category_summary(
-    method_tables, inventory, category = "dbh_class_cm", label = "dbh_class_cm"
-  )
-
-  tree_results <- .volume_tree_results_table(inventory, methods, method_tables)
   audit <- .volume_method_audit(method_tables)
+
+  if (identical(analysis_level, "inventory")) {
+    plot_summary <- .volume_plot_summary_table(method_tables)
+    forest_summary <- .volume_forest_summary_table(plot_summary, inventory)
+    species_summary <- .volume_category_summary(
+      method_tables, inventory, category = "species", label = "species"
+    )
+
+    inventory$dbh_class_cm <- cut(
+      inventory$dbh_cm, breaks = dbh_breaks, right = FALSE,
+      include.lowest = TRUE
+    )
+    dbh_class_summary <- .volume_category_summary(
+      method_tables, inventory, category = "dbh_class_cm", label = "dbh_class_cm"
+    )
+  } else {
+    forest_summary <- NULL
+    plot_summary <- NULL
+    species_summary <- NULL
+    dbh_class_summary <- NULL
+  }
 
   result <- list(
     forest_summary = forest_summary,
@@ -81,6 +99,7 @@ volume <- function(input, output = NULL, sheet = 1,
   class(result) <- "nepal_volume_result"
   attr(result, "input_source") <- read$source
   attr(result, "methods") <- methods
+  attr(result, "analysis_level") <- analysis_level
 
   if (is.null(output)) output <- read$default_output
   if (!is.null(output)) {
@@ -142,31 +161,27 @@ volume <- function(input, output = NULL, sheet = 1,
 
 .prepare_volume_inventory <- function(data) {
   .require_inventory_columns(data, c(
-    "tree_id", "plot_id", "plot_area_ha", "species", "dbh_cm", "height_m"
+    "tree_id", "species", "dbh_cm", "height_m"
   ))
+
+  has_plot_id <- "plot_id" %in% names(data)
+  has_plot_area <- "plot_area_ha" %in% names(data)
+  if (xor(has_plot_id, has_plot_area)) stop(
+    "For inventory-level volume summaries, `plot_id` and `plot_area_ha` must be supplied together. For individual-tree volume, omit both columns.",
+    call. = FALSE
+  )
+  analysis_level <- if (has_plot_id && has_plot_area) "inventory" else "tree"
 
   for (nm in c("plot_area_ha", "dbh_cm", "height_m", "forest_area_ha")) {
     if (nm %in% names(data)) data[[nm]] <- suppressWarnings(as.numeric(data[[nm]]))
   }
 
-  if (!"forest_id" %in% names(data)) data$forest_id <- "Forest_1"
-  data$forest_id <- trimws(as.character(data$forest_id))
-  if (anyNA(data$forest_id) || any(!nzchar(data$forest_id))) stop(
-    "`forest_id` cannot contain missing or blank values.", call. = FALSE
-  )
-
-  if (!"forest_area_ha" %in% names(data)) data$forest_area_ha <- NA_real_
-  if (any(!is.na(data$forest_area_ha) &
-          (!is.finite(data$forest_area_ha) | data$forest_area_ha <= 0))) stop(
-    "`forest_area_ha` must be positive when supplied.", call. = FALSE
-  )
-
   if (!"branch_group" %in% names(data)) data$branch_group <- NA_character_
   data$branch_group <- trimws(as.character(data$branch_group))
   data$branch_group[is.na(data$branch_group) | !nzchar(data$branch_group)] <- NA_character_
 
-  if (!nrow(data)) stop("The inventory must contain at least one tree.", call. = FALSE)
-  for (nm in c("tree_id", "plot_id", "species")) {
+  if (!nrow(data)) stop("The input must contain at least one tree.", call. = FALSE)
+  for (nm in c("tree_id", "species")) {
     if (anyNA(data[[nm]]) || any(!nzchar(trimws(as.character(data[[nm]]))))) stop(
       sprintf("`%s` cannot be missing or blank.", nm), call. = FALSE
     )
@@ -179,19 +194,45 @@ volume <- function(input, output = NULL, sheet = 1,
     "`height_m` must contain positive finite values.", call. = FALSE
   )
 
-  check <- data
-  check$plot_id <- paste(data$forest_id, data$plot_id, sep = "::")
-  .validate_plot_areas(check)
-
-  for (id in unique(data$forest_id)) {
-    area <- unique(stats::na.omit(data$forest_area_ha[data$forest_id == id]))
-    if (length(area) > 1L) stop(
-      "`forest_area_ha` must be constant within each `forest_id`.", call. = FALSE
+  if (identical(analysis_level, "inventory")) {
+    if (!"forest_id" %in% names(data)) data$forest_id <- "Forest_1"
+    data$forest_id <- trimws(as.character(data$forest_id))
+    if (anyNA(data$forest_id) || any(!nzchar(data$forest_id))) stop(
+      "`forest_id` cannot contain missing or blank values.", call. = FALSE
     )
+
+    if (!"forest_area_ha" %in% names(data)) data$forest_area_ha <- NA_real_
+    if (any(!is.na(data$forest_area_ha) &
+            (!is.finite(data$forest_area_ha) | data$forest_area_ha <= 0))) stop(
+      "`forest_area_ha` must be positive when supplied.", call. = FALSE
+    )
+
+    if (anyNA(data$plot_id) || any(!nzchar(trimws(as.character(data$plot_id))))) stop(
+      "`plot_id` cannot be missing or blank.", call. = FALSE
+    )
+
+    check <- data
+    check$plot_id <- paste(data$forest_id, data$plot_id, sep = "::")
+    .validate_plot_areas(check)
+
+    for (id in unique(data$forest_id)) {
+      area <- unique(stats::na.omit(data$forest_area_ha[data$forest_id == id]))
+      if (length(area) > 1L) stop(
+        "`forest_area_ha` must be constant within each `forest_id`.", call. = FALSE
+      )
+    }
+
+    data$.plot_key <- paste(data$forest_id, data$plot_id, sep = "\r")
+  } else {
+    data$plot_id <- NA_character_
+    data$plot_area_ha <- NA_real_
+    data$forest_id <- NA_character_
+    data$forest_area_ha <- NA_real_
+    data$.plot_key <- NA_character_
   }
 
-  data$.plot_key <- paste(data$forest_id, data$plot_id, sep = "\r")
   data$basal_area_m2 <- pi * (data$dbh_cm / 200)^2
+  attr(data, "analysis_level") <- analysis_level
   data
 }
 
@@ -373,8 +414,15 @@ volume <- function(input, output = NULL, sheet = 1,
   ans
 }
 
-.volume_tree_results_table <- function(inventory, methods, method_tables) {
-  out <- inventory[setdiff(names(inventory), ".plot_key")]
+.volume_tree_results_table <- function(inventory, methods, method_tables,
+                                       tree_only = FALSE) {
+  internal <- c(".plot_key")
+  if (tree_only) {
+    internal <- c(
+      internal, "plot_id", "plot_area_ha", "forest_id", "forest_area_ha"
+    )
+  }
+  out <- inventory[setdiff(names(inventory), internal)]
   for (id in methods) {
     cols <- method_tables[[id]][c(
       "stem_volume_m3", "branch_volume_m3", "total_tree_volume_m3",
@@ -405,41 +453,58 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_read_me <- function(result) {
+  level <- attr(result, "analysis_level")
+  if (identical(level, "tree")) {
+    purpose <- "Individual-tree volume estimation for operational uses such as marked or harvesting trees. Plot information is not required."
+    required <- "tree_id, species, dbh_cm, height_m"
+    outputs <- "Tree_Results and Method_Audit"
+    scaling <- "No plot- or forest-level scaling is performed because plot_id and plot_area_ha were not supplied."
+  } else {
+    purpose <- "Forest-inventory volume estimation with tree, plot, species, DBH-class, and forest summaries."
+    required <- "tree_id, plot_id, plot_area_ha, species, dbh_cm, height_m"
+    outputs <- "Forest_Summary, Plot_Summary, Species_Summary, DBH_Summary, Tree_Results, and Method_Audit"
+    scaling <- "volume_m3_ha and mean_volume_m3_ha are m3/ha; total_forest_volume_m3 is m3 when forest_area_ha is supplied."
+  }
+
   data.frame(
     item = c(
       "Purpose",
+      "Detected workflow",
       "Current volume method",
       "Stem volume",
       "Branch volume",
       "Total tree volume",
-      "Required inventory columns",
-      "Optional inventory columns",
+      "Required columns",
+      "Optional columns",
       "branch_group rule",
       "Generic branch groups",
       "Missing branch group",
       "Tree-level units",
-      "Plot/forest units",
+      "Scaling",
+      "Output sheets",
       "Coverage",
       "Calibration status",
       "Uncertainty",
       "Method audit"
     ),
     guidance = c(
-      "Inventory-level tree volume estimation with transparent tree, plot, species, DBH-class, and forest summaries.",
+      purpose,
+      if (identical(level, "tree")) "Individual-tree workflow" else "Forest-inventory workflow",
       "Sharma & Pukkala stem-volume equations combined with Nepal Forest Regulations 2079 Schedule 9 branch-volume ratios.",
       "Calculated from the Sharma & Pukkala (1990) logarithmic stem-volume equation and reported in m3/tree.",
       "Calculated as the Forest Regulation branch ratio multiplied by stem volume.",
       "Calculated as stem volume plus branch volume. Foliage is not included as volume.",
-      "tree_id, plot_id, plot_area_ha, species, dbh_cm, height_m",
-      "forest_id, forest_area_ha, branch_group",
+      required,
+      if (identical(level, "tree")) "branch_group" else "forest_id, forest_area_ha, branch_group",
       "Leave branch_group blank for species with direct Forest Regulation branch parameters. For other supported species, the user must assign the appropriate generic group.",
       "Use only other_broadleaf or other_conifer when a generic Forest Regulation branch category is required.",
       "If a required generic branch group is missing, stem volume is retained but branch and total tree volume are NA; the package does not guess the category.",
       "stem_volume_m3, branch_volume_m3, and total_tree_volume_m3 are m3/tree.",
-      "volume_m3_ha and mean_volume_m3_ha are m3/ha; total_forest_volume_m3 is m3 when forest_area_ha is supplied.",
-      "Tree and basal-area coverage show how much of the inventory received complete total-tree volume estimates. Partial coverage should be interpreted explicitly.",
+      scaling,
+      outputs,
+      if (identical(level, "tree")) "Not applicable to individual-tree workflow." else "Tree and basal-area coverage show how much of the inventory received complete total-tree volume estimates. Partial coverage should be interpreted explicitly.",
       "DBH calibration status indicates whether a prediction is within or outside the observed Sharma-Pukkala model-development DBH range.",
-      "SD, SE, and 95% CI in forest summaries describe variation among sampled plots where estimable; they do not represent allometric model uncertainty.",
+      if (identical(level, "tree")) "No sampling-based plot uncertainty is calculated for individual-tree inputs." else "SD, SE, and 95% CI in forest summaries describe variation among sampled plots where estimable; they do not represent allometric model uncertainty.",
       "See Method_Audit for sources and counts of estimated, unsupported, or branch-group-required trees."
     ),
     stringsAsFactors = FALSE
@@ -451,15 +516,25 @@ volume <- function(input, output = NULL, sheet = 1,
     "`output` must be one .xlsx file path.", call. = FALSE
   )
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
-  tables <- list(
-    Read_Me = .volume_read_me(result),
-    Forest_Summary = result$forest_summary,
-    Plot_Summary = result$plot_summary,
-    Species_Summary = result$species_summary,
-    DBH_Summary = result$dbh_class_summary,
-    Tree_Results = result$tree_results,
-    Method_Audit = result$method_audit
-  )
+
+  if (identical(attr(result, "analysis_level"), "tree")) {
+    tables <- list(
+      Read_Me = .volume_read_me(result),
+      Tree_Results = result$tree_results,
+      Method_Audit = result$method_audit
+    )
+  } else {
+    tables <- list(
+      Read_Me = .volume_read_me(result),
+      Forest_Summary = result$forest_summary,
+      Plot_Summary = result$plot_summary,
+      Species_Summary = result$species_summary,
+      DBH_Summary = result$dbh_class_summary,
+      Tree_Results = result$tree_results,
+      Method_Audit = result$method_audit
+    )
+  }
+
   wb <- openxlsx::createWorkbook(creator = "Santosh Ayer")
   header <- openxlsx::createStyle(
     fgFill = "#E7E6E6", textDecoration = "bold",
