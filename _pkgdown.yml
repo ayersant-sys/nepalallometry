@@ -74,6 +74,11 @@ reference:
   - frtc_total_biomass
   - sharma_pukkala_biomass
   - chave_biomass
+- title: Volume estimation
+  desc: Estimate Sharma-Pukkala stem volume and Forest Regulation branch volume.
+  contents:
+  - sharma_pukkala_volume
+  - forest_regulation_branch_parameters
 - title: Models, species, and sources
   desc: Inspect supported taxa, equations, density rules, and references.
   contents:
