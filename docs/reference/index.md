@@ -25,6 +25,20 @@ Run individual published biomass methods.
 - [`chave_biomass()`](https://ayersant-sys.github.io/nepalallometry/reference/chave_biomass.md)
   : Estimate aboveground biomass using Chave et al. (2014)
 
+## Volume estimation
+
+Estimate individual-tree or forest-inventory volume using supported
+pathways.
+
+- [`volume()`](https://ayersant-sys.github.io/nepalallometry/reference/volume.md)
+  : Estimate individual-tree or forest-inventory volume
+- [`frtc_volume()`](https://ayersant-sys.github.io/nepalallometry/reference/frtc_volume.md)
+  : Estimate FRTC 2025 stem volumes
+- [`sharma_pukkala_volume()`](https://ayersant-sys.github.io/nepalallometry/reference/sharma_pukkala_volume.md)
+  : Estimate tree volume using Sharma-Pukkala and Forest Regulations
+- [`forest_regulation_branch_parameters()`](https://ayersant-sys.github.io/nepalallometry/reference/forest_regulation_branch_parameters.md)
+  : Forest Regulation branch-volume parameters
+
 ## Models, species, and sources
 
 Inspect supported taxa, equations, density rules, and references.

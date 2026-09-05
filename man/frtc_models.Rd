@@ -7,8 +7,8 @@
 frtc_models()
 }
 \value{
-A data frame containing equations, coefficients, fit statistics, observed
-  species-specific DBH and height calibration ranges, units, biomass boundary,
+A data frame containing equations, coefficients, fit statistics,
+  observed model-development DBH and height ranges, units, biomass boundary,
   and source information.
 }
 \description{

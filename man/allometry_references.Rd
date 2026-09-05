@@ -7,12 +7,11 @@
 allometry_references(source_id = NULL)
 }
 \arguments{
-\item{source_id}{Optional source identifier. If \code{NULL}, return all
-sources.}
+\item{source_id}{Optional source identifier. If `NULL`, return all sources.}
 }
 \value{
-A data frame with the source identifier, short citation, role in the package,
-and complete APA-style reference.
+A data frame with the source identifier, short citation, role in the
+  package, and complete APA-style reference.
 }
 \description{
 Returns the authoritative reference registry used in package documentation
