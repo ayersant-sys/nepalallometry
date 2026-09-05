@@ -1,8 +1,8 @@
 # Package index
 
-## Complete inventory workflow
+## Biomass and carbon workflow
 
-Estimate biomass and extract auditable summaries.
+Estimate biomass and carbon and extract auditable inventory summaries.
 
 - [`biomass()`](https://ayersant-sys.github.io/nepalallometry/reference/biomass.md)
   : Estimate biomass and produce complete inventory summaries
@@ -25,10 +25,10 @@ Run individual published biomass methods.
 - [`chave_biomass()`](https://ayersant-sys.github.io/nepalallometry/reference/chave_biomass.md)
   : Estimate aboveground biomass using Chave et al. (2014)
 
-## Volume estimation
+## Tree volume workflow
 
 Estimate individual-tree or forest-inventory volume using supported
-pathways.
+published pathways.
 
 - [`volume()`](https://ayersant-sys.github.io/nepalallometry/reference/volume.md)
   : Estimate individual-tree or forest-inventory volume
