@@ -70,7 +70,7 @@ frtc_volume(
 #>      calibration_status volume_source
 #> 1 within_observed_range   FRTC (2025)
 #> 2 within_observed_range   FRTC (2025)
-#>                                      volume_boundary
-#> 1 Stem only; 30-cm stump excluded; branches excluded
-#> 2 Stem only; 30-cm stump excluded; branches excluded
+#>                                                                                                                                                     volume_boundary
+#> 1 Stem only; 30-cm stump excluded; total = over-bark stem to tip; 20-cm and 10-cm outputs = under-bark stem to the stated over-bark top diameter; branches excluded
+#> 2 Stem only; 30-cm stump excluded; total = over-bark stem to tip; 20-cm and 10-cm outputs = under-bark stem to the stated over-bark top diameter; branches excluded
 ```
