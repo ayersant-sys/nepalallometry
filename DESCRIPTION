@@ -1,7 +1,7 @@
 Package: nepalallometry
 Type: Package
 Title: Allometric Estimation for Nepal's Forest Trees
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
     email = "ayer.sant@gmail.com")
 Author: Santosh Ayer [aut, cre]
@@ -11,10 +11,11 @@ Description: Implements published allometric methods for estimating tree
     equations and procedures from the Forest Research and Training Centre
     (2025), Sharma and Pukkala (1990), and Chave et al. (2014). Tree-volume
     estimation includes FRTC (2025) stem-volume equations and Sharma-Pukkala
-    (1990) stem-volume equations combined, where applicable, with branch-volume
-    ratios from Nepal's Forest Regulations 2079. The package provides auditable
-    tree- and inventory-level workflows while retaining method-specific species
-    coverage, units, component boundaries, calibration information, and source
+    (1990) stem-volume equations, with branch volume derived where applicable
+    using branch-to-stem volume ratios specified in Schedule 9 of Nepal's
+    Forest Regulations 2079. The package provides auditable tree- and
+    inventory-level workflows while retaining method-specific species coverage,
+    units, component boundaries, calibration information, and source
     documentation.
 License: MIT + file LICENSE
 Encoding: UTF-8
