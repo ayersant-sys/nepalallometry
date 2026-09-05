@@ -75,8 +75,9 @@ reference:
   - sharma_pukkala_biomass
   - chave_biomass
 - title: Volume estimation
-  desc: Estimate Sharma-Pukkala stem volume and Forest Regulation branch volume.
+  desc: Estimate tree and inventory volume using supported volume pathways.
   contents:
+  - volume
   - sharma_pukkala_volume
   - forest_regulation_branch_parameters
 - title: Models, species, and sources
