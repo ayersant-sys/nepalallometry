@@ -1,5 +1,16 @@
 # FRTC 2025 tree-volume equations for seven major tree species.
-# Volume definitions follow FRTC (2025): stump (0.30 m) excluded.
+#
+# Source fidelity is intentional: model forms, coefficients, sample sizes, and
+# volume definitions below reproduce the selected equations reported by FRTC
+# (2025), Tables 6-8. No coefficients are re-fitted, adjusted, harmonized, or
+# constrained by nepalallometry.
+#
+# FRTC definitions reproduced here:
+#   total_ob = total stem volume over-bark;
+#   ub_20cm  = under-bark stem volume up to a 20-cm over-bark top diameter;
+#   ub_10cm  = under-bark stem volume up to a 10-cm over-bark top diameter.
+# All three stem-volume definitions exclude the 0.30-m stump. Branch volume is
+# not included in these three fitted stem-volume equations.
 
 .frtc_volume_models <- data.frame(
   species_code = rep(c("An", "Cs", "Lp", "Pr", "Sr", "Sw", "Ta"), 3),
@@ -50,11 +61,13 @@
 
 #' Estimate FRTC 2025 stem volumes
 #'
-#' Estimates three FRTC 2025 stem-volume definitions for the seven supported
-#' species: total stem volume over bark, under-bark stem volume to a 20-cm
-#' over-bark top diameter, and under-bark stem volume to a 10-cm over-bark top
-#' diameter. All FRTC volume definitions exclude the 30-cm stump and do not
-#' include branch volume.
+#' Reproduces the selected FRTC (2025) equations for three reported stem-volume
+#' definitions for the seven supported species: total stem volume over-bark,
+#' under-bark stem volume up to a 20-cm over-bark top diameter, and under-bark
+#' stem volume up to a 10-cm over-bark top diameter. The equations, model forms,
+#' and coefficients are used as published; they are not re-fitted or modified by
+#' the package. All three definitions exclude the 30-cm stump. These fitted
+#' equations estimate stem volume; branch volume is not included.
 #'
 #' @param dbh Diameter at breast height in cm.
 #' @param height Total tree height in m.
@@ -74,9 +87,10 @@ frtc_volume <- function(dbh, height, species, keep_inputs = FALSE) {
   top20 <- .frtc_volume_predict(code, dbh, height, "ub_20cm")
   top10 <- .frtc_volume_predict(code, dbh, height, "ub_10cm")
 
-  # A tree with DBH below a requested top diameter cannot contain that stem
-  # section above breast height; do not extrapolate those merchantable-volume
-  # equations into a physically incompatible diameter range.
+  # The fitted 10-cm and 20-cm equations apply to stems that reach the stated
+  # top-diameter definition. A tree whose DBH itself is below that top diameter
+  # cannot meet that definition, so no estimate is returned for that output.
+  # This does not alter the published equations or their coefficients.
   top20[is.finite(dbh) & dbh < 20] <- NA_real_
   top10[is.finite(dbh) & dbh < 10] <- NA_real_
 
@@ -106,7 +120,12 @@ frtc_volume <- function(dbh, height, species, keep_inputs = FALSE) {
       estimation_status = status,
       cal,
       volume_source = "FRTC (2025)",
-      volume_boundary = "Stem only; 30-cm stump excluded; branches excluded",
+      volume_boundary = paste(
+        "Stem only; 30-cm stump excluded;",
+        "total = over-bark stem to tip;",
+        "20-cm and 10-cm outputs = under-bark stem to the stated over-bark top diameter;",
+        "branches excluded"
+      ),
       stringsAsFactors = FALSE
     )
   }
