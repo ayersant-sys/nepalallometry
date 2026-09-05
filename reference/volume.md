@@ -123,18 +123,18 @@ volume(inventory)
 #>   tree_id plot_id plot_area_ha          species dbh_cm height_m    branch_group
 #> 1      T1      P1         0.05              sal     60       25            <NA>
 #> 2      T2      P1         0.05 terminalia_alata     45       22 other_broadleaf
-#>   forest_id forest_area_ha basal_area_m2 dbh_class_cm
-#> 1  Forest_1             NA     0.2827433     [50,Inf]
-#> 2  Forest_1             NA     0.1590431      [40,50)
-#>   sharma_pukkala_stem_volume_m3 sharma_pukkala_branch_volume_m3
-#> 1                      3.050025                        1.072592
-#> 2                      1.479857                        0.805289
-#>   sharma_pukkala_total_tree_volume_m3 sharma_pukkala_branch_group_used
-#> 1                            4.122617                   shorea_robusta
-#> 2                            2.285146                  other_broadleaf
-#>   sharma_pukkala_estimation_status sharma_pukkala_calibration_status
-#> 1                        estimated         within_observed_dbh_range
-#> 2                        estimated         within_observed_dbh_range
+#>   forest_id forest_area_ha basal_area_m2 sharma_pukkala_stem_volume_m3
+#> 1  Forest_1             NA     0.2827433                      3.050025
+#> 2  Forest_1             NA     0.1590431                      1.479857
+#>   sharma_pukkala_branch_volume_m3 sharma_pukkala_total_tree_volume_m3
+#> 1                        1.072592                            4.122617
+#> 2                        0.805289                            2.285146
+#>   sharma_pukkala_branch_group_used sharma_pukkala_estimation_status
+#> 1                   shorea_robusta                        estimated
+#> 2                  other_broadleaf                        estimated
+#>   sharma_pukkala_calibration_status
+#> 1         within_observed_dbh_range
+#> 2         within_observed_dbh_range
 #> 
 #> $method_audit
 #>                                 method        stem_volume_source
@@ -150,4 +150,6 @@ volume(inventory)
 #> [1] "R data frame"
 #> attr(,"methods")
 #> [1] "sharma_pukkala"
+#> attr(,"analysis_level")
+#> [1] "inventory"
 ```
