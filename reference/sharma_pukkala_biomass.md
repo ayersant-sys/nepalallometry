@@ -77,16 +77,16 @@ and other land use*. IGES.
 sharma_pukkala_biomass(30, 20, "sal")
 #> [1] 782.496
 sharma_pukkala_biomass(30, 20, "chilaune", keep_inputs = TRUE)
-#>   dbh_cm height_m species_input species_standardized  scientific_name
-#> 1     30       20      chilaune     schima_wallichii Schima wallichii
-#>   nepali_name density_kg_m3 branch_ratio foliage_ratio sp_stem_biomass_kg
-#> 1    chilaune           689          0.3    0.04666667            437.537
-#>   sp_branch_biomass_kg sp_foliage_biomass_kg sp_total_biomass_kg
-#> 1             131.2611               20.4184            589.2166
-#>   carbon_fraction sp_carbon_kg calibration_dbh_min_cm calibration_dbh_max_cm
-#> 1            0.47     276.9318                   18.3                   77.5
-#>   within_calibration_dbh_range        calibration_status
-#> 1                         TRUE within_observed_dbh_range
+#>   dbh_cm height_m species_input species_standardized       model_assignment
+#> 1     30       20      chilaune     schima_wallichii named_species_equation
+#>   region  scientific_name nepali_name density_kg_m3 branch_ratio foliage_ratio
+#> 1   <NA> Schima wallichii    chilaune           689          0.3    0.04666667
+#>   sp_stem_biomass_kg sp_branch_biomass_kg sp_foliage_biomass_kg
+#> 1            437.537             131.2611               20.4184
+#>   sp_total_biomass_kg carbon_fraction sp_carbon_kg calibration_dbh_min_cm
+#> 1            589.2166            0.47     276.9318                   18.3
+#>   calibration_dbh_max_cm within_calibration_dbh_range        calibration_status
+#> 1                   77.5                         TRUE within_observed_dbh_range
 #>   height_calibration_status estimation_status biomass_moisture_basis
 #> 1 not_assessed_not_reported         estimated                air_dry
 #>                                          biomass_boundary
