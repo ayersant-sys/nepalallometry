@@ -38,7 +38,7 @@ home:
 
 navbar:
   structure:
-    left: [intro, why, reference, articles, developer]
+    left: [intro, why, reference, methods, help, articles, developer]
     right: [search, github]
   components:
     intro:
@@ -47,11 +47,21 @@ navbar:
     why:
       text: Why this package?
       href: articles/why-nepalallometry.html
+    methods:
+      text: Methods & Equations
+      href: articles/methods-equations.html
+    help:
+      text: Help & Troubleshooting
+      href: articles/troubleshooting.html
     articles:
       text: Articles
       menu:
       - text: Biomass inventory workflow
         href: articles/frtc-inventory-workflow.html
+      - text: Methods & Equations
+        href: articles/methods-equations.html
+      - text: Help & Troubleshooting
+        href: articles/troubleshooting.html
       - text: Why nepalallometry?
         href: articles/why-nepalallometry.html
     developer:
@@ -113,6 +123,8 @@ articles:
   contents:
   - why-nepalallometry
   - frtc-inventory-workflow
+  - methods-equations
+  - troubleshooting
   - developer
 
 footer:
