@@ -80,251 +80,1337 @@ Ayer</h4>
 
     
     
-<p>This page summarizes the calculation pathways implemented in
-<em>nepalallometry</em>. The package operationalizes published
-equations; it does not replace the original methodological sources.
-Users should consider species coverage, calibration domain, biomass
-boundary, and volume definition when selecting and comparing
-methods.</p>
+<p>This page documents the equations, coefficients, density rules,
+units, and calculation boundaries implemented in
+<em>nepalallometry</em>. The package operationalizes published methods;
+coefficients are not re-fitted by the package. Users should consult the
+original sources when a method is used for scientific or regulatory
+work.</p>
 <div class="section level2">
-<h2 id="biomass-and-carbon">Biomass and carbon<a class="anchor" aria-label="anchor" href="#biomass-and-carbon"></a>
+<h2 id="biomass-and-carbon">1. Biomass and carbon<a class="anchor" aria-label="anchor" href="#biomass-and-carbon"></a>
 </h2>
 <div class="section level3">
-<h3 id="frtc-2025">FRTC 2025<a class="anchor" aria-label="anchor" href="#frtc-2025"></a>
+<h3 id="frtc-2025-total-aboveground-biomass">1.1 FRTC 2025 total aboveground biomass<a class="anchor" aria-label="anchor" href="#frtc-2025-total-aboveground-biomass"></a>
 </h3>
-<p>The FRTC pathway implements the published species-specific equations
-for seven major tree species of Nepal. Depending on the species and
-component, the implemented models use DBH
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>),
-total tree height
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>),
-and the FRTC-recommended wood-density information.</p>
-<p>The package returns total aboveground biomass <strong>above 0.30
-m</strong>. The 0–0.30 m stump is excluded. Use
-<code><a href="../reference/frtc_equation.html">frtc_equation()</a></code> and <code><a href="../reference/frtc_models.html">frtc_models()</a></code> to inspect
-the exact species-specific equations and model information implemented
-in the package.</p>
-</div>
-<div class="section level3">
-<h3 id="sharma-pukkala-1990">Sharma &amp; Pukkala 1990<a class="anchor" aria-label="anchor" href="#sharma-pukkala-1990"></a>
-</h3>
-<p>The Sharma &amp; Pukkala pathway applies the published species or
-species-group equations implemented in the package. Where a species is
-handled using a miscellaneous equation, the user must identify the
-appropriate <strong>Hill</strong> or <strong>Terai</strong>
-miscellaneous group.</p>
-<p>Use <code><a href="../reference/sharma_pukkala_species.html">sharma_pukkala_species()</a></code> to inspect the supported
-species and groups.</p>
-</div>
-<div class="section level3">
-<h3 id="chave-et-al--2014">Chave et al. 2014<a class="anchor" aria-label="anchor" href="#chave-et-al--2014"></a>
-</h3>
-<p>The Chave pathway implements the moist/tropical aboveground biomass
-equation based on DBH, total tree height, and wood density:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi><mo>=</mo><mn>0.0673</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>0.976</mn></msup></mrow><annotation encoding="application/x-tex">
-AGB = 0.0673\left(\rho D^2H\right)^{0.976}
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">AGB</annotation></semantics></math>
-is aboveground biomass (kg),
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
-is wood density (g
-cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
-is DBH (cm), and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
-is total tree height (m).</p>
-<p>Wood density is handled internally where supported, using the
-package’s documented density sources and rules. A user-supplied
-<code>wood_density</code> can be used as an override where
-applicable.</p>
-</div>
-<div class="section level3">
-<h3 id="carbon-conversion">Carbon conversion<a class="anchor" aria-label="anchor" href="#carbon-conversion"></a>
-</h3>
-<p>Carbon is derived from estimated biomass as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>A</mi><mi>G</mi><mi>B</mi><mo>×</mo><mi>C</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">
-C = AGB \times CF
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>
-is aboveground carbon,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">AGB</annotation></semantics></math>
-is aboveground biomass, and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">CF</annotation></semantics></math>
-is the carbon fraction. The default carbon fraction in
-<em>nepalallometry</em> is 0.47.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="tree-volume">Tree volume<a class="anchor" aria-label="anchor" href="#tree-volume"></a>
-</h2>
-<div class="section level3">
-<h3 id="frtc-2025-volume">FRTC 2025 volume<a class="anchor" aria-label="anchor" href="#frtc-2025-volume"></a>
-</h3>
-<p>The FRTC pathway implements species-specific published equations in
-one of the following mathematical forms:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mi>D</mi><mi>b</mi></msup><msup><mi>H</mi><mi>c</mi></msup></mrow><annotation encoding="application/x-tex">
-V = aD^bH^c
-</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
-V = a(D^2H)^b
+<p>FRTC models use one of two forms:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
+B=a(D^2H\rho)^b
 </annotation></semantics></math></p>
 <p>or</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
-V = a + b(D^2H)
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mi>D</mi><mi>b</mi></msup><msup><mi>H</mi><mi>c</mi></msup></mrow><annotation encoding="application/x-tex">
+B=aD^bH^c
 </annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
-is tree volume,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
-is DBH,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
-is total tree height, and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
-are published model coefficients.</p>
-<p>FRTC provides three distinct volume definitions:</p>
-<ul>
-<li>
-<strong>total over-bark stem volume</strong>;</li>
-<li>
-<strong>under-bark stem volume to a 20-cm over-bark top
-diameter</strong>; and</li>
-<li>
-<strong>under-bark stem volume to a 10-cm over-bark top
-diameter</strong>.</li>
-</ul>
-<p>These are different volume definitions, not replicate estimates of
-the same quantity. They should <strong>not be averaged or
-summed</strong>. The FRTC volume definitions exclude the 0.30-m stump
-and do not include branch volume.</p>
-<p>Use <code><a href="../reference/frtc_volume.html">frtc_volume()</a></code> and the package model information to
-inspect the species-specific implementation.</p>
-</div>
-<div class="section level3">
-<h3 id="sharma-pukkala-stem-volume">Sharma &amp; Pukkala stem volume<a class="anchor" aria-label="anchor" href="#sharma-pukkala-stem-volume"></a>
-</h3>
-<p>The implemented Sharma &amp; Pukkala stem-volume pathway uses:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi mathvariant="normal">ln</mi><mi>D</mi><mo>+</mo><mi>c</mi><mi mathvariant="normal">ln</mi><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
-V_s = \frac{\exp\left(a+b\ln D+c\ln H\right)}{1000}
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>s</mi></msub><annotation encoding="application/x-tex">V_s</annotation></semantics></math>
-is stem volume
-(m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+is biomass (kg
+tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
 is DBH (cm),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
-is total tree height (m), and
+is total height (m),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+is basic wood density (g
+cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
+and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
-are species-specific published coefficients.</p>
+are published coefficients.</p>
+<p>The implemented response is total aboveground biomass <strong>above
+0.30 m</strong>; the 0–0.30 m stump is excluded.</p>
+<div class="section level4">
+<h4 id="species-equations-and-coefficients">Species, equations and coefficients<a class="anchor" aria-label="anchor" href="#species-equations-and-coefficients"></a>
+</h4>
+<p>The table below is generated directly from the package model registry
+so that the website reflects the coefficients actually used by
+<em>nepalallometry</em>.</p>
+<table class="table">
+<colgroup>
+<col width="14%">
+<col width="6%">
+<col width="16%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="2%">
+<col width="7%">
+<col width="7%">
+<col width="8%">
+<col width="8%">
+<col width="12%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Species</th>
+<th align="left">Nepali name</th>
+<th align="left">Equation</th>
+<th align="right">a</th>
+<th align="right">b</th>
+<th align="right">c</th>
+<th align="right">n</th>
+<th align="right">DBH min (cm)</th>
+<th align="right">DBH max (cm)</th>
+<th align="right">Height min (m)</th>
+<th align="right">Height max (m)</th>
+<th align="left">Density basis</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alnus nepalensis</td>
+<td align="left">utis</td>
+<td align="left">B = a * (DBH^2 * H * rho)^b</td>
+<td align="right">0.067139</td>
+<td align="right">0.956808</td>
+<td align="right">NA</td>
+<td align="right">52</td>
+<td align="right">7.4</td>
+<td align="right">83.4</td>
+<td align="right">4.50</td>
+<td align="right">36.6</td>
+<td align="left">FRTC species average</td>
+</tr>
+<tr class="even">
+<td align="left">Castanopsis spp.</td>
+<td align="left">katus</td>
+<td align="left">B = a * DBH^b * H^c</td>
+<td align="right">0.071253</td>
+<td align="right">2.318525</td>
+<td align="right">0.299393</td>
+<td align="right">52</td>
+<td align="right">5.4</td>
+<td align="right">76.4</td>
+<td align="right">4.55</td>
+<td align="right">29.4</td>
+<td align="left">not required</td>
+</tr>
+<tr class="odd">
+<td align="left">Lagerstroemia parviflora</td>
+<td align="left">botdhayero</td>
+<td align="left">B = a * (DBH^2 * H * rho)^b</td>
+<td align="right">0.060964</td>
+<td align="right">0.971369</td>
+<td align="right">NA</td>
+<td align="right">46</td>
+<td align="right">7.1</td>
+<td align="right">58.1</td>
+<td align="right">5.50</td>
+<td align="right">29.3</td>
+<td align="left">FRTC species average</td>
+</tr>
+<tr class="even">
+<td align="left">Pinus roxburghii</td>
+<td align="left">khotesallo</td>
+<td align="left">B = a * DBH^b * H^c</td>
+<td align="right">0.031693</td>
+<td align="right">2.329281</td>
+<td align="right">0.519366</td>
+<td align="right">96</td>
+<td align="right">6.7</td>
+<td align="right">91.2</td>
+<td align="right">2.50</td>
+<td align="right">36.4</td>
+<td align="left">not required</td>
+</tr>
+<tr class="odd">
+<td align="left">Shorea robusta</td>
+<td align="left">sal</td>
+<td align="left">B = a * (DBH^2 * H * rho)^b</td>
+<td align="right">0.054968</td>
+<td align="right">0.980885</td>
+<td align="right">NA</td>
+<td align="right">122</td>
+<td align="right">6.7</td>
+<td align="right">102.4</td>
+<td align="right">4.90</td>
+<td align="right">42.0</td>
+<td align="left">FRTC DBH class</td>
+</tr>
+<tr class="even">
+<td align="left">Schima wallichii</td>
+<td align="left">chilaune</td>
+<td align="left">B = a * (DBH^2 * H * rho)^b</td>
+<td align="right">0.071359</td>
+<td align="right">0.951091</td>
+<td align="right">NA</td>
+<td align="right">47</td>
+<td align="right">5.5</td>
+<td align="right">67.5</td>
+<td align="right">5.00</td>
+<td align="right">32.8</td>
+<td align="left">FRTC species average</td>
+</tr>
+<tr class="odd">
+<td align="left">Terminalia alata</td>
+<td align="left">asna</td>
+<td align="left">B = a * (DBH^2 * H * rho)^b</td>
+<td align="right">0.080156</td>
+<td align="right">0.943341</td>
+<td align="right">NA</td>
+<td align="right">61</td>
+<td align="right">5.4</td>
+<td align="right">103.2</td>
+<td align="right">4.80</td>
+<td align="right">38.4</td>
+<td align="left">FRTC DBH class</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="frtc-wood-density-rules">FRTC wood-density rules<a class="anchor" aria-label="anchor" href="#frtc-wood-density-rules"></a>
+</h4>
+<p>Wood density is required only for FRTC models using
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math>.
+For <em>Castanopsis</em> spp. and <em>Pinus roxburghii</em>, density is
+not required by the selected FRTC biomass equation. <em>Shorea
+robusta</em> and <em>Terminalia alata</em> use DBH-class-specific
+densities; <em>Alnus nepalensis</em>, <em>Lagerstroemia parviflora</em>,
+and <em>Schima wallichii</em> use species-average densities.</p>
+<table class="table">
+<colgroup>
+<col width="27%">
+<col width="16%">
+<col width="17%">
+<col width="17%">
+<col width="20%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Species ID</th>
+<th align="left">DBH class (cm)</th>
+<th align="right">Density (g/cm3)</th>
+<th align="left">Density basis</th>
+<th align="left">Source</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">alnus_nepalensis</td>
+<td align="left">all</td>
+<td align="right">0.4318</td>
+<td align="left">species_average</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="even">
+<td align="left">castanopsis_spp</td>
+<td align="left">not required</td>
+<td align="right">NA</td>
+<td align="left">not_required</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="odd">
+<td align="left">lagerstroemia_parviflora</td>
+<td align="left">all</td>
+<td align="right">0.5651</td>
+<td align="left">species_average</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="even">
+<td align="left">pinus_roxburghii</td>
+<td align="left">not required</td>
+<td align="right">NA</td>
+<td align="left">not_required</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="odd">
+<td align="left">shorea_robusta</td>
+<td align="left">5-10</td>
+<td align="right">0.5042</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="even">
+<td align="left">shorea_robusta</td>
+<td align="left">&gt;10-30</td>
+<td align="right">0.5573</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="odd">
+<td align="left">shorea_robusta</td>
+<td align="left">&gt;30-50</td>
+<td align="right">0.6331</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="even">
+<td align="left">shorea_robusta</td>
+<td align="left">&gt;50</td>
+<td align="right">0.6551</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="odd">
+<td align="left">schima_wallichii</td>
+<td align="left">all</td>
+<td align="right">0.4869</td>
+<td align="left">species_average</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="even">
+<td align="left">terminalia_alata</td>
+<td align="left">5-10</td>
+<td align="right">0.4865</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="odd">
+<td align="left">terminalia_alata</td>
+<td align="left">&gt;10-30</td>
+<td align="right">0.5780</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="even">
+<td align="left">terminalia_alata</td>
+<td align="left">&gt;30-50</td>
+<td align="right">0.6472</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+<tr class="odd">
+<td align="left">terminalia_alata</td>
+<td align="left">&gt;50</td>
+<td align="right">0.6819</td>
+<td align="left">dbh_class</td>
+<td align="left">FRTC 2025 Table 11</td>
+</tr>
+</tbody>
+</table>
+<p>These density rules are from <strong>FRTC (2025), Table 11</strong>
+and are part of the FRTC biomass pathway.</p>
+</div>
 </div>
 <div class="section level3">
-<h3 id="forest-regulations-2079-branch-volume">Forest Regulations 2079 branch volume<a class="anchor" aria-label="anchor" href="#forest-regulations-2079-branch-volume"></a>
+<h3 id="sharma-pukkala-1990-biomass">1.2 Sharma &amp; Pukkala 1990 biomass<a class="anchor" aria-label="anchor" href="#sharma-pukkala-1990-biomass"></a>
 </h3>
-<p>For the Sharma–Pukkala + Forest Regulations pathway, branch volume is
-derived from the applicable branch ratio
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">R(D)</annotation></semantics></math>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>b</mi></msub><mo>=</mo><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>V</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">
-V_b = R(D)V_s
+<p>The Sharma &amp; Pukkala pathway first calculates stem volume
+using:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>D</mi><mo>+</mo><mi>c</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
+V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
+</annotation></semantics></math></p>
+<p>The original equation produces volume in
+dm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>;
+<em>nepalallometry</em> therefore <strong>divides by 1000 to return
+m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math></strong>.</p>
+<p>Stem biomass is then:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>s</mi></msub><mo>=</mo><msub><mi>V</mi><mi>s</mi></msub><mi>ρ</mi></mrow><annotation encoding="application/x-tex">
+B_s=V_s\rho
 </annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>b</mi></msub><annotation encoding="application/x-tex">V_b</annotation></semantics></math>
-is branch volume and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>s</mi></msub><annotation encoding="application/x-tex">V_s</annotation></semantics></math>
-is stem volume. The applicable ratio depends on the branch group and DBH
-class defined by the Forest Regulations 2079. Therefore,
-<code>branch_group</code> is required for this calculation.</p>
-<p>Total tree volume is then:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>t</mi></msub><mo>=</mo><msub><mi>V</mi><mi>s</mi></msub><mo>+</mo><msub><mi>V</mi><mi>b</mi></msub></mrow><annotation encoding="application/x-tex">
-V_t = V_s + V_b
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+is the air-dry wood density in kg
+m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>
+reported by Sharma &amp; Pukkala (1990).</p>
+<p>Branch and foliage biomass are calculated independently from
+DBH-dependent ratios:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>b</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+B_b=B_sR_b(D)
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>f</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mi>f</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+B_f=B_sR_f(D)
+</annotation></semantics></math></p>
+<p>and total aboveground biomass is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>t</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><mo>+</mo><msub><mi>B</mi><mi>b</mi></msub><mo>+</mo><msub><mi>B</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">
+B_t=B_s+B_b+B_f
+</annotation></semantics></math></p>
+<p>For either branch or foliage, the ratio is interpolated as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>s</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
+R(D)=s, \quad D&lt;10
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>s</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
+R(D)=\frac{(D-10)m+(40-D)s}{30}, \quad 10\le D\le40
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="false" form="postfix">)</mo><mi>l</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>m</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+R(D)=\frac{(D-40)l+(70-D)m}{30}, \quad 40&lt;D\le70
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>l</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+R(D)=l, \quad D&gt;70
 </annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>t</mi></msub><annotation encoding="application/x-tex">V_t</annotation></semantics></math>
-is total tree volume.</p>
-<p>The resulting total-tree volume includes branches and therefore is
-not directly equivalent to the FRTC stem-volume definitions.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
+are the published small-, medium-, and large-tree ratios.</p>
+<div class="section level4">
+<h4 id="species-coefficients-densities-and-component-ratios">Species, coefficients, densities and component ratios<a class="anchor" aria-label="anchor" href="#species-coefficients-densities-and-component-ratios"></a>
+</h4>
+<table class="table">
+<colgroup>
+<col width="17%">
+<col width="7%">
+<col width="4%">
+<col width="3%">
+<col width="3%">
+<col width="13%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="2%">
+<col width="7%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Species/group</th>
+<th align="left">Nepali name</th>
+<th align="right">a</th>
+<th align="right">b</th>
+<th align="right">c</th>
+<th align="right">Air-dry density (kg/m3)</th>
+<th align="right">Branch s</th>
+<th align="right">Branch m</th>
+<th align="right">Branch l</th>
+<th align="right">Foliage s</th>
+<th align="right">Foliage m</th>
+<th align="right">Foliage l</th>
+<th align="right">n</th>
+<th align="right">DBH min (cm)</th>
+<th align="right">DBH max (cm)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Abies spp.</td>
+<td align="left">thingre_salla</td>
+<td align="right">-2.4453</td>
+<td align="right">1.7220</td>
+<td align="right">1.0757</td>
+<td align="right">480</td>
+<td align="right">0.44</td>
+<td align="right">0.37</td>
+<td align="right">0.36</td>
+<td align="right">0.25</td>
+<td align="right">0.14</td>
+<td align="right">0.11</td>
+<td align="right">148</td>
+<td align="right">13.0</td>
+<td align="right">77.2</td>
+</tr>
+<tr class="even">
+<td align="left">Acacia catechu</td>
+<td align="left">khair</td>
+<td align="right">-2.3256</td>
+<td align="right">1.6476</td>
+<td align="right">1.0552</td>
+<td align="right">960</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">270</td>
+<td align="right">13.2</td>
+<td align="right">53.3</td>
+</tr>
+<tr class="odd">
+<td align="left">Adina cordifolia</td>
+<td align="left">haldu_karma</td>
+<td align="right">-2.5626</td>
+<td align="right">1.8598</td>
+<td align="right">0.8783</td>
+<td align="right">670</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">229</td>
+<td align="right">13.2</td>
+<td align="right">121.4</td>
+</tr>
+<tr class="even">
+<td align="left">Albizia spp.</td>
+<td align="left">siris</td>
+<td align="right">-2.4284</td>
+<td align="right">1.7609</td>
+<td align="right">0.9662</td>
+<td align="right">673</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">112</td>
+<td align="right">15.5</td>
+<td align="right">119.4</td>
+</tr>
+<tr class="odd">
+<td align="left">Alnus nepalensis</td>
+<td align="left">uttis</td>
+<td align="right">-2.7761</td>
+<td align="right">1.9006</td>
+<td align="right">0.9428</td>
+<td align="right">390</td>
+<td align="right">0.80</td>
+<td align="right">1.23</td>
+<td align="right">1.51</td>
+<td align="right">0.17</td>
+<td align="right">0.09</td>
+<td align="right">0.06</td>
+<td align="right">163</td>
+<td align="right">12.7</td>
+<td align="right">83.6</td>
+</tr>
+<tr class="even">
+<td align="left">Anogeissus latifolia</td>
+<td align="left">dhauti</td>
+<td align="right">-2.2720</td>
+<td align="right">1.7499</td>
+<td align="right">0.9174</td>
+<td align="right">880</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">123</td>
+<td align="right">14.5</td>
+<td align="right">82.6</td>
+</tr>
+<tr class="odd">
+<td align="left">Bombax ceiba</td>
+<td align="left">simal</td>
+<td align="right">-2.3865</td>
+<td align="right">1.7414</td>
+<td align="right">1.0063</td>
+<td align="right">368</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">221</td>
+<td align="right">14.5</td>
+<td align="right">137.4</td>
+</tr>
+<tr class="even">
+<td align="left">Cedrela toona</td>
+<td align="left">tuni</td>
+<td align="right">-2.1832</td>
+<td align="right">1.8679</td>
+<td align="right">0.7569</td>
+<td align="right">480</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">139</td>
+<td align="right">13.0</td>
+<td align="right">91.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Dalbergia sissoo</td>
+<td align="left">sisau</td>
+<td align="right">-2.1959</td>
+<td align="right">1.6567</td>
+<td align="right">0.9899</td>
+<td align="right">780</td>
+<td align="right">0.68</td>
+<td align="right">0.68</td>
+<td align="right">0.68</td>
+<td align="right">0.01</td>
+<td align="right">0.01</td>
+<td align="right">0.01</td>
+<td align="right">266</td>
+<td align="right">14.0</td>
+<td align="right">78.0</td>
+</tr>
+<tr class="even">
+<td align="left">Eugenia jambolana</td>
+<td align="left">jamun</td>
+<td align="right">-2.5693</td>
+<td align="right">1.8816</td>
+<td align="right">0.8498</td>
+<td align="right">770</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">142</td>
+<td align="right">14.5</td>
+<td align="right">108.7</td>
+</tr>
+<tr class="odd">
+<td align="left">Hymenodictyon excelsum</td>
+<td align="left">kuda</td>
+<td align="right">-2.5850</td>
+<td align="right">1.9437</td>
+<td align="right">0.7902</td>
+<td align="right">513</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">125</td>
+<td align="right">13.5</td>
+<td align="right">95.5</td>
+</tr>
+<tr class="even">
+<td align="left">Lagerstroemia parviflora</td>
+<td align="left">botdhayero</td>
+<td align="right">-2.3411</td>
+<td align="right">1.7246</td>
+<td align="right">0.9702</td>
+<td align="right">850</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">192</td>
+<td align="right">13.2</td>
+<td align="right">80.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Michelia champaca</td>
+<td align="left">champ</td>
+<td align="right">-2.0152</td>
+<td align="right">1.8555</td>
+<td align="right">0.7630</td>
+<td align="right">497</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">113</td>
+<td align="right">16.3</td>
+<td align="right">136.4</td>
+</tr>
+<tr class="even">
+<td align="left">Pinus roxburghii</td>
+<td align="left">khote_salla</td>
+<td align="right">-2.9770</td>
+<td align="right">1.9235</td>
+<td align="right">1.0019</td>
+<td align="right">650</td>
+<td align="right">0.19</td>
+<td align="right">0.26</td>
+<td align="right">0.30</td>
+<td align="right">0.10</td>
+<td align="right">0.05</td>
+<td align="right">0.03</td>
+<td align="right">612</td>
+<td align="right">12.7</td>
+<td align="right">100.3</td>
+</tr>
+<tr class="odd">
+<td align="left">Pinus wallichiana</td>
+<td align="left">gobre_salla</td>
+<td align="right">-2.8195</td>
+<td align="right">1.7250</td>
+<td align="right">1.1623</td>
+<td align="right">400</td>
+<td align="right">0.68</td>
+<td align="right">0.49</td>
+<td align="right">0.41</td>
+<td align="right">0.40</td>
+<td align="right">0.24</td>
+<td align="right">0.18</td>
+<td align="right">340</td>
+<td align="right">13.0</td>
+<td align="right">92.7</td>
+</tr>
+<tr class="even">
+<td align="left">Quercus spp.</td>
+<td align="left">khasru</td>
+<td align="right">-2.3600</td>
+<td align="right">1.9680</td>
+<td align="right">0.7469</td>
+<td align="right">860</td>
+<td align="right">0.75</td>
+<td align="right">0.96</td>
+<td align="right">1.06</td>
+<td align="right">0.23</td>
+<td align="right">0.22</td>
+<td align="right">0.20</td>
+<td align="right">152</td>
+<td align="right">13.0</td>
+<td align="right">113.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Schima wallichii</td>
+<td align="left">chilaune</td>
+<td align="right">-2.7385</td>
+<td align="right">1.8155</td>
+<td align="right">1.0072</td>
+<td align="right">689</td>
+<td align="right">0.52</td>
+<td align="right">0.19</td>
+<td align="right">0.17</td>
+<td align="right">0.06</td>
+<td align="right">0.04</td>
+<td align="right">0.03</td>
+<td align="right">47</td>
+<td align="right">18.3</td>
+<td align="right">77.5</td>
+</tr>
+<tr class="even">
+<td align="left">Shorea robusta</td>
+<td align="left">sal</td>
+<td align="right">-2.4554</td>
+<td align="right">1.9026</td>
+<td align="right">0.8352</td>
+<td align="right">880</td>
+<td align="right">0.06</td>
+<td align="right">0.34</td>
+<td align="right">0.36</td>
+<td align="right">0.06</td>
+<td align="right">0.07</td>
+<td align="right">0.07</td>
+<td align="right">895</td>
+<td align="right">12.7</td>
+<td align="right">144.5</td>
+</tr>
+<tr class="odd">
+<td align="left">Terminalia alata</td>
+<td align="left">asna</td>
+<td align="right">-2.4616</td>
+<td align="right">1.8497</td>
+<td align="right">0.8800</td>
+<td align="right">950</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">492</td>
+<td align="right">12.7</td>
+<td align="right">131.1</td>
+</tr>
+<tr class="even">
+<td align="left">Trewia nudiflora</td>
+<td align="left">gutel</td>
+<td align="right">-2.4585</td>
+<td align="right">1.8043</td>
+<td align="right">0.9220</td>
+<td align="right">352</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">98</td>
+<td align="right">15.7</td>
+<td align="right">70.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Tsuga spp.</td>
+<td align="left">hemlock</td>
+<td align="right">-2.5293</td>
+<td align="right">1.7815</td>
+<td align="right">1.0369</td>
+<td align="right">450</td>
+<td align="right">0.44</td>
+<td align="right">0.37</td>
+<td align="right">0.36</td>
+<td align="right">0.25</td>
+<td align="right">0.14</td>
+<td align="right">0.11</td>
+<td align="right">94</td>
+<td align="right">13.7</td>
+<td align="right">117.9</td>
+</tr>
+<tr class="even">
+<td align="left">Miscellaneous species in Terai</td>
+<td align="left">NA</td>
+<td align="right">-2.3993</td>
+<td align="right">1.7836</td>
+<td align="right">0.9546</td>
+<td align="right">674</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">109</td>
+<td align="right">14.5</td>
+<td align="right">114.8</td>
+</tr>
+<tr class="odd">
+<td align="left">Miscellaneous species in Hills</td>
+<td align="left">NA</td>
+<td align="right">-2.3204</td>
+<td align="right">1.8507</td>
+<td align="right">0.8223</td>
+<td align="right">674</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.40</td>
+<td align="right">0.07</td>
+<td align="right">0.05</td>
+<td align="right">0.04</td>
+<td align="right">138</td>
+<td align="right">14.7</td>
+<td align="right">94.0</td>
+</tr>
+</tbody>
+</table>
+<p>The table includes the <strong>Miscellaneous species in
+Terai</strong> and <strong>Miscellaneous species in Hills</strong>
+models. When a tree is not represented by a named Sharma &amp; Pukkala
+model and a miscellaneous equation is appropriate, the user must
+explicitly identify the applicable Terai or Hills group; the package
+does not infer this geographic classification.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="chave-et-al--2014">1.3 Chave et al. 2014<a class="anchor" aria-label="anchor" href="#chave-et-al--2014"></a>
+</h3>
+<p>The height-inclusive pantropical equation implemented by the package
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi><mo>=</mo><mn>0.0673</mn><mo stretchy="false" form="prefix">(</mo><mi>ρ</mi><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>0.976</mn></msup></mrow><annotation encoding="application/x-tex">
+AGB=0.0673(\rho D^2H)^{0.976}
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">AGB</annotation></semantics></math>
+is oven-dry aboveground biomass (kg
+tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+is DBH (cm),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
+is total height (m), and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+is basic wood density (g
+cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
+defined as oven-dry mass divided by fresh volume.</p>
+<div class="section level4">
+<h4 id="where-does-the-chave-wood-density-come-from">Where does the Chave wood density come from?<a class="anchor" aria-label="anchor" href="#where-does-the-chave-wood-density-come-from"></a>
+</h4>
+<p>Because wood density enters the Chave equation directly,
+<em>nepalallometry</em> records both the density value and its
+provenance. The implemented lookup hierarchy is:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>User-supplied density.</strong> If a non-missing
+<code>wood_density</code> is supplied, that value overrides the
+automatic lookup for that tree.</li>
+<li>
+<strong>FRTC 2025 density.</strong> For the five FRTC species for
+which FRTC provides a recommended density for biomass estimation
+(<em>Alnus nepalensis</em>, <em>Lagerstroemia parviflora</em>,
+<em>Shorea robusta</em>, <em>Schima wallichii</em>, and <em>Terminalia
+alata</em>), the package uses the FRTC (2025) recommended basic density.
+For <em>Shorea robusta</em> and <em>Terminalia alata</em>, this is
+DBH-class specific; for the other three it is the FRTC species
+average.</li>
+<li>
+<strong>Global Wood Density Database v2.2 (GWDD v2.2).</strong> If
+an FRTC density is not available, the package searches its bundled GWDD
+v2.2 tables. Matching proceeds from an accepted exact infraspecific
+taxon, where applicable, to binomial and then genus level. The package
+uses the GWDD model-derived trunk-density field
+<code>wsg_est_trunk</code>.</li>
+<li>
+<strong>No defensible match.</strong> If no density is available
+after these steps, Chave biomass is returned as <code>NA</code>; the
+package does not invent a density.</li>
+</ol>
+<p>Thus, <strong>Chave does not automatically use one universal density
+source for every species</strong>. The output records
+<code>wood_density_g_cm3</code>, <code>density_source</code>,
+<code>density_match_level</code>, <code>density_taxon_matched</code>,
+and <code>density_value_field</code> so the value used for each tree can
+be audited.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/chave_biomass.html">chave_biomass</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="st">"sal"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chave_biomass.html">chave_biomass</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="st">"Dalbergia sissoo"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The FRTC density rules shown above are therefore also the densities
+used first by the Chave pathway for those five FRTC species. Other taxa
+can use GWDD v2.2 according to the hierarchy above.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="carbon-conversion">1.4 Carbon conversion<a class="anchor" aria-label="anchor" href="#carbon-conversion"></a>
+</h3>
+<p>Carbon is derived from biomass rather than estimated by a separate
+allometric equation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>A</mi><mi>G</mi><mi>B</mi><mo>×</mo><mi>C</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">
+C=AGB\times CF
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">CF</annotation></semantics></math>
+is the carbon fraction. The default in <em>nepalallometry</em> is 0.47,
+following IPCC (2006).</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="plot-and-forest-summaries">Plot and forest summaries<a class="anchor" aria-label="anchor" href="#plot-and-forest-summaries"></a>
+<h2 id="tree-volume">2. Tree volume<a class="anchor" aria-label="anchor" href="#tree-volume"></a>
+</h2>
+<div class="section level3">
+<h3 id="frtc-2025-stem-volume">2.1 FRTC 2025 stem volume<a class="anchor" aria-label="anchor" href="#frtc-2025-stem-volume"></a>
+</h3>
+<p>FRTC selected equations use one of three forms:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mi>D</mi><mi>b</mi></msup><msup><mi>H</mi><mi>c</mi></msup></mrow><annotation encoding="application/x-tex">
+V=aD^bH^c
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
+V=a(D^2H)^b
+</annotation></semantics></math></p>
+<p>or</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+V=a+b(D^2H)
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+is
+m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>
+tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+is DBH (cm), and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
+is total height (m).</p>
+<p>FRTC reports three <strong>different volume definitions</strong>:
+total stem volume over bark (<code>total_ob</code>), under-bark stem
+volume to a 20-cm over-bark top diameter (<code>ub_20cm</code>), and
+under-bark stem volume to a 10-cm over-bark top diameter
+(<code>ub_10cm</code>). All exclude the 0.30-m stump and branches. These
+outputs should not be summed or averaged.</p>
+<div class="section level4">
+<h4 id="species-specific-frtc-volume-coefficients">Species-specific FRTC volume coefficients<a class="anchor" aria-label="anchor" href="#species-specific-frtc-volume-coefficients"></a>
+</h4>
+<p>The following coefficients reproduce the FRTC (2025) selected
+equations implemented in the package.</p>
+<table class="table">
+<colgroup>
+<col width="28%">
+<col width="26%">
+<col width="13%">
+<col width="11%">
+<col width="10%">
+<col width="10%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Species</th>
+<th align="left">Volume definition</th>
+<th align="left">Form</th>
+<th align="right">a</th>
+<th align="right">b</th>
+<th align="right">c</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Alnus nepalensis</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*D<sup>b*H</sup>c</td>
+<td align="right">0.000048</td>
+<td align="right">1.769901</td>
+<td align="right">1.165658</td>
+</tr>
+<tr class="even">
+<td align="left">Castanopsis spp.</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000064</td>
+<td align="right">0.936534</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Lagerstroemia parviflora</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000064</td>
+<td align="right">0.936459</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Pinus roxburghii</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000058</td>
+<td align="right">0.957300</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Shorea robusta</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000059</td>
+<td align="right">0.948535</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Schima wallichii</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*D<sup>b*H</sup>c</td>
+<td align="right">0.000047</td>
+<td align="right">1.677002</td>
+<td align="right">1.254950</td>
+</tr>
+<tr class="odd">
+<td align="left">Terminalia alata</td>
+<td align="left">Total over-bark stem</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000070</td>
+<td align="right">0.928364</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Alnus nepalensis</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000023</td>
+<td align="right">1.016204</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Castanopsis spp.</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000009</td>
+<td align="right">1.089575</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Lagerstroemia parviflora</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a+b<em>(D^2</em>H)</td>
+<td align="right">-0.147542</td>
+<td align="right">0.000031</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Pinus roxburghii</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000007</td>
+<td align="right">1.121720</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Shorea robusta</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000007</td>
+<td align="right">1.113125</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Schima wallichii</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a*D<sup>b*H</sup>c</td>
+<td align="right">0.000003</td>
+<td align="right">1.994043</td>
+<td align="right">1.644049</td>
+</tr>
+<tr class="even">
+<td align="left">Terminalia alata</td>
+<td align="left">Under-bark to 20-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000010</td>
+<td align="right">1.074116</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Alnus nepalensis</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*D<sup>b*H</sup>c</td>
+<td align="right">0.000018</td>
+<td align="right">1.785698</td>
+<td align="right">1.403011</td>
+</tr>
+<tr class="even">
+<td align="left">Castanopsis spp.</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000031</td>
+<td align="right">0.987658</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Lagerstroemia parviflora</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000014</td>
+<td align="right">1.068129</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Pinus roxburghii</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000014</td>
+<td align="right">1.064049</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Shorea robusta</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*D<sup>b*H</sup>c</td>
+<td align="right">0.000011</td>
+<td align="right">1.960877</td>
+<td align="right">1.308190</td>
+</tr>
+<tr class="even">
+<td align="left">Schima wallichii</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*D<sup>b*H</sup>c</td>
+<td align="right">0.000010</td>
+<td align="right">1.765752</td>
+<td align="right">1.523197</td>
+</tr>
+<tr class="odd">
+<td align="left">Terminalia alata</td>
+<td align="left">Under-bark to 10-cm top</td>
+<td align="left">a*(D<sup>2*H)</sup>b</td>
+<td align="right">0.000021</td>
+<td align="right">1.013348</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level3">
+<h3 id="sharma-pukkala-stem-volume">2.2 Sharma &amp; Pukkala stem volume<a class="anchor" aria-label="anchor" href="#sharma-pukkala-stem-volume"></a>
+</h3>
+<p>The stem-volume equation is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>s</mi><mo>,</mo><mi>d</mi><msup><mi>m</mi><mn>3</mn></msup></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>D</mi><mo>+</mo><mi>c</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+V_{s,dm^3}=\exp(a+b\ln D+c\ln H)
+</annotation></semantics></math></p>
+<p>followed by the explicit unit conversion:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>s</mi><mo>,</mo><msup><mi>m</mi><mn>3</mn></msup></mrow></msub><mo>=</mo><mfrac><msub><mi>V</mi><mrow><mi>s</mi><mo>,</mo><mi>d</mi><msup><mi>m</mi><mn>3</mn></msup></mrow></msub><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
+V_{s,m^3}=\frac{V_{s,dm^3}}{1000}
+</annotation></semantics></math></p>
+<p>or equivalently:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>D</mi><mo>+</mo><mi>c</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
+V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
+</annotation></semantics></math></p>
+<p>This <code>/1000</code> conversion is part of the implemented
+calculation and is required because the original Sharma &amp; Pukkala
+equation reports stem volume in
+dm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>.</p>
+<p>The species-specific
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+coefficients are the same Sharma &amp; Pukkala coefficients listed in
+the biomass table above.</p>
+</div>
+<div class="section level3">
+<h3 id="forest-regulations-2079-branch-volume">2.3 Forest Regulations 2079 branch volume<a class="anchor" aria-label="anchor" href="#forest-regulations-2079-branch-volume"></a>
+</h3>
+<p>Branch volume is calculated from the Sharma &amp; Pukkala stem volume
+using the branch ratio prescribed in Schedule 9 of Nepal’s Forest
+Regulations 2079:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>b</mi></msub><mo>=</mo><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>V</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">
+V_b=R(D)V_s
+</annotation></semantics></math></p>
+<p>The DBH-dependent ratio is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>s</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
+R(D)=s, \quad D&lt;10
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>s</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
+R(D)=\frac{(D-10)m+(40-D)s}{30}, \quad 10\le D\le40
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="false" form="postfix">)</mo><mi>b</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>m</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+R(D)=\frac{(D-40)b+(70-D)m}{30}, \quad 40&lt;D\le70
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>b</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+R(D)=b, \quad D&gt;70
+</annotation></semantics></math></p>
+<p>and total tree volume is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>t</mi></msub><mo>=</mo><msub><mi>V</mi><mi>s</mi></msub><mo>+</mo><msub><mi>V</mi><mi>b</mi></msub></mrow><annotation encoding="application/x-tex">
+V_t=V_s+V_b
+</annotation></semantics></math></p>
+<div class="section level4">
+<h4 id="forest-regulations-branch-groups-and-parameters">Forest Regulations branch groups and parameters<a class="anchor" aria-label="anchor" href="#forest-regulations-branch-groups-and-parameters"></a>
+</h4>
+<table class="table">
+<colgroup>
+<col width="23%">
+<col width="30%">
+<col width="23%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Branch group</th>
+<th align="left">Species/group</th>
+<th align="left">Nepali name</th>
+<th align="right">s</th>
+<th align="right">m</th>
+<th align="right">b</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">abies_spp</td>
+<td align="left">Abies spp.</td>
+<td align="left">Thingre salla</td>
+<td align="right">0.436</td>
+<td align="right">0.372</td>
+<td align="right">0.355</td>
+</tr>
+<tr class="even">
+<td align="left">alnus_nepalensis</td>
+<td align="left">Alnus nepalensis</td>
+<td align="left">Uttis</td>
+<td align="right">0.803</td>
+<td align="right">1.226</td>
+<td align="right">1.510</td>
+</tr>
+<tr class="odd">
+<td align="left">dalbergia_sissoo</td>
+<td align="left">Dalbergia sissoo</td>
+<td align="left">Sissoo</td>
+<td align="right">0.684</td>
+<td align="right">0.684</td>
+<td align="right">0.684</td>
+</tr>
+<tr class="even">
+<td align="left">pinus_roxburghii</td>
+<td align="left">Pinus roxburghii</td>
+<td align="left">Khote salla</td>
+<td align="right">0.189</td>
+<td align="right">0.256</td>
+<td align="right">0.300</td>
+</tr>
+<tr class="odd">
+<td align="left">pinus_wallichiana</td>
+<td align="left">Pinus wallichiana</td>
+<td align="left">Gobre salla</td>
+<td align="right">0.683</td>
+<td align="right">0.488</td>
+<td align="right">0.410</td>
+</tr>
+<tr class="even">
+<td align="left">quercus_spp</td>
+<td align="left">Quercus spp.</td>
+<td align="left">Khasru</td>
+<td align="right">0.747</td>
+<td align="right">0.960</td>
+<td align="right">1.060</td>
+</tr>
+<tr class="odd">
+<td align="left">schima_wallichii</td>
+<td align="left">Schima wallichii</td>
+<td align="left">Chilaune</td>
+<td align="right">0.520</td>
+<td align="right">0.186</td>
+<td align="right">0.168</td>
+</tr>
+<tr class="even">
+<td align="left">shorea_robusta</td>
+<td align="left">Shorea robusta</td>
+<td align="left">Sal</td>
+<td align="right">0.055</td>
+<td align="right">0.341</td>
+<td align="right">0.357</td>
+</tr>
+<tr class="odd">
+<td align="left">other_conifer</td>
+<td align="left">Other conifer species</td>
+<td align="left">Other conifers</td>
+<td align="right">0.436</td>
+<td align="right">0.372</td>
+<td align="right">0.355</td>
+</tr>
+<tr class="even">
+<td align="left">other_broadleaf</td>
+<td align="left">Other broadleaf species</td>
+<td align="left">Other broadleaves</td>
+<td align="right">0.443</td>
+<td align="right">0.511</td>
+<td align="right">0.710</td>
+</tr>
+</tbody>
+</table>
+<p>The applicable <code>branch_group</code> must therefore be supplied
+for the Sharma–Pukkala + Forest Regulations volume workflow. The package
+should not infer an unspecified regulatory group from an unsupported
+species name.</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="plot-and-forest-summaries">3. Plot and forest summaries<a class="anchor" aria-label="anchor" href="#plot-and-forest-summaries"></a>
 </h2>
 <p>For a plot of area
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
 hectares, a tree-level quantity
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>
-is expanded to a per-hectare plot estimate as:</p>
+is expanded as:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>p</mi><mi>l</mi><mi>o</mi><mi>t</mi></mrow></msub><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>Y</mi><mi>i</mi></msub></mrow><mi>A</mi></mfrac></mrow><annotation encoding="application/x-tex">
-Y_{plot} = \frac{\sum_i Y_i}{A}
+Y_{plot}=\frac{\sum_iY_i}{A}
 </annotation></semantics></math></p>
-<p>Forest-level summaries are calculated across plots where the required
-plot information is available.</p>
 <p>For
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-plots, the standard error of the mean is:</p>
+plots, the standard error is:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>E</mi><mo>=</mo><mfrac><mrow><mi>S</mi><mi>D</mi></mrow><msqrt><mi>n</mi></msqrt></mfrac></mrow><annotation encoding="application/x-tex">
-SE = \frac{SD}{\sqrt{n}}
+SE=\frac{SD}{\sqrt{n}}
 </annotation></semantics></math></p>
-<p>and a two-sided 95% confidence interval is based on the Student’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
-distribution:</p>
+<p>and the two-sided 95% confidence interval for the mean is:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>Y</mi><mo accent="true">‾</mo></mover><mo>±</mo><msub><mi>t</mi><mrow><mn>0.975</mn><mo>,</mo><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>S</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">
-\bar{Y} \pm t_{0.975,n-1}SE
+\bar{Y}\pm t_{0.975,n-1}SE
 </annotation></semantics></math></p>
-<p>These confidence intervals describe uncertainty in the estimated mean
-across sampled plots. They are not individual-tree prediction intervals
-and do not quantify allometric model uncertainty.</p>
+<p>These intervals describe sampling uncertainty in the mean across
+plots. They are not individual-tree prediction intervals and do not
+propagate allometric-model uncertainty.</p>
 </div>
 <div class="section level2">
-<h2 id="method-boundaries-and-interpretation">Method boundaries and interpretation<a class="anchor" aria-label="anchor" href="#method-boundaries-and-interpretation"></a>
+<h2 id="method-boundaries-and-interpretation">4. Method boundaries and interpretation<a class="anchor" aria-label="anchor" href="#method-boundaries-and-interpretation"></a>
 </h2>
-<p>Different methods should not automatically be treated as
-interchangeable estimates of exactly the same biological quantity. In
-particular:</p>
+<p>The methods are not automatically interchangeable estimates of
+exactly the same biological quantity:</p>
 <ul>
 <li>FRTC biomass excludes the 0–0.30 m stump;</li>
-<li>biomass boundaries can differ among national and pantropical
-approaches;</li>
-<li>FRTC volume outputs represent separate stem-volume definitions;</li>
-<li>FRTC volume excludes branches;</li>
-<li>the Sharma–Pukkala + Forest Regulations total-volume pathway
-includes branch volume; and</li>
-<li>carbon is calculated from biomass rather than estimated
-independently.</li>
+<li>Chave biomass follows the aboveground-biomass definition of Chave et
+al. (2014);</li>
+<li>Sharma &amp; Pukkala biomass uses the published air-dry density and
+component-ratio pathway;</li>
+<li>FRTC volume represents stem volume and excludes branches and the
+0.30-m stump;</li>
+<li>FRTC’s three volume outputs are distinct definitions;</li>
+<li>Sharma–Pukkala + Forest Regulations total volume includes branch
+volume; and</li>
+<li>carbon is calculated from biomass rather than independently
+estimated.</li>
 </ul>
-<p>Differences among methods can be useful for evaluating sensitivity to
-methodological choice, but the spread among methods is <strong>not a
+<p>Differences among supported methods can be used to examine
+sensitivity to methodological choice, but their spread is <strong>not a
 formal estimate of uncertainty or accuracy</strong>.</p>
 </div>
 <div class="section level2">
-<h2 id="inspecting-equations-in-r">Inspecting equations in R<a class="anchor" aria-label="anchor" href="#inspecting-equations-in-r"></a>
+<h2 id="inspecting-methods-in-r">5. Inspecting methods in R<a class="anchor" aria-label="anchor" href="#inspecting-methods-in-r"></a>
 </h2>
-<p>The package provides functions for inspecting the implemented models
-and sources. For example:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/frtc_models.html">frtc_models</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/frtc_equation.html">frtc_equation</a></span><span class="op">(</span><span class="st">"sal"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/frtc_density.html">frtc_density</a></span><span class="op">(</span><span class="st">"sal"</span>, dbh <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/frtc_density.html">frtc_density</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/sharma_pukkala_species.html">sharma_pukkala_species</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/forest_regulation_branch_parameters.html">forest_regulation_branch_parameters</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chave_biomass.html">chave_biomass</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">20</span>, <span class="st">"sal"</span>, keep_inputs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/allometry_references.html">allometry_references</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>These functions should be used when exact species-specific
-coefficients, density rules, or source information are required.</p>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 id="references">6. References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Run:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>The main methodological sources are FRTC (2025), Sharma &amp; Pukkala
+(1990), Chave et al. (2014), Nepal’s Forest Regulations 2079, IPCC
+(2006), and the Global Wood Density Database v2.2. Run:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/allometry_references.html">allometry_references</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>for the package’s reference registry covering the FRTC, Sharma &amp;
-Pukkala, Chave, Forest Regulations, wood-density, and carbon-conversion
-sources used by the implemented workflows.</p>
+<p>for the package’s complete reference registry and source details.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
