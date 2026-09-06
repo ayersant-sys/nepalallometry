@@ -126,12 +126,17 @@ ui <- navbarPage(
                      p(class = "help-note",
                        "Minimum tree-level columns: tree_id, species, dbh_cm, height_m. Add plot_id and plot_area_ha together for inventory summaries. branch_group is optional where applicable."),
                      tags$hr(),
-                     h4("Current method"),
-                     checkboxInput("vol_sp", "Sharma & Pukkala + Forest Regulations 2079", value = TRUE),
+                     h4("Methods"),
+                     checkboxGroupInput(
+                       "vol_methods", NULL,
+                       choices = c("FRTC 2025" = "frtc",
+                                   "Sharma & Pukkala + Forest Regulations 2079" = "sharma_pukkala"),
+                       selected = c("frtc", "sharma_pukkala")
+                     ),
                      div(class = "action-row",
                          actionButton("run_volume", "Calculate tree volume", class = "btn-primary", width = "100%")),
                      div(class = "workflow-note",
-                         "The current high-level volume() workflow supports Sharma–Pukkala stem volume with Forest Regulations Schedule 9 branch-volume ratios."))),
+                         "FRTC outputs retain total over-bark stem volume and under-bark stem volumes to 10-cm and 20-cm top diameters as separate volume definitions. Sharma–Pukkala stem volume and Forest Regulations branch/total volume are also retained separately."))),
           column(8,
                  div(class = "panel-card",
                      h3("2. Input preview"),
@@ -155,7 +160,7 @@ ui <- navbarPage(
                        downloadButton("download_volume", "Download complete Excel results", class = "btn-primary")
                      )))
         ),
-        div(class = "footer-note", "Tree-only and inventory-level volume workflows are both supported")
+        div(class = "footer-note", "Different volume definitions are preserved rather than combined • tree-only and inventory workflows supported")
     )
   ),
 
@@ -323,12 +328,12 @@ server <- function(input, output, session) {
       vol_error("Upload a file before running the calculation.")
       return()
     }
-    if (!isTRUE(input$vol_sp)) {
-      vol_error("Select the currently supported volume method.")
+    if (!length(input$vol_methods)) {
+      vol_error("Select at least one volume method.")
       return()
     }
     res <- tryCatch(
-      nepalallometry::volume(dat, output = NULL, methods = "sharma_pukkala"),
+      nepalallometry::volume(dat, output = NULL, methods = input$vol_methods),
       error = function(e) e
     )
     if (inherits(res, "error")) {
@@ -342,13 +347,14 @@ server <- function(input, output, session) {
   output$vol_run_status <- renderUI({
     if (!is.null(vol_error())) return(div(class = "error-box", vol_error()))
     if (is.null(vol_result())) return(div(class = "help-note", "Run the calculation to generate volume results."))
-    div(class = "success-box", "Volume calculation completed.")
+    div(class = "success-box", "Volume calculation completed. Volume definitions remain separated in the result tables.")
   })
 
   output$vol_status_cards <- renderUI({
     res <- vol_result(); req(res)
     tr <- res$tree_results
     level <- attr(res, "analysis_level")
+    methods_run <- if ("method" %in% names(tr)) length(unique(tr$method)) else length(input$vol_methods)
     if (identical(level, "inventory") && !is.null(res$forest_summary)) {
       coverage <- mean(res$forest_summary$tree_coverage_pct, na.rm = TRUE)
       forests <- length(unique(res$forest_summary$forest_id))
@@ -358,6 +364,7 @@ server <- function(input, output, session) {
     }
     div(class = "status-grid",
         status_box("Trees", format(nrow(tr), big.mark = ",")),
+        status_box("Methods run", methods_run),
         status_box("Workflow", if (identical(level, "inventory")) "Inventory" else "Tree only"),
         status_box("Forests", forests),
         status_box("Mean tree coverage", if (is.finite(coverage)) paste0(fmt_num(coverage, 1), "%") else "—"))
@@ -393,7 +400,7 @@ server <- function(input, output, session) {
     filename = function() paste0("nepalallometry_volume_results_", Sys.Date(), ".xlsx"),
     content = function(file) {
       req(vol_data())
-      nepalallometry::volume(vol_data(), output = file, methods = "sharma_pukkala")
+      nepalallometry::volume(vol_data(), output = file, methods = input$vol_methods)
     }
   )
 }
