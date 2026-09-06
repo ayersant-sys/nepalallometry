@@ -3,10 +3,11 @@
 #' Applies supported tree-volume methods to either individual trees or a forest
 #' inventory. When plot information is supplied, tree-, plot-, species-,
 #' DBH-class-, and forest-level summaries are produced. When plot information is
-#' absent, only individual-tree results and the method audit are produced. The
-#' current implementation supports the Sharma-Pukkala stem-volume equations
-#' combined with branch-volume ratios from Schedule 9 of Nepal's Forest
-#' Regulations 2079.
+#' absent, only individual-tree results and the method audit are produced.
+#'
+#' The current implementation supports FRTC (2025) stem-volume equations and
+#' Sharma-Pukkala (1990) stem-volume equations combined, where applicable, with
+#' branch-volume ratios from Schedule 9 of Nepal's Forest Regulations 2079.
 #'
 #' @param input A data frame or path to an existing `.csv` or `.xlsx` file.
 #' @param output Optional `.xlsx` path for exporting results. When `input` is a
@@ -14,25 +15,25 @@
 #'   `<input>_volume_results.xlsx` is created automatically beside the input file.
 #'   Data-frame inputs are not written automatically.
 #' @param sheet Worksheet to read when `input` is an `.xlsx` file. Defaults to 1.
-#' @param methods Volume method(s). Currently only `"sharma_pukkala"` is
-#'   supported.
+#' @param methods Any of `"frtc"` and `"sharma_pukkala"`.
 #' @param dbh_breaks Breaks used for DBH-class summaries when plot information
 #'   is supplied.
 #'
 #' @details
 #' The minimum columns for individual-tree estimation are `tree_id`, `species`,
-#' `dbh_cm`, and `height_m`. `branch_group` is optional and is required only for
-#' supported species that must use a generic Forest Regulation branch category.
+#' `dbh_cm`, and `height_m`. `branch_group` is optional and is used only by the
+#' Sharma-Pukkala + Forest Regulation pathway for supported species that require
+#' a generic regulatory branch category.
+#'
+#' FRTC outputs preserve the three published stem-volume definitions separately:
+#' total over-bark stem volume, under-bark stem volume to a 20-cm over-bark top
+#' diameter, and under-bark stem volume to a 10-cm over-bark top diameter. These
+#' definitions are not averaged or treated as interchangeable.
 #'
 #' For inventory-level summaries, both `plot_id` and `plot_area_ha` must also be
 #' supplied. If either one is supplied without the other, the function stops
 #' with an informative error. Optional inventory columns are `forest_id` and
 #' `forest_area_ha`.
-#'
-#' For species with a species-specific branch-volume row in the Forest
-#' Regulations, `branch_group` may be left blank. For other supported
-#' Sharma-Pukkala species, users must explicitly enter `other_broadleaf` or
-#' `other_conifer` where appropriate. The package does not infer this category.
 #'
 #' @return An object of class `nepal_volume_result`. Tree-only inputs contain
 #' `tree_results` and `method_audit`; inventory inputs additionally contain
@@ -47,9 +48,9 @@
 #'   height_m = c(25, 22),
 #'   branch_group = c(NA, "other_broadleaf")
 #' )
-#' volume(trees)
+#' volume(trees, methods = c("frtc", "sharma_pukkala"))
 volume <- function(input, output = NULL, sheet = 1,
-                   methods = "sharma_pukkala",
+                   methods = c("frtc", "sharma_pukkala"),
                    dbh_breaks = c(0, 10, 20, 30, 40, 50, Inf)) {
   methods <- .volume_methods(methods)
   read <- .read_volume_input(input, sheet = sheet)
@@ -114,6 +115,8 @@ volume <- function(input, output = NULL, sheet = 1,
 
 .volume_methods <- function(methods) {
   aliases <- c(
+    frtc = "frtc",
+    frtc_2025 = "frtc",
     sharma_pukkala = "sharma_pukkala",
     sharma = "sharma_pukkala",
     sharma_pukkala_forest_regulation = "sharma_pukkala"
@@ -121,14 +124,17 @@ volume <- function(input, output = NULL, sheet = 1,
   methods <- tolower(gsub("[ &-]+", "_", methods))
   out <- unname(aliases[methods])
   if (!length(out) || anyNA(out)) stop(
-    "`methods` currently supports only 'sharma_pukkala'.",
+    "`methods` must contain only 'frtc' or 'sharma_pukkala'.",
     call. = FALSE
   )
   unique(out)
 }
 
 .volume_method_label <- function(method) {
-  unname(c(sharma_pukkala = "Sharma & Pukkala + Forest Regulation")[method])
+  unname(c(
+    frtc = "FRTC",
+    sharma_pukkala = "Sharma & Pukkala + Forest Regulation"
+  )[method])
 }
 
 .read_volume_input <- function(input, sheet = 1) {
@@ -237,17 +243,7 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .calculate_volume_method <- function(inventory, method) {
-  if (method != "sharma_pukkala") stop("Unsupported volume method.", call. = FALSE)
-
-  raw <- sharma_pukkala_volume(
-    dbh = inventory$dbh_cm,
-    height = inventory$height_m,
-    species = inventory$species,
-    branch_group = inventory$branch_group,
-    keep_inputs = TRUE
-  )
-
-  data.frame(
+  common <- data.frame(
     forest_id = inventory$forest_id,
     plot_id = inventory$plot_id,
     plot_key = inventory$.plot_key,
@@ -258,19 +254,96 @@ volume <- function(input, output = NULL, sheet = 1,
     basal_area_m2 = inventory$basal_area_m2,
     method_id = method,
     method = .volume_method_label(method),
-    stem_volume_m3 = raw$stem_volume_m3,
-    branch_volume_m3 = raw$branch_volume_m3,
-    total_tree_volume_m3 = raw$total_tree_volume_m3,
-    branch_group_used = raw$branch_group,
-    estimation_status = raw$estimation_status,
-    calibration_status = raw$calibration_status,
     stringsAsFactors = FALSE
   )
+
+  if (method == "frtc") {
+    raw <- frtc_volume(
+      dbh = inventory$dbh_cm,
+      height = inventory$height_m,
+      species = inventory$species,
+      keep_inputs = TRUE
+    )
+    return(cbind(common, data.frame(
+      stem_volume_m3 = raw$frtc_total_volume_m3,
+      branch_volume_m3 = NA_real_,
+      total_tree_volume_m3 = raw$frtc_total_volume_m3,
+      frtc_total_ob_m3 = raw$frtc_total_volume_m3,
+      frtc_ub_20cm_m3 = raw$frtc_volume_ub_20cm_m3,
+      frtc_ub_10cm_m3 = raw$frtc_volume_ub_10cm_m3,
+      branch_group_used = NA_character_,
+      estimation_status = raw$estimation_status,
+      top20_status = raw$top20_status,
+      top10_status = raw$top10_status,
+      calibration_status = raw$calibration_status,
+      stringsAsFactors = FALSE
+    )))
+  }
+
+  if (method == "sharma_pukkala") {
+    raw <- sharma_pukkala_volume(
+      dbh = inventory$dbh_cm,
+      height = inventory$height_m,
+      species = inventory$species,
+      branch_group = inventory$branch_group,
+      keep_inputs = TRUE
+    )
+    return(cbind(common, data.frame(
+      stem_volume_m3 = raw$stem_volume_m3,
+      branch_volume_m3 = raw$branch_volume_m3,
+      total_tree_volume_m3 = raw$total_tree_volume_m3,
+      frtc_total_ob_m3 = NA_real_,
+      frtc_ub_20cm_m3 = NA_real_,
+      frtc_ub_10cm_m3 = NA_real_,
+      branch_group_used = raw$branch_group,
+      estimation_status = raw$estimation_status,
+      top20_status = NA_character_,
+      top10_status = NA_character_,
+      calibration_status = raw$calibration_status,
+      stringsAsFactors = FALSE
+    )))
+  }
+
+  stop("Unsupported volume method.", call. = FALSE)
+}
+
+.volume_long_method <- function(x) {
+  common <- c(
+    "forest_id", "plot_id", "plot_key", "plot_area_ha", "tree_id",
+    "species", "dbh_cm", "basal_area_m2", "method_id", "method",
+    "calibration_status"
+  )
+
+  if (identical(x$method_id[1], "frtc")) {
+    make <- function(type, label, value, status) {
+      z <- x[common]
+      z$volume_type <- type
+      z$volume_definition <- label
+      z$volume_m3 <- value
+      z$estimation_status <- status
+      z
+    }
+    return(rbind(
+      make("total_ob", "Total over-bark stem volume", x$frtc_total_ob_m3,
+           x$estimation_status),
+      make("ub_20cm", "Under-bark stem volume to 20-cm over-bark top diameter",
+           x$frtc_ub_20cm_m3, x$top20_status),
+      make("ub_10cm", "Under-bark stem volume to 10-cm over-bark top diameter",
+           x$frtc_ub_10cm_m3, x$top10_status)
+    ))
+  }
+
+  z <- x[common]
+  z$volume_type <- "total_tree"
+  z$volume_definition <- "Total tree volume (stem + regulatory branch volume)"
+  z$volume_m3 <- x$total_tree_volume_m3
+  z$estimation_status <- x$estimation_status
+  z
 }
 
 .volume_estimated <- function(z) {
-  z$estimation_status %in% c("estimated", "estimated_no_branches") &
-    is.finite(z$total_tree_volume_m3)
+  is.finite(z$volume_m3) &
+    z$estimation_status %in% c("estimated", "estimated_no_branches")
 }
 
 .volume_coverage_status <- function(n, estimated) {
@@ -279,19 +352,25 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_plot_method_summary <- function(x) {
-  groups <- split(x, x$plot_key, drop = TRUE)
+  groups <- split(
+    x,
+    interaction(x$plot_key, x$method_id, x$volume_type, drop = TRUE)
+  )
   do.call(rbind, lapply(groups, function(z) {
     ok <- .volume_estimated(z)
     n_est <- sum(ok)
     total_ba <- sum(z$basal_area_m2, na.rm = TRUE)
-    total_volume <- if (n_est) sum(z$total_tree_volume_m3[ok]) else NA_real_
-    extrap <- ok & grepl("below|above|outside", z$calibration_status)
+    total_volume <- if (n_est) sum(z$volume_m3[ok]) else NA_real_
+    extrap <- ok & grepl("below|above|outside|multiple_dimensions",
+                         z$calibration_status)
     data.frame(
       forest_id = z$forest_id[1],
       plot_id = z$plot_id[1],
       plot_area_ha = z$plot_area_ha[1],
       method_id = z$method_id[1],
       method = z$method[1],
+      volume_type = z$volume_type[1],
+      volume_definition = z$volume_definition[1],
       total_trees = nrow(z),
       estimated_trees = n_est,
       unestimated_trees = nrow(z) - n_est,
@@ -307,18 +386,25 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_plot_summary_table <- function(method_tables) {
-  out <- do.call(rbind, lapply(method_tables, .volume_plot_method_summary))
-  out <- out[order(out$forest_id, out$plot_id, out$method), ]
+  long <- do.call(rbind, lapply(method_tables, .volume_long_method))
+  out <- .volume_plot_method_summary(long)
+  out <- out[order(out$forest_id, out$plot_id, out$method, out$volume_type), ]
   out$method_id <- NULL
   rownames(out) <- NULL
   out
 }
 
 .volume_forest_summary_table <- function(plot_long, inventory) {
-  groups <- split(plot_long, interaction(plot_long$forest_id, plot_long$method, drop = TRUE))
+  groups <- split(
+    plot_long,
+    interaction(plot_long$forest_id, plot_long$method,
+                plot_long$volume_type, drop = TRUE)
+  )
   out <- lapply(groups, function(z) {
     forest <- z$forest_id[1]
-    area <- unique(stats::na.omit(inventory$forest_area_ha[inventory$forest_id == forest]))
+    area <- unique(stats::na.omit(
+      inventory$forest_area_ha[inventory$forest_id == forest]
+    ))
     area <- if (length(area)) area[1] else NA_real_
     equal_plots <- length(unique(z$plot_area_ha)) == 1L
     s <- .mean_stats(z$volume_m3_ha)
@@ -333,27 +419,32 @@ volume <- function(input, output = NULL, sheet = 1,
       forest_id = forest,
       forest_area_ha = area,
       method = z$method[1],
+      volume_type = z$volume_type[1],
+      volume_definition = z$volume_definition[1],
       total_plots = nrow(z),
       plots_with_estimates = sum(is.finite(z$volume_m3_ha)),
       total_trees = sum(z$total_trees),
       estimated_trees = sum(z$estimated_trees),
       tree_coverage_pct = 100 * sum(z$estimated_trees) / sum(z$total_trees),
       basal_area_coverage_pct = if (any(is.finite(z$basal_area_coverage_pct)))
-        stats::weighted.mean(z$basal_area_coverage_pct, z$total_trees, na.rm = TRUE)
-      else NA_real_,
+        stats::weighted.mean(z$basal_area_coverage_pct, z$total_trees,
+                             na.rm = TRUE) else NA_real_,
       mean_volume_m3_ha = s["mean"],
       sd_volume_m3_ha = s["sd"],
       se_volume_m3_ha = s["se"],
       ci95_lower_volume_m3_ha = s["lower"],
       ci95_upper_volume_m3_ha = s["upper"],
       total_forest_volume_m3 = s["mean"] * area,
-      plot_area_design = if (equal_plots) "equal_plot_area" else "unequal_plot_area_weighted_mean",
-      uncertainty_status = if (!equal_plots) "unequal_plot_area_uncertainty_not_estimated"
+      plot_area_design = if (equal_plots) "equal_plot_area" else
+        "unequal_plot_area_weighted_mean",
+      uncertainty_status = if (!equal_plots)
+        "unequal_plot_area_uncertainty_not_estimated"
       else if (sum(is.finite(z$volume_m3_ha)) < 3) "insufficient_plots"
       else "estimated_from_plots",
-      summary_status = if (all(z$coverage_status == "no_tree_estimates")) "no_tree_estimates"
-      else if (any(z$coverage_status != "complete_tree_coverage")) "partial_tree_coverage"
-      else "complete_tree_coverage",
+      summary_status = if (all(z$coverage_status == "no_tree_estimates"))
+        "no_tree_estimates"
+      else if (any(z$coverage_status != "complete_tree_coverage"))
+        "partial_tree_coverage" else "complete_tree_coverage",
       stringsAsFactors = FALSE
     )
   })
@@ -363,52 +454,73 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_category_summary <- function(method_tables, inventory, category, label) {
+  long <- do.call(rbind, lapply(method_tables, .volume_long_method))
   result <- list()
   k <- 1L
+
   for (forest in unique(inventory$forest_id)) {
     cats <- unique(as.character(inventory[[category]][inventory$forest_id == forest]))
     plot_keys <- unique(inventory$.plot_key[inventory$forest_id == forest])
-    for (cat in cats) for (id in names(method_tables)) {
-      x <- method_tables[[id]]
+    plot_areas <- vapply(plot_keys, function(key) {
+      unique(inventory$plot_area_ha[inventory$.plot_key == key])[1]
+    }, numeric(1))
+    equal_plots <- length(unique(plot_areas)) == 1L
+
+    for (cat in cats) {
       ids <- inventory$tree_id[
-        inventory$forest_id == forest & as.character(inventory[[category]]) == cat
+        inventory$forest_id == forest &
+          as.character(inventory[[category]]) == cat
       ]
-      z <- x[x$tree_id %in% ids, ]
-      ok <- .volume_estimated(z)
-      plot_areas <- vapply(plot_keys, function(key) {
-        unique(inventory$plot_area_ha[inventory$.plot_key == key])[1]
-      }, numeric(1))
-      pv <- vapply(plot_keys, function(key) {
-        q <- z$plot_key == key & ok
-        area <- unique(inventory$plot_area_ha[inventory$.plot_key == key])[1]
-        sum(z$total_tree_volume_m3[q], na.rm = TRUE) / area
-      }, numeric(1))
-      s <- .mean_stats(pv)
-      equal_plots <- length(unique(plot_areas)) == 1L
-      if (!equal_plots) {
-        s["mean"] <- stats::weighted.mean(pv, plot_areas)
-        s[c("sd", "se", "lower", "upper")] <- NA_real_
+      subset_long <- long[long$tree_id %in% ids, , drop = FALSE]
+      combos <- unique(subset_long[c(
+        "method_id", "method", "volume_type", "volume_definition"
+      )])
+
+      for (j in seq_len(nrow(combos))) {
+        cmb <- combos[j, ]
+        z <- subset_long[
+          subset_long$method_id == cmb$method_id &
+            subset_long$volume_type == cmb$volume_type,
+          , drop = FALSE
+        ]
+        ok <- .volume_estimated(z)
+        pv <- vapply(plot_keys, function(key) {
+          q <- z$plot_key == key & ok
+          area <- unique(inventory$plot_area_ha[inventory$.plot_key == key])[1]
+          sum(z$volume_m3[q], na.rm = TRUE) / area
+        }, numeric(1))
+        s <- .mean_stats(pv)
+        if (!equal_plots) {
+          s["mean"] <- stats::weighted.mean(pv, plot_areas)
+          s[c("sd", "se", "lower", "upper")] <- NA_real_
+        }
+
+        result[[k]] <- data.frame(
+          forest_id = forest,
+          category_value = cat,
+          method = cmb$method,
+          volume_type = cmb$volume_type,
+          volume_definition = cmb$volume_definition,
+          total_trees = nrow(z),
+          estimated_trees = sum(ok),
+          tree_coverage_pct = if (nrow(z)) 100 * sum(ok) / nrow(z) else NA_real_,
+          mean_tree_volume_m3 = if (any(ok)) mean(z$volume_m3[ok]) else NA_real_,
+          mean_plot_volume_m3_ha = s["mean"],
+          se_plot_volume_m3_ha = s["se"],
+          ci95_lower_plot_volume_m3_ha = s["lower"],
+          ci95_upper_plot_volume_m3_ha = s["upper"],
+          uncertainty_status = if (!equal_plots)
+            "unequal_plot_area_uncertainty_not_estimated"
+          else if (length(pv) < 3) "insufficient_plots"
+          else "estimated_from_plots",
+          stringsAsFactors = FALSE
+        )
+        names(result[[k]])[2] <- label
+        k <- k + 1L
       }
-      result[[k]] <- data.frame(
-        forest_id = forest,
-        category_value = cat,
-        method = .volume_method_label(id),
-        total_trees = nrow(z),
-        estimated_trees = sum(ok),
-        tree_coverage_pct = if (nrow(z)) 100 * sum(ok) / nrow(z) else NA_real_,
-        mean_tree_volume_m3 = if (any(ok)) mean(z$total_tree_volume_m3[ok]) else NA_real_,
-        mean_plot_volume_m3_ha = s["mean"],
-        se_plot_volume_m3_ha = s["se"],
-        ci95_lower_plot_volume_m3_ha = s["lower"],
-        ci95_upper_plot_volume_m3_ha = s["upper"],
-        uncertainty_status = if (!equal_plots) "unequal_plot_area_uncertainty_not_estimated"
-        else if (length(pv) < 3) "insufficient_plots" else "estimated_from_plots",
-        stringsAsFactors = FALSE
-      )
-      names(result[[k]])[2] <- label
-      k <- k + 1L
     }
   }
+
   ans <- do.call(rbind, result)
   rownames(ans) <- NULL
   ans
@@ -423,11 +535,21 @@ volume <- function(input, output = NULL, sheet = 1,
     )
   }
   out <- inventory[setdiff(names(inventory), internal)]
+
   for (id in methods) {
-    cols <- method_tables[[id]][c(
-      "stem_volume_m3", "branch_volume_m3", "total_tree_volume_m3",
-      "branch_group_used", "estimation_status", "calibration_status"
-    )]
+    x <- method_tables[[id]]
+    if (id == "frtc") {
+      cols <- x[c(
+        "frtc_total_ob_m3", "frtc_ub_20cm_m3", "frtc_ub_10cm_m3",
+        "estimation_status", "top20_status", "top10_status",
+        "calibration_status"
+      )]
+    } else {
+      cols <- x[c(
+        "stem_volume_m3", "branch_volume_m3", "total_tree_volume_m3",
+        "branch_group_used", "estimation_status", "calibration_status"
+      )]
+    }
     names(cols) <- paste0(id, "_", names(cols))
     out <- cbind(out, cols)
   }
@@ -435,84 +557,162 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_method_audit <- function(method_tables) {
-  x <- method_tables[["sharma_pukkala"]]
-  data.frame(
-    method = "Sharma & Pukkala + Forest Regulation",
-    stem_volume_source = "Sharma and Pukkala (1990)",
-    branch_volume_source = "Nepal Forest Regulations 2079, Schedule 9",
-    total_trees = nrow(x),
-    estimated_trees = sum(.volume_estimated(x)),
-    branch_group_required = sum(
-      x$estimation_status == "stem_only_branch_category_required", na.rm = TRUE
-    ),
-    unsupported_species = sum(
-      x$estimation_status == "unsupported_species", na.rm = TRUE
-    ),
-    stringsAsFactors = FALSE
-  )
+  rows <- list()
+  k <- 1L
+
+  if ("frtc" %in% names(method_tables)) {
+    x <- .volume_long_method(method_tables$frtc)
+    for (type in unique(x$volume_type)) {
+      z <- x[x$volume_type == type, , drop = FALSE]
+      rows[[k]] <- data.frame(
+        method = "FRTC",
+        volume_type = type,
+        volume_definition = z$volume_definition[1],
+        stem_volume_source = "Forest Research and Training Centre (2025)",
+        branch_volume_source = NA_character_,
+        total_trees = nrow(z),
+        estimated_trees = sum(.volume_estimated(z)),
+        branch_group_required = 0L,
+        unsupported_species = sum(z$estimation_status == "unsupported_species",
+                                  na.rm = TRUE),
+        stringsAsFactors = FALSE
+      )
+      k <- k + 1L
+    }
+  }
+
+  if ("sharma_pukkala" %in% names(method_tables)) {
+    x <- method_tables$sharma_pukkala
+    z <- .volume_long_method(x)
+    rows[[k]] <- data.frame(
+      method = "Sharma & Pukkala + Forest Regulation",
+      volume_type = "total_tree",
+      volume_definition = "Total tree volume (stem + regulatory branch volume)",
+      stem_volume_source = "Sharma and Pukkala (1990)",
+      branch_volume_source = "Nepal Forest Regulations 2079, Schedule 9",
+      total_trees = nrow(x),
+      estimated_trees = sum(.volume_estimated(z)),
+      branch_group_required = sum(
+        x$estimation_status == "stem_only_branch_category_required", na.rm = TRUE
+      ),
+      unsupported_species = sum(
+        x$estimation_status == "unsupported_species", na.rm = TRUE
+      ),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  ans <- do.call(rbind, rows)
+  rownames(ans) <- NULL
+  ans
 }
 
 .volume_read_me <- function(result) {
   level <- attr(result, "analysis_level")
+  methods <- attr(result, "methods")
+  method_text <- paste(.volume_method_label(methods), collapse = "; ")
+
   if (identical(level, "tree")) {
-    purpose <- "Individual-tree volume estimation for operational uses such as marked or harvesting trees. Plot information is not required."
+    purpose <- paste(
+      "Individual-tree volume estimation for operational uses such as marked",
+      "or harvesting trees. Plot information is not required."
+    )
     required <- "tree_id, species, dbh_cm, height_m"
     outputs <- "Tree_Results and Method_Audit"
-    scaling <- "No plot- or forest-level scaling is performed because plot_id and plot_area_ha were not supplied."
+    scaling <- paste(
+      "No plot- or forest-level scaling is performed because plot_id and",
+      "plot_area_ha were not supplied."
+    )
   } else {
-    purpose <- "Forest-inventory volume estimation with tree, plot, species, DBH-class, and forest summaries."
+    purpose <- paste(
+      "Forest-inventory volume estimation with tree, plot, species, DBH-class,",
+      "and forest summaries."
+    )
     required <- "tree_id, plot_id, plot_area_ha, species, dbh_cm, height_m"
-    outputs <- "Forest_Summary, Plot_Summary, Species_Summary, DBH_Summary, Tree_Results, and Method_Audit"
-    scaling <- "volume_m3_ha and mean_volume_m3_ha are m3/ha; total_forest_volume_m3 is m3 when forest_area_ha is supplied."
+    outputs <- paste(
+      "Forest_Summary, Plot_Summary, Species_Summary, DBH_Summary,",
+      "Tree_Results, and Method_Audit"
+    )
+    scaling <- paste(
+      "volume_m3_ha and mean_volume_m3_ha are m3/ha;",
+      "total_forest_volume_m3 is m3 when forest_area_ha is supplied."
+    )
   }
 
   data.frame(
     item = c(
-      "Purpose",
-      "Detected workflow",
-      "Current volume method",
-      "Stem volume",
-      "Branch volume",
-      "Total tree volume",
-      "Required columns",
-      "Optional columns",
-      "branch_group rule",
-      "Generic branch groups",
-      "Missing branch group",
-      "Tree-level units",
-      "Scaling",
-      "Output sheets",
-      "Coverage",
-      "Calibration status",
-      "Uncertainty",
+      "Purpose", "Detected workflow", "Selected volume methods",
+      "FRTC volume definitions", "Sharma-Pukkala stem volume",
+      "Forest Regulation branch volume", "Required columns",
+      "Optional columns", "branch_group rule", "Generic branch groups",
+      "Missing branch group", "Tree-level units", "Scaling",
+      "Output sheets", "Coverage", "Calibration status", "Uncertainty",
       "Method audit"
     ),
     guidance = c(
       purpose,
-      if (identical(level, "tree")) "Individual-tree workflow" else "Forest-inventory workflow",
-      "Sharma & Pukkala stem-volume equations combined with Nepal Forest Regulations 2079 Schedule 9 branch-volume ratios.",
-      "Calculated from the Sharma & Pukkala (1990) logarithmic stem-volume equation and reported in m3/tree.",
-      "Calculated as the Forest Regulation branch ratio multiplied by stem volume.",
-      "Calculated as stem volume plus branch volume. Foliage is not included as volume.",
+      if (identical(level, "tree")) "Individual-tree workflow" else
+        "Forest-inventory workflow",
+      method_text,
+      paste(
+        "FRTC outputs remain separate: total over-bark stem volume, under-bark",
+        "stem volume to a 20-cm over-bark top diameter, and under-bark stem",
+        "volume to a 10-cm over-bark top diameter. All exclude the 0.30-m stump",
+        "and exclude branches."
+      ),
+      paste(
+        "Calculated from the Sharma & Pukkala (1990) logarithmic stem-volume",
+        "equation and reported in m3/tree."
+      ),
+      paste(
+        "For the Sharma-Pukkala pathway, branch volume is calculated as the",
+        "Forest Regulation branch ratio multiplied by stem volume."
+      ),
       required,
-      if (identical(level, "tree")) "branch_group" else "forest_id, forest_area_ha, branch_group",
-      "Leave branch_group blank for species with direct Forest Regulation branch parameters. For other supported species, the user must assign the appropriate generic group.",
-      "Use only other_broadleaf or other_conifer when a generic Forest Regulation branch category is required.",
-      "If a required generic branch group is missing, stem volume is retained but branch and total tree volume are NA; the package does not guess the category.",
-      "stem_volume_m3, branch_volume_m3, and total_tree_volume_m3 are m3/tree.",
+      if (identical(level, "tree")) "branch_group" else
+        "forest_id, forest_area_ha, branch_group",
+      paste(
+        "branch_group is ignored by FRTC. For Sharma-Pukkala, leave it blank",
+        "for species with direct Forest Regulation branch parameters. For",
+        "other supported species, explicitly assign the appropriate generic group."
+      ),
+      paste(
+        "Use only other_broadleaf or other_conifer when a generic Forest",
+        "Regulation branch category is required."
+      ),
+      paste(
+        "If a required generic branch group is missing, Sharma-Pukkala stem",
+        "volume is retained but branch and total-tree volume are NA; the package",
+        "does not guess the category."
+      ),
+      "All reported tree-level volume outputs are m3/tree.",
       scaling,
       outputs,
-      if (identical(level, "tree")) "Not applicable to individual-tree workflow." else "Tree and basal-area coverage show how much of the inventory received complete total-tree volume estimates. Partial coverage should be interpreted explicitly.",
-      "DBH calibration status indicates whether a prediction is within or outside the observed Sharma-Pukkala model-development DBH range.",
-      if (identical(level, "tree")) "No sampling-based plot uncertainty is calculated for individual-tree inputs." else "SD, SE, and 95% CI in forest summaries describe variation among sampled plots where estimable; they do not represent allometric model uncertainty.",
-      "See Method_Audit for sources and counts of estimated, unsupported, or branch-group-required trees."
+      if (identical(level, "tree")) "Not applicable to individual-tree workflow." else
+        paste(
+          "Tree and basal-area coverage are reported separately for each volume",
+          "definition. Partial coverage should be interpreted explicitly."
+        ),
+      paste(
+        "Calibration status reports whether predictions fall within the",
+        "available model-development range for the selected method."
+      ),
+      if (identical(level, "tree"))
+        "No sampling-based plot uncertainty is calculated for individual-tree inputs." else
+        paste(
+          "SD, SE, and 95% CI in forest summaries describe variation among",
+          "sampled plots where estimable; they do not represent allometric",
+          "model uncertainty."
+        ),
+      "See Method_Audit for source, definition, coverage, and unsupported-tree counts."
     ),
     stringsAsFactors = FALSE
   )
 }
 
 .write_volume_workbook <- function(result, path) {
-  if (length(path) != 1L || is.na(path) || !grepl("\\.xlsx$", path, ignore.case = TRUE)) stop(
+  if (length(path) != 1L || is.na(path) ||
+      !grepl("\\.xlsx$", path, ignore.case = TRUE)) stop(
     "`output` must be one .xlsx file path.", call. = FALSE
   )
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
@@ -541,6 +741,7 @@ volume <- function(input, output = NULL, sheet = 1,
     halign = "center", valign = "center", wrapText = TRUE
   )
   wrap <- openxlsx::createStyle(valign = "top", wrapText = TRUE)
+
   for (sheet_name in names(tables)) {
     dat <- tables[[sheet_name]]
     openxlsx::addWorksheet(wb, sheet_name)
