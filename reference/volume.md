@@ -131,8 +131,8 @@ volume(trees)
 #> 1 As defined by the underlying Sharma-Pukkala stem-volume equations           2
 #> 2                                              30-cm stump excluded           2
 #>   estimated_trees branch_group_required unsupported_species
-#> 1               2                     0                   0
-#> 2               2                     0                   0
+#> 1               0                     0                   0
+#> 2               0                     0                   0
 #> 
 #> attr(,"class")
 #> [1] "nepal_volume_result"
@@ -177,7 +177,7 @@ volume(trees, methods = "frtc")
 #>                                  branch_volume_source       stump_boundary
 #> 1 Not applicable; FRTC volume equations are stem-only 30-cm stump excluded
 #>   total_trees estimated_trees branch_group_required unsupported_species
-#> 1           2               2                     0                   0
+#> 1           2               0                     0                   0
 #> 
 #> attr(,"class")
 #> [1] "nepal_volume_result"
