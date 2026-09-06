@@ -82,6 +82,10 @@ reference:
   - frtc_volume
   - sharma_pukkala_volume
   - forest_regulation_branch_parameters
+- title: Graphical user interface
+  desc: Launch the interactive interface for using nepalallometry without writing R code.
+  contents:
+  - run_gui
 - title: Models, species, and sources
   desc: Inspect supported taxa, equations, density rules, and references.
   contents:
