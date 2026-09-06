@@ -400,37 +400,50 @@ B_s=V_s\rho
 is the air-dry wood density in kg
 m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>
 reported by Sharma &amp; Pukkala (1990).</p>
-<p>Branch and foliage biomass are calculated independently from
-DBH-dependent ratios:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>b</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
-B_b=B_sR_b(D)
+<p>Branch and foliage biomass ratios are <strong>species-specific and
+DBH-dependent</strong>. Each species or species group has separate
+published small-, medium-, and large-tree ratios for branches and
+foliage. For species or species group
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>,
+<em>nepalallometry</em> first selects that group’s published parameters
+and then calculates the applicable branch and foliage ratios
+independently from DBH:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>b</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>b</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+B_b=B_sR_{b,j}(D)
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>f</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mi>f</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
-B_f=B_sR_f(D)
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>f</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>f</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+B_f=B_sR_{f,j}(D)
 </annotation></semantics></math></p>
 <p>and total aboveground biomass is:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>t</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><mo>+</mo><msub><mi>B</mi><mi>b</mi></msub><mo>+</mo><msub><mi>B</mi><mi>f</mi></msub></mrow><annotation encoding="application/x-tex">
 B_t=B_s+B_b+B_f
 </annotation></semantics></math></p>
-<p>For either branch or foliage, the ratio is interpolated as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>s</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
-R(D)=s, \quad D&lt;10
+<p>For each component (branch or foliage), the selected species-specific
+ratio is interpolated according to DBH as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>s</mi><mi>j</mi></msub><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
+R_j(D)=s_j, \quad D&lt;10
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>s</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
-R(D)=\frac{(D-10)m+(40-D)s}{30}, \quad 10\le D\le40
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><msub><mi>m</mi><mi>j</mi></msub><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>s</mi><mi>j</mi></msub></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
+R_j(D)=\frac{(D-10)m_j+(40-D)s_j}{30}, \quad 10\le D\le40
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="false" form="postfix">)</mo><mi>l</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>m</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
-R(D)=\frac{(D-40)l+(70-D)m}{30}, \quad 40&lt;D\le70
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="false" form="postfix">)</mo><msub><mi>l</mi><mi>j</mi></msub><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>m</mi><mi>j</mi></msub></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+R_j(D)=\frac{(D-40)l_j+(70-D)m_j}{30}, \quad 40&lt;D\le70
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>l</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
-R(D)=l, \quad D&gt;70
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>l</mi><mi>j</mi></msub><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+R_j(D)=l_j, \quad D&gt;70
 </annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mi>j</mi></msub><annotation encoding="application/x-tex">s_j</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>j</mi></msub><annotation encoding="application/x-tex">m_j</annotation></semantics></math>,
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
-are the published small-, medium-, and large-tree ratios.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>l</mi><mi>j</mi></msub><annotation encoding="application/x-tex">l_j</annotation></semantics></math>
+are the published small-, medium-, and large-tree ratios for species or
+species group
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>.
+<strong>Separate parameter sets are used for branches and
+foliage.</strong> Thus, the package does not apply one common branch or
+foliage ratio across species; it selects the species-specific parameters
+first and then applies the DBH interpolation.</p>
 <div class="section level4">
 <h4 id="species-coefficients-densities-and-component-ratios">Species, coefficients, densities and component ratios<a class="anchor" aria-label="anchor" href="#species-coefficients-densities-and-component-ratios"></a>
 </h4>
