@@ -13,13 +13,13 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(nepalallometry)
 ```
 
-This page documents the equations, coefficients, density rules, units, and calculation boundaries implemented in *nepalallometry*. The package operationalizes published methods; coefficients are not re-fitted by the package. Users should consult the original sources when a method is used for scientific or regulatory work.
+This page documents the equations, coefficients, density rules, units, calculation boundaries, and source information implemented in *nepalallometry*. The package operationalizes published methods; coefficients are not re-fitted by the package. Users should consult the original sources when a method is used for scientific or regulatory work.
 
 ## 1. Biomass and carbon
 
 ### 1.1 FRTC 2025 total aboveground biomass
 
-FRTC models use one of two forms:
+The FRTC pathway uses species-specific equations selected and reported by the Forest Research and Training Centre (FRTC, 2025). The implemented models use one of two forms:
 
 $$
 B=a(D^2H\rho)^b
@@ -35,20 +35,29 @@ where $B$ is biomass (kg tree$^{-1}$), $D$ is DBH (cm), $H$ is total height (m),
 
 The implemented response is total aboveground biomass **above 0.30 m**; the 0–0.30 m stump is excluded.
 
+**Source:** Forest Research and Training Centre (2025), *Allometric equations for seven major tree species of Nepal* (Vol. I).
+
 #### Species, equations and coefficients
 
-The table below is generated directly from the package model registry so that the website reflects the coefficients actually used by *nepalallometry*.
+The table below is generated directly from the package model registry so that the website reflects the coefficients actually used by *nepalallometry*. Equations are displayed in standard mathematical notation rather than the internal R-style representation.
 
 ```{r frtc-biomass-table, echo=FALSE}
 x <- frtc_models()
-x <- x[, c("scientific_name", "nepali_name", "equation", "a", "b", "c",
+x$equation_display <- ifelse(
+  x$model_form == "density_power",
+  "$B=a(D^2H\\rho)^b$",
+  "$B=aD^bH^c$"
+)
+x <- x[, c("scientific_name", "nepali_name", "equation_display", "a", "b", "c",
            "sample_size", "dbh_min_cm", "dbh_max_cm", "height_min_m",
            "height_max_m", "operational_density_basis")]
 names(x) <- c("Species", "Nepali name", "Equation", "a", "b", "c", "n",
               "DBH min (cm)", "DBH max (cm)", "Height min (m)",
               "Height max (m)", "Density basis")
-knitr::kable(x, digits = 6)
+knitr::kable(x, digits = 6, escape = FALSE)
 ```
+
+**Source:** FRTC (2025), selected total-biomass equations and coefficients; calibration ranges are from the FRTC model-development dataset as recorded in the package registry.
 
 #### FRTC wood-density rules
 
@@ -61,11 +70,11 @@ names(d) <- c("Species ID", "DBH class (cm)", "Density (g/cm3)",
 knitr::kable(d, digits = 4)
 ```
 
-These density rules are from **FRTC (2025), Table 11** and are part of the FRTC biomass pathway.
+**Source:** FRTC (2025), Table 11. These density rules are part of the FRTC biomass pathway implemented in *nepalallometry*.
 
 ### 1.2 Sharma & Pukkala 1990 biomass
 
-The Sharma & Pukkala pathway first calculates stem volume using:
+The Sharma & Pukkala pathway first calculates species-specific stem volume using the published volume equation:
 
 $$
 V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
@@ -117,6 +126,8 @@ $$
 
 where $s_j$, $m_j$, and $l_j$ are the published small-, medium-, and large-tree ratios for species or species group $j$. **Separate parameter sets are used for branches and foliage.** Thus, the package does not apply one common branch or foliage ratio across species; it selects the species-specific parameters first and then applies the DBH interpolation.
 
+**Source:** Sharma and Pukkala (1990), *Volume equations and biomass prediction of forest trees of Nepal* (Publication No. 47).
+
 #### Species, coefficients, densities and component ratios
 
 ```{r sp-biomass-table, echo=FALSE}
@@ -132,17 +143,21 @@ names(s) <- c("Species/group", "Nepali name", "a", "b", "c",
 knitr::kable(s, digits = 4)
 ```
 
+**Source:** Sharma and Pukkala (1990). The table reproduces the species/species-group coefficients, air-dry wood densities, branch ratios, foliage ratios, sample sizes, and observed DBH ranges implemented in *nepalallometry*.
+
 The table includes the **Miscellaneous species in Terai** and **Miscellaneous species in Hills** models. When a tree is not represented by a named Sharma & Pukkala model and a miscellaneous equation is appropriate, the user must explicitly identify the applicable Terai or Hills group; the package does not infer this geographic classification.
 
 ### 1.3 Chave et al. 2014
 
-The height-inclusive pantropical equation implemented by the package is:
+The height-inclusive pantropical aboveground-biomass equation implemented by the package is:
 
 $$
 AGB=0.0673(\rho D^2H)^{0.976}
 $$
 
 where $AGB$ is oven-dry aboveground biomass (kg tree$^{-1}$), $D$ is DBH (cm), $H$ is total height (m), and $\rho$ is basic wood density (g cm$^{-3}$), defined as oven-dry mass divided by fresh volume.
+
+**Equation source:** Chave et al. (2014), *Global Change Biology*, 20(10), 3177–3190.
 
 #### Where does the Chave wood density come from?
 
@@ -154,6 +169,8 @@ Because wood density enters the Chave equation directly, *nepalallometry* record
 4. **No defensible match.** If no density is available after these steps, Chave biomass is returned as `NA`; the package does not invent a density.
 
 Thus, **Chave does not automatically use one universal density source for every species**. The output records `wood_density_g_cm3`, `density_source`, `density_match_level`, `density_taxon_matched`, and `density_value_field` so the value used for each tree can be audited.
+
+**Density sources:** FRTC (2025), Table 11, for the five applicable FRTC species; Fischer et al. (2026a) for the scientific description of Global Wood Density Database v2; and Fischer et al. (2026b), Global Wood Density Database v2.2, for the bundled density data used by the package.
 
 For example:
 
@@ -172,7 +189,9 @@ $$
 C=AGB\times CF
 $$
 
-where $CF$ is the carbon fraction. The default in *nepalallometry* is 0.47, following IPCC (2006).
+where $CF$ is the carbon fraction. The default in *nepalallometry* is 0.47.
+
+**Source:** IPCC (2006), *2006 IPCC Guidelines for National Greenhouse Gas Inventories*, Volume 4: Agriculture, Forestry and Other Land Use.
 
 ## 2. Tree volume
 
@@ -198,9 +217,11 @@ where $V$ is m$^3$ tree$^{-1}$, $D$ is DBH (cm), and $H$ is total height (m).
 
 FRTC reports three **different volume definitions**: total stem volume over bark (`total_ob`), under-bark stem volume to a 20-cm over-bark top diameter (`ub_20cm`), and under-bark stem volume to a 10-cm over-bark top diameter (`ub_10cm`). All exclude the 0.30-m stump and branches. These outputs should not be summed or averaged.
 
+**Source:** FRTC (2025), Tables 6–8, as reproduced in the package volume registry.
+
 #### Species-specific FRTC volume coefficients
 
-The following coefficients reproduce the FRTC (2025) selected equations implemented in the package.
+The following coefficients reproduce the selected FRTC (2025) equations implemented in the package.
 
 ```{r frtc-volume-table, echo=FALSE}
 fv <- data.frame(
@@ -209,10 +230,10 @@ fv <- data.frame(
                   "Terminalia alata"), 3),
   `Volume definition` = rep(c("Total over-bark stem", "Under-bark to 20-cm top",
                               "Under-bark to 10-cm top"), each = 7),
-  Form = c(
-    "a*D^b*H^c", "a*(D^2*H)^b", "a*(D^2*H)^b", "a*(D^2*H)^b", "a*(D^2*H)^b", "a*D^b*H^c", "a*(D^2*H)^b",
-    "a*(D^2*H)^b", "a*(D^2*H)^b", "a+b*(D^2*H)", "a*(D^2*H)^b", "a*(D^2*H)^b", "a*D^b*H^c", "a*(D^2*H)^b",
-    "a*D^b*H^c", "a*(D^2*H)^b", "a*(D^2*H)^b", "a*(D^2*H)^b", "a*D^b*H^c", "a*D^b*H^c", "a*(D^2*H)^b"),
+  Equation = c(
+    "$V=aD^bH^c$", "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=aD^bH^c$", "$V=a(D^2H)^b$",
+    "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=a+b(D^2H)$", "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=aD^bH^c$", "$V=a(D^2H)^b$",
+    "$V=aD^bH^c$", "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=a(D^2H)^b$", "$V=aD^bH^c$", "$V=aD^bH^c$", "$V=a(D^2H)^b$"),
   a = c(0.000048,0.000064,0.000064,0.000058,0.000059,0.000047,0.000070,
         0.000023,0.000009,-0.147542,0.000007,0.000007,0.000003,0.000010,
         0.000018,0.000031,0.000014,0.000014,0.000011,0.000010,0.000021),
@@ -224,8 +245,10 @@ fv <- data.frame(
         1.403011,NA,NA,NA,1.308190,1.523197,NA),
   check.names = FALSE
 )
-knitr::kable(fv, digits = 6)
+knitr::kable(fv, digits = 6, escape = FALSE)
 ```
+
+**Source:** FRTC (2025), Tables 6–8. Coefficients are reproduced without re-fitting, adjustment, or harmonization.
 
 ### 2.2 Sharma & Pukkala stem volume
 
@@ -247,9 +270,11 @@ $$
 V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
 $$
 
-This `/1000` conversion is part of the implemented calculation and is required because the original Sharma & Pukkala equation reports stem volume in dm$^3$.
+This division by 1000 is part of the implemented calculation and is required because the original Sharma & Pukkala equation reports stem volume in dm$^3$.
 
 The species-specific $a$, $b$, and $c$ coefficients are the same Sharma & Pukkala coefficients listed in the biomass table above.
+
+**Source:** Sharma and Pukkala (1990), *Volume equations and biomass prediction of forest trees of Nepal* (Publication No. 47).
 
 ### 2.3 Forest Regulations 2079 branch volume
 
@@ -283,6 +308,8 @@ $$
 V_t=V_s+V_b
 $$
 
+**Source:** Government of Nepal (2022), *Forest Regulations, 2079*, Schedule 9.
+
 #### Forest Regulations branch groups and parameters
 
 ```{r branch-table, echo=FALSE}
@@ -291,7 +318,9 @@ names(br) <- c("Branch group", "Species/group", "Nepali name", "s", "m", "b")
 knitr::kable(br, digits = 3)
 ```
 
-The applicable `branch_group` must therefore be supplied for the Sharma–Pukkala + Forest Regulations volume workflow. The package should not infer an unspecified regulatory group from an unsupported species name.
+**Source:** Government of Nepal (2022), *Forest Regulations, 2079*, Schedule 9, branch-volume parameters implemented in *nepalallometry*.
+
+The applicable `branch_group` must therefore be supplied for the Sharma–Pukkala + Forest Regulations volume workflow. The package does not silently assign an unspecified regulatory branch group.
 
 ## 3. Plot and forest summaries
 
@@ -315,21 +344,25 @@ $$
 
 These intervals describe sampling uncertainty in the mean across plots. They are not individual-tree prediction intervals and do not propagate allometric-model uncertainty.
 
+**Source:** These aggregation and summary calculations are implemented by *nepalallometry* from the supplied plot areas and plot-level estimates; they are not additional allometric equations from FRTC, Sharma & Pukkala, or Chave.
+
 ## 4. Method boundaries and interpretation
 
 The methods are not automatically interchangeable estimates of exactly the same biological quantity:
 
-- FRTC biomass excludes the 0–0.30 m stump;
+- FRTC biomass excludes the 0–0.30 m stump (FRTC, 2025);
 - Chave biomass follows the aboveground-biomass definition of Chave et al. (2014);
-- Sharma & Pukkala biomass uses the published air-dry density and component-ratio pathway;
-- FRTC volume represents stem volume and excludes branches and the 0.30-m stump;
-- FRTC's three volume outputs are distinct definitions;
-- Sharma–Pukkala + Forest Regulations total volume includes branch volume; and
-- carbon is calculated from biomass rather than independently estimated.
+- Sharma & Pukkala biomass uses the published air-dry density and species-specific component-ratio pathway (Sharma & Pukkala, 1990);
+- FRTC volume represents stem volume and excludes branches and the 0.30-m stump (FRTC, 2025);
+- FRTC's three volume outputs are distinct volume definitions (FRTC, 2025);
+- Sharma–Pukkala + Forest Regulations total volume includes branch volume (Sharma & Pukkala, 1990; Government of Nepal, 2022); and
+- carbon is calculated from biomass using the default carbon fraction of 0.47 (IPCC, 2006).
 
 Differences among supported methods can be used to examine sensitivity to methodological choice, but their spread is **not a formal estimate of uncertainty or accuracy**.
 
 ## 5. Inspecting methods in R
+
+The following functions allow users to inspect the implemented coefficients, density rules, branch parameters, and source registry directly:
 
 ```{r inspect, eval=FALSE}
 frtc_models()
@@ -343,10 +376,11 @@ allometry_references()
 
 ## 6. References
 
-The main methodological sources are FRTC (2025), Sharma & Pukkala (1990), Chave et al. (2014), Nepal's Forest Regulations 2079, IPCC (2006), and the Global Wood Density Database v2.2. Run:
+The full references below are generated from the same package reference registry used by *nepalallometry* documentation and output workbooks.
 
-```{r references, eval=FALSE}
-allometry_references()
+```{r references, echo=FALSE}
+refs <- allometry_references()
+refs <- refs[refs$source_id != "nepalallometry", c("citation", "apa_reference")]
+names(refs) <- c("Short citation", "Full reference")
+knitr::kable(refs)
 ```
-
-for the package's complete reference registry and source details.
