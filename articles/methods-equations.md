@@ -1,16 +1,19 @@
 # Methods & Equations
 
 This page documents the equations, coefficients, density rules, units,
-and calculation boundaries implemented in *nepalallometry*. The package
-operationalizes published methods; coefficients are not re-fitted by the
-package. Users should consult the original sources when a method is used
-for scientific or regulatory work.
+calculation boundaries, and source information implemented in
+*nepalallometry*. The package operationalizes published methods;
+coefficients are not re-fitted by the package. Users should consult the
+original sources when a method is used for scientific or regulatory
+work.
 
 ## 1. Biomass and carbon
 
 ### 1.1 FRTC 2025 total aboveground biomass
 
-FRTC models use one of two forms:
+The FRTC pathway uses species-specific equations selected and reported
+by the Forest Research and Training Centre (FRTC, 2025). The implemented
+models use one of two forms:
 
 ``` math
 B=a(D^2H\rho)^b
@@ -29,21 +32,29 @@ $`a`$, $`b`$, and $`c`$ are published coefficients.
 The implemented response is total aboveground biomass **above 0.30 m**;
 the 0–0.30 m stump is excluded.
 
+**Source:** Forest Research and Training Centre (2025), *Allometric
+equations for seven major tree species of Nepal* (Vol. I).
+
 #### Species, equations and coefficients
 
 The table below is generated directly from the package model registry so
 that the website reflects the coefficients actually used by
-*nepalallometry*.
+*nepalallometry*. Equations are displayed in standard mathematical
+notation rather than the internal R-style representation.
 
 | Species | Nepali name | Equation | a | b | c | n | DBH min (cm) | DBH max (cm) | Height min (m) | Height max (m) | Density basis |
 |:---|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|:---|
-| Alnus nepalensis | utis | B = a \* (DBH^2 \* H \* rho)^b | 0.067139 | 0.956808 | NA | 52 | 7.4 | 83.4 | 4.50 | 36.6 | FRTC species average |
-| Castanopsis spp. | katus | B = a \* DBH^b \* H^c | 0.071253 | 2.318525 | 0.299393 | 52 | 5.4 | 76.4 | 4.55 | 29.4 | not required |
-| Lagerstroemia parviflora | botdhayero | B = a \* (DBH^2 \* H \* rho)^b | 0.060964 | 0.971369 | NA | 46 | 7.1 | 58.1 | 5.50 | 29.3 | FRTC species average |
-| Pinus roxburghii | khotesallo | B = a \* DBH^b \* H^c | 0.031693 | 2.329281 | 0.519366 | 96 | 6.7 | 91.2 | 2.50 | 36.4 | not required |
-| Shorea robusta | sal | B = a \* (DBH^2 \* H \* rho)^b | 0.054968 | 0.980885 | NA | 122 | 6.7 | 102.4 | 4.90 | 42.0 | FRTC DBH class |
-| Schima wallichii | chilaune | B = a \* (DBH^2 \* H \* rho)^b | 0.071359 | 0.951091 | NA | 47 | 5.5 | 67.5 | 5.00 | 32.8 | FRTC species average |
-| Terminalia alata | asna | B = a \* (DBH^2 \* H \* rho)^b | 0.080156 | 0.943341 | NA | 61 | 5.4 | 103.2 | 4.80 | 38.4 | FRTC DBH class |
+| Alnus nepalensis | utis | $`B=a(D^2H\rho)^b`$ | 0.067139 | 0.956808 | NA | 52 | 7.4 | 83.4 | 4.50 | 36.6 | FRTC species average |
+| Castanopsis spp. | katus | $`B=aD^bH^c`$ | 0.071253 | 2.318525 | 0.299393 | 52 | 5.4 | 76.4 | 4.55 | 29.4 | not required |
+| Lagerstroemia parviflora | botdhayero | $`B=a(D^2H\rho)^b`$ | 0.060964 | 0.971369 | NA | 46 | 7.1 | 58.1 | 5.50 | 29.3 | FRTC species average |
+| Pinus roxburghii | khotesallo | $`B=aD^bH^c`$ | 0.031693 | 2.329281 | 0.519366 | 96 | 6.7 | 91.2 | 2.50 | 36.4 | not required |
+| Shorea robusta | sal | $`B=a(D^2H\rho)^b`$ | 0.054968 | 0.980885 | NA | 122 | 6.7 | 102.4 | 4.90 | 42.0 | FRTC DBH class |
+| Schima wallichii | chilaune | $`B=a(D^2H\rho)^b`$ | 0.071359 | 0.951091 | NA | 47 | 5.5 | 67.5 | 5.00 | 32.8 | FRTC species average |
+| Terminalia alata | asna | $`B=a(D^2H\rho)^b`$ | 0.080156 | 0.943341 | NA | 61 | 5.4 | 103.2 | 4.80 | 38.4 | FRTC DBH class |
+
+**Source:** FRTC (2025), selected total-biomass equations and
+coefficients; calibration ranges are from the FRTC model-development
+dataset as recorded in the package registry.
 
 #### FRTC wood-density rules
 
@@ -70,12 +81,13 @@ densities.
 | terminalia_alata | \>30-50 | 0.6472 | dbh_class | FRTC 2025 Table 11 |
 | terminalia_alata | \>50 | 0.6819 | dbh_class | FRTC 2025 Table 11 |
 
-These density rules are from **FRTC (2025), Table 11** and are part of
-the FRTC biomass pathway.
+**Source:** FRTC (2025), Table 11. These density rules are part of the
+FRTC biomass pathway implemented in *nepalallometry*.
 
 ### 1.2 Sharma & Pukkala 1990 biomass
 
-The Sharma & Pukkala pathway first calculates stem volume using:
+The Sharma & Pukkala pathway first calculates species-specific stem
+volume using the published volume equation:
 
 ``` math
 V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
@@ -140,6 +152,9 @@ does not apply one common branch or foliage ratio across species; it
 selects the species-specific parameters first and then applies the DBH
 interpolation.
 
+**Source:** Sharma and Pukkala (1990), *Volume equations and biomass
+prediction of forest trees of Nepal* (Publication No. 47).
+
 #### Species, coefficients, densities and component ratios
 
 | Species/group | Nepali name | a | b | c | Air-dry density (kg/m3) | Branch s | Branch m | Branch l | Foliage s | Foliage m | Foliage l | n | DBH min (cm) | DBH max (cm) |
@@ -168,6 +183,11 @@ interpolation.
 | Miscellaneous species in Terai | NA | -2.3993 | 1.7836 | 0.9546 | 674 | 0.40 | 0.40 | 0.40 | 0.07 | 0.05 | 0.04 | 109 | 14.5 | 114.8 |
 | Miscellaneous species in Hills | NA | -2.3204 | 1.8507 | 0.8223 | 674 | 0.40 | 0.40 | 0.40 | 0.07 | 0.05 | 0.04 | 138 | 14.7 | 94.0 |
 
+**Source:** Sharma and Pukkala (1990). The table reproduces the
+species/species-group coefficients, air-dry wood densities, branch
+ratios, foliage ratios, sample sizes, and observed DBH ranges
+implemented in *nepalallometry*.
+
 The table includes the **Miscellaneous species in Terai** and
 **Miscellaneous species in Hills** models. When a tree is not
 represented by a named Sharma & Pukkala model and a miscellaneous
@@ -177,7 +197,8 @@ geographic classification.
 
 ### 1.3 Chave et al. 2014
 
-The height-inclusive pantropical equation implemented by the package is:
+The height-inclusive pantropical aboveground-biomass equation
+implemented by the package is:
 
 ``` math
 AGB=0.0673(\rho D^2H)^{0.976}
@@ -187,6 +208,9 @@ where $`AGB`$ is oven-dry aboveground biomass (kg tree$`^{-1}`$), $`D`$
 is DBH (cm), $`H`$ is total height (m), and $`\rho`$ is basic wood
 density (g cm$`^{-3}`$), defined as oven-dry mass divided by fresh
 volume.
+
+**Equation source:** Chave et al. (2014), *Global Change Biology*,
+20(10), 3177–3190.
 
 #### Where does the Chave wood density come from?
 
@@ -218,6 +242,11 @@ for every species**. The output records `wood_density_g_cm3`,
 `density_source`, `density_match_level`, `density_taxon_matched`, and
 `density_value_field` so the value used for each tree can be audited.
 
+**Density sources:** FRTC (2025), Table 11, for the five applicable FRTC
+species; Fischer et al. (2026a) for the scientific description of Global
+Wood Density Database v2; and Fischer et al. (2026b), Global Wood
+Density Database v2.2, for the bundled density data used by the package.
+
 For example:
 
 ``` r
@@ -240,7 +269,10 @@ C=AGB\times CF
 ```
 
 where $`CF`$ is the carbon fraction. The default in *nepalallometry* is
-0.47, following IPCC (2006).
+0.47.
+
+**Source:** IPCC (2006), *2006 IPCC Guidelines for National Greenhouse
+Gas Inventories*, Volume 4: Agriculture, Forestry and Other Land Use.
 
 ## 2. Tree volume
 
@@ -271,34 +303,40 @@ diameter (`ub_20cm`), and under-bark stem volume to a 10-cm over-bark
 top diameter (`ub_10cm`). All exclude the 0.30-m stump and branches.
 These outputs should not be summed or averaged.
 
+**Source:** FRTC (2025), Tables 6–8, as reproduced in the package volume
+registry.
+
 #### Species-specific FRTC volume coefficients
 
-The following coefficients reproduce the FRTC (2025) selected equations
+The following coefficients reproduce the selected FRTC (2025) equations
 implemented in the package.
 
-| Species | Volume definition | Form | a | b | c |
+| Species | Volume definition | Equation | a | b | c |
 |:---|:---|:---|---:|---:|---:|
-| Alnus nepalensis | Total over-bark stem | a\*D^(b\*H)c | 0.000048 | 1.769901 | 1.165658 |
-| Castanopsis spp. | Total over-bark stem | a\*(D^(2\*H))b | 0.000064 | 0.936534 | NA |
-| Lagerstroemia parviflora | Total over-bark stem | a\*(D^(2\*H))b | 0.000064 | 0.936459 | NA |
-| Pinus roxburghii | Total over-bark stem | a\*(D^(2\*H))b | 0.000058 | 0.957300 | NA |
-| Shorea robusta | Total over-bark stem | a\*(D^(2\*H))b | 0.000059 | 0.948535 | NA |
-| Schima wallichii | Total over-bark stem | a\*D^(b\*H)c | 0.000047 | 1.677002 | 1.254950 |
-| Terminalia alata | Total over-bark stem | a\*(D^(2\*H))b | 0.000070 | 0.928364 | NA |
-| Alnus nepalensis | Under-bark to 20-cm top | a\*(D^(2\*H))b | 0.000023 | 1.016204 | NA |
-| Castanopsis spp. | Under-bark to 20-cm top | a\*(D^(2\*H))b | 0.000009 | 1.089575 | NA |
-| Lagerstroemia parviflora | Under-bark to 20-cm top | a+b*(D^2*H) | -0.147542 | 0.000031 | NA |
-| Pinus roxburghii | Under-bark to 20-cm top | a\*(D^(2\*H))b | 0.000007 | 1.121720 | NA |
-| Shorea robusta | Under-bark to 20-cm top | a\*(D^(2\*H))b | 0.000007 | 1.113125 | NA |
-| Schima wallichii | Under-bark to 20-cm top | a\*D^(b\*H)c | 0.000003 | 1.994043 | 1.644049 |
-| Terminalia alata | Under-bark to 20-cm top | a\*(D^(2\*H))b | 0.000010 | 1.074116 | NA |
-| Alnus nepalensis | Under-bark to 10-cm top | a\*D^(b\*H)c | 0.000018 | 1.785698 | 1.403011 |
-| Castanopsis spp. | Under-bark to 10-cm top | a\*(D^(2\*H))b | 0.000031 | 0.987658 | NA |
-| Lagerstroemia parviflora | Under-bark to 10-cm top | a\*(D^(2\*H))b | 0.000014 | 1.068129 | NA |
-| Pinus roxburghii | Under-bark to 10-cm top | a\*(D^(2\*H))b | 0.000014 | 1.064049 | NA |
-| Shorea robusta | Under-bark to 10-cm top | a\*D^(b\*H)c | 0.000011 | 1.960877 | 1.308190 |
-| Schima wallichii | Under-bark to 10-cm top | a\*D^(b\*H)c | 0.000010 | 1.765752 | 1.523197 |
-| Terminalia alata | Under-bark to 10-cm top | a\*(D^(2\*H))b | 0.000021 | 1.013348 | NA |
+| Alnus nepalensis | Total over-bark stem | $`V=aD^bH^c`$ | 0.000048 | 1.769901 | 1.165658 |
+| Castanopsis spp. | Total over-bark stem | $`V=a(D^2H)^b`$ | 0.000064 | 0.936534 | NA |
+| Lagerstroemia parviflora | Total over-bark stem | $`V=a(D^2H)^b`$ | 0.000064 | 0.936459 | NA |
+| Pinus roxburghii | Total over-bark stem | $`V=a(D^2H)^b`$ | 0.000058 | 0.957300 | NA |
+| Shorea robusta | Total over-bark stem | $`V=a(D^2H)^b`$ | 0.000059 | 0.948535 | NA |
+| Schima wallichii | Total over-bark stem | $`V=aD^bH^c`$ | 0.000047 | 1.677002 | 1.254950 |
+| Terminalia alata | Total over-bark stem | $`V=a(D^2H)^b`$ | 0.000070 | 0.928364 | NA |
+| Alnus nepalensis | Under-bark to 20-cm top | $`V=a(D^2H)^b`$ | 0.000023 | 1.016204 | NA |
+| Castanopsis spp. | Under-bark to 20-cm top | $`V=a(D^2H)^b`$ | 0.000009 | 1.089575 | NA |
+| Lagerstroemia parviflora | Under-bark to 20-cm top | $`V=a+b(D^2H)`$ | -0.147542 | 0.000031 | NA |
+| Pinus roxburghii | Under-bark to 20-cm top | $`V=a(D^2H)^b`$ | 0.000007 | 1.121720 | NA |
+| Shorea robusta | Under-bark to 20-cm top | $`V=a(D^2H)^b`$ | 0.000007 | 1.113125 | NA |
+| Schima wallichii | Under-bark to 20-cm top | $`V=aD^bH^c`$ | 0.000003 | 1.994043 | 1.644049 |
+| Terminalia alata | Under-bark to 20-cm top | $`V=a(D^2H)^b`$ | 0.000010 | 1.074116 | NA |
+| Alnus nepalensis | Under-bark to 10-cm top | $`V=aD^bH^c`$ | 0.000018 | 1.785698 | 1.403011 |
+| Castanopsis spp. | Under-bark to 10-cm top | $`V=a(D^2H)^b`$ | 0.000031 | 0.987658 | NA |
+| Lagerstroemia parviflora | Under-bark to 10-cm top | $`V=a(D^2H)^b`$ | 0.000014 | 1.068129 | NA |
+| Pinus roxburghii | Under-bark to 10-cm top | $`V=a(D^2H)^b`$ | 0.000014 | 1.064049 | NA |
+| Shorea robusta | Under-bark to 10-cm top | $`V=aD^bH^c`$ | 0.000011 | 1.960877 | 1.308190 |
+| Schima wallichii | Under-bark to 10-cm top | $`V=aD^bH^c`$ | 0.000010 | 1.765752 | 1.523197 |
+| Terminalia alata | Under-bark to 10-cm top | $`V=a(D^2H)^b`$ | 0.000021 | 1.013348 | NA |
+
+**Source:** FRTC (2025), Tables 6–8. Coefficients are reproduced without
+re-fitting, adjustment, or harmonization.
 
 ### 2.2 Sharma & Pukkala stem volume
 
@@ -320,12 +358,15 @@ or equivalently:
 V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
 ```
 
-This `/1000` conversion is part of the implemented calculation and is
+This division by 1000 is part of the implemented calculation and is
 required because the original Sharma & Pukkala equation reports stem
 volume in dm$`^3`$.
 
 The species-specific $`a`$, $`b`$, and $`c`$ coefficients are the same
 Sharma & Pukkala coefficients listed in the biomass table above.
+
+**Source:** Sharma and Pukkala (1990), *Volume equations and biomass
+prediction of forest trees of Nepal* (Publication No. 47).
 
 ### 2.3 Forest Regulations 2079 branch volume
 
@@ -361,6 +402,9 @@ and total tree volume is:
 V_t=V_s+V_b
 ```
 
+**Source:** Government of Nepal (2022), *Forest Regulations, 2079*,
+Schedule 9.
+
 #### Forest Regulations branch groups and parameters
 
 | Branch group      | Species/group           | Nepali name       |     s |     m |     b |
@@ -376,10 +420,12 @@ V_t=V_s+V_b
 | other_conifer     | Other conifer species   | Other conifers    | 0.436 | 0.372 | 0.355 |
 | other_broadleaf   | Other broadleaf species | Other broadleaves | 0.443 | 0.511 | 0.710 |
 
+**Source:** Government of Nepal (2022), *Forest Regulations, 2079*,
+Schedule 9, branch-volume parameters implemented in *nepalallometry*.
+
 The applicable `branch_group` must therefore be supplied for the
-Sharma–Pukkala + Forest Regulations volume workflow. The package should
-not infer an unspecified regulatory group from an unsupported species
-name.
+Sharma–Pukkala + Forest Regulations volume workflow. The package does
+not silently assign an unspecified regulatory branch group.
 
 ## 3. Plot and forest summaries
 
@@ -406,28 +452,39 @@ These intervals describe sampling uncertainty in the mean across plots.
 They are not individual-tree prediction intervals and do not propagate
 allometric-model uncertainty.
 
+**Source:** These aggregation and summary calculations are implemented
+by *nepalallometry* from the supplied plot areas and plot-level
+estimates; they are not additional allometric equations from FRTC,
+Sharma & Pukkala, or Chave.
+
 ## 4. Method boundaries and interpretation
 
 The methods are not automatically interchangeable estimates of exactly
 the same biological quantity:
 
-- FRTC biomass excludes the 0–0.30 m stump;
+- FRTC biomass excludes the 0–0.30 m stump (FRTC, 2025);
 - Chave biomass follows the aboveground-biomass definition of Chave et
   al. (2014);
 - Sharma & Pukkala biomass uses the published air-dry density and
-  component-ratio pathway;
+  species-specific component-ratio pathway (Sharma & Pukkala, 1990);
 - FRTC volume represents stem volume and excludes branches and the
-  0.30-m stump;
-- FRTC’s three volume outputs are distinct definitions;
+  0.30-m stump (FRTC, 2025);
+- FRTC’s three volume outputs are distinct volume definitions (FRTC,
+  2025);
 - Sharma–Pukkala + Forest Regulations total volume includes branch
-  volume; and
-- carbon is calculated from biomass rather than independently estimated.
+  volume (Sharma & Pukkala, 1990; Government of Nepal, 2022); and
+- carbon is calculated from biomass using the default carbon fraction of
+  0.47 (IPCC, 2006).
 
 Differences among supported methods can be used to examine sensitivity
 to methodological choice, but their spread is **not a formal estimate of
 uncertainty or accuracy**.
 
 ## 5. Inspecting methods in R
+
+The following functions allow users to inspect the implemented
+coefficients, density rules, branch parameters, and source registry
+directly:
 
 ``` r
 
@@ -442,13 +499,15 @@ allometry_references()
 
 ## 6. References
 
-The main methodological sources are FRTC (2025), Sharma & Pukkala
-(1990), Chave et al. (2014), Nepal’s Forest Regulations 2079, IPCC
-(2006), and the Global Wood Density Database v2.2. Run:
+The full references below are generated from the same package reference
+registry used by *nepalallometry* documentation and output workbooks.
 
-``` r
-
-allometry_references()
-```
-
-for the package’s complete reference registry and source details.
+|  | Short citation | Full reference |
+|:---|:---|:---|
+| 2 | Forest Research and Training Centre (2025) | Forest Research and Training Centre. (2025). Allometric equations for seven major tree species of Nepal (Vol. I). Ministry of Forests and Environment, Government of Nepal. |
+| 3 | Sharma and Pukkala (1990) | Sharma, E. R., & Pukkala, T. (1990). Volume equations and biomass prediction of forest trees of Nepal (Publication No. 47). Forest Survey and Statistics Division, Ministry of Forests and Soil Conservation. |
+| 4 | Government of Nepal (2022) | Government of Nepal. (2022). Forest Regulations, 2079. Nepal Law Commission. <https://lawcommission.gov.np/content/12938/12938-forest-regulation-2079/> |
+| 5 | Chave et al. (2014) | Chave, J., Rejou-Mechain, M., Burquez, A., Chidumayo, E., Colgan, M. S., Delitti, W. B. C., Duque, A., Eid, T., Fearnside, P. M., Goodman, R. C., Henry, M., Martinez-Yrizar, A., Mugasha, W. A., Muller-Landau, H. C., Mencuccini, M., Nelson, B. W., Ngomanda, A., Nogueira, E. M., Ortiz-Malavassi, E., … Vieilledent, G. (2014). Improved allometric models to estimate the aboveground biomass of tropical trees. Global Change Biology, 20(10), 3177-3190. <https://doi.org/10.1111/gcb.12629> |
+| 6 | Fischer et al. (2026a) | Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A., Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T., Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G., Arcanjo, F., Bastin, J.-F., Bilous, A., … Zieminska, K. (2026a). Beyond species means: The intraspecific contribution to global wood density variation. New Phytologist, 249(6), 2630-2651. <https://doi.org/10.1111/nph.70860> |
+| 7 | Fischer et al. (2026b) | Fischer, F. J., Chave, J., Zanne, A., Jucker, T., Fajardo, A., Fayolle, A., Ferreira de Lima, R. A., Vieilledent, G., Beeckman, H., Hubau, W., De Mil, T., Wallenus, D., Aldana, A. M., Alvarez-Davila, E., Alves, L. F., Apgaua, D. M. G., Arcanjo, F., Bastin, J.-F., Bilous, A., … Zieminska, K. (2026b). Global Wood Density Database v2.2 \[Data set\]. Zenodo. <https://doi.org/10.5281/zenodo.18262736> |
+| 8 | IPCC (2006) | Intergovernmental Panel on Climate Change. (2006). 2006 IPCC guidelines for national greenhouse gas inventories: Volume 4. Agriculture, forestry and other land use (H. S. Eggleston, L. Buendia, K. Miwa, T. Ngara, & K. Tanabe, Eds.). Institute for Global Environmental Strategies. <https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html> |
