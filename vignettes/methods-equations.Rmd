@@ -81,14 +81,14 @@ $$
 
 where $\rho$ is the air-dry wood density in kg m$^{-3}$ reported by Sharma & Pukkala (1990).
 
-Branch and foliage biomass are calculated independently from DBH-dependent ratios:
+Branch and foliage biomass ratios are **species-specific and DBH-dependent**. Each species or species group has separate published small-, medium-, and large-tree ratios for branches and foliage. For species or species group $j$, *nepalallometry* first selects that group's published parameters and then calculates the applicable branch and foliage ratios independently from DBH:
 
 $$
-B_b=B_sR_b(D)
+B_b=B_sR_{b,j}(D)
 $$
 
 $$
-B_f=B_sR_f(D)
+B_f=B_sR_{f,j}(D)
 $$
 
 and total aboveground biomass is:
@@ -97,25 +97,25 @@ $$
 B_t=B_s+B_b+B_f
 $$
 
-For either branch or foliage, the ratio is interpolated as:
+For each component (branch or foliage), the selected species-specific ratio is interpolated according to DBH as:
 
 $$
-R(D)=s, \quad D<10
-$$
-
-$$
-R(D)=\frac{(D-10)m+(40-D)s}{30}, \quad 10\le D\le40
+R_j(D)=s_j, \quad D<10
 $$
 
 $$
-R(D)=\frac{(D-40)l+(70-D)m}{30}, \quad 40<D\le70
+R_j(D)=\frac{(D-10)m_j+(40-D)s_j}{30}, \quad 10\le D\le40
 $$
 
 $$
-R(D)=l, \quad D>70
+R_j(D)=\frac{(D-40)l_j+(70-D)m_j}{30}, \quad 40<D\le70
 $$
 
-where $s$, $m$, and $l$ are the published small-, medium-, and large-tree ratios.
+$$
+R_j(D)=l_j, \quad D>70
+$$
+
+where $s_j$, $m_j$, and $l_j$ are the published small-, medium-, and large-tree ratios for species or species group $j$. **Separate parameter sets are used for branches and foliage.** Thus, the package does not apply one common branch or foliage ratio across species; it selects the species-specific parameters first and then applies the DBH interpolation.
 
 #### Species, coefficients, densities and component ratios
 
