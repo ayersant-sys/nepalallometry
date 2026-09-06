@@ -23,6 +23,24 @@ status_box <- function(title, value, note = NULL, class = "status-card") {
       if (!is.null(note)) div(class = "status-note", note))
 }
 
+method_vector_code <- function(x) {
+  if (!length(x)) return("character(0)")
+  paste0("c(", paste(sprintf("\"%s\"", x), collapse = ", "), ")")
+}
+
+inventory_read_code <- function(fileinfo, sheet = 1) {
+  if (is.null(fileinfo)) return("# Upload an inventory file in the GUI to generate the import line.")
+  filename <- fileinfo$name
+  ext <- tolower(tools::file_ext(filename))
+  if (ext == "csv") {
+    sprintf("my_inventory <- read.csv(\"%s\")", filename)
+  } else if (ext == "xlsx") {
+    sprintf("my_inventory <- openxlsx::read.xlsx(\"%s\", sheet = %s)", filename, sheet)
+  } else {
+    "# Supported input formats are .csv and .xlsx"
+  }
+}
+
 ui <- navbarPage(
   title = div(span(class = "brand-name", "nepalallometry"),
               span(class = "brand-subtitle", "Forest allometry for Nepal")),
@@ -56,6 +74,10 @@ ui <- navbarPage(
       .table > thead > tr > th { background: #eef3ef; color: #20352b; border-bottom: 2px solid #cbd8d0; }
       .section-lead { margin: -5px 0 16px; color: #647269; }
       .workflow-note { background: #edf4f0; border-radius: 6px; padding: 10px 12px; margin-top: 12px; font-size: 12px; color: #3c5649; }
+      .code-details { margin-top: 12px; border: 1px solid #d9e2dc; border-radius: 6px; background: #fafcfb; }
+      .code-details summary { cursor: pointer; padding: 10px 12px; font-weight: 600; color: #163f31; }
+      .code-details pre { margin: 0; border: 0; border-top: 1px solid #e3e8e5; border-radius: 0 0 6px 6px; background: #111111; color: #ffffff; font-size: 12px; white-space: pre-wrap; }
+      .code-note { padding: 0 12px 8px; color: #6d7c74; font-size: 11px; }
       .tab-content { padding-top: 10px; }
       .footer-note { text-align: center; color: #6d7b73; font-size: 12px; margin-top: 25px; }
     "))
@@ -85,7 +107,11 @@ ui <- navbarPage(
                      div(class = "action-row",
                          actionButton("run_biomass", "Calculate biomass & carbon", class = "btn-primary", width = "100%")),
                      div(class = "workflow-note",
-                         "The GUI calls the existing nepalallometry functions; equations are not duplicated in the interface."))) ,
+                         "The GUI calls the existing nepalallometry functions; equations are not duplicated in the interface."),
+                     tags$details(class = "code-details",
+                                  tags$summary("View R code"),
+                                  div(class = "code-note", "Equivalent reproducible R code for the current GUI selections."),
+                                  verbatimTextOutput("bio_code")))) ,
           column(8,
                  div(class = "panel-card",
                      h3("2. Input preview"),
@@ -136,7 +162,11 @@ ui <- navbarPage(
                      div(class = "action-row",
                          actionButton("run_volume", "Calculate tree volume", class = "btn-primary", width = "100%")),
                      div(class = "workflow-note",
-                         "FRTC outputs retain total over-bark stem volume and under-bark stem volumes to 10-cm and 20-cm top diameters as separate volume definitions. Sharma–Pukkala stem volume and Forest Regulations branch/total volume are also retained separately."))),
+                         "FRTC outputs retain total over-bark stem volume and under-bark stem volumes to 10-cm and 20-cm top diameters as separate volume definitions. Sharma–Pukkala stem volume and Forest Regulations branch/total volume are also retained separately."),
+                     tags$details(class = "code-details",
+                                  tags$summary("View R code"),
+                                  div(class = "code-note", "Equivalent reproducible R code for the current GUI selections."),
+                                  verbatimTextOutput("vol_code")))),
           column(8,
                  div(class = "panel-card",
                      h3("2. Input preview"),
@@ -180,6 +210,8 @@ ui <- navbarPage(
               tags$li("Review forest, plot, species, DBH-class, tree-level, and audit outputs."),
               tags$li("Download the complete Excel workbook." )
             ),
+            h4("Reproducibility"),
+            p("Each analysis tab includes an optional View R code section showing the package call corresponding to the current GUI selections."),
             h4("Interpretation"),
             p("Summary SD, SE, and confidence intervals describe variation among sampled plots where estimable. They do not represent uncertainty in the underlying allometric equations."),
             p("Unsupported species or out-of-calibration predictions are retained in status and audit information rather than silently substituted.")))
@@ -190,6 +222,23 @@ server <- function(input, output, session) {
   bio_data <- reactiveVal(NULL)
   bio_result <- reactiveVal(NULL)
   bio_error <- reactiveVal(NULL)
+
+  output$bio_code <- renderText({
+    import_line <- inventory_read_code(input$bio_file, input$bio_sheet)
+    methods_line <- method_vector_code(input$bio_methods)
+    paste(
+      "library(nepalallometry)",
+      "",
+      import_line,
+      "",
+      "results <- biomass(",
+      "  input = my_inventory,",
+      paste0("  methods = ", methods_line, ","),
+      paste0("  carbon_fraction = ", input$carbon_fraction),
+      ")",
+      sep = "\n"
+    )
+  })
 
   observeEvent(list(input$bio_file, input$bio_sheet), {
     bio_result(NULL)
@@ -291,6 +340,22 @@ server <- function(input, output, session) {
   vol_data <- reactiveVal(NULL)
   vol_result <- reactiveVal(NULL)
   vol_error <- reactiveVal(NULL)
+
+  output$vol_code <- renderText({
+    import_line <- inventory_read_code(input$vol_file, input$vol_sheet)
+    methods_line <- method_vector_code(input$vol_methods)
+    paste(
+      "library(nepalallometry)",
+      "",
+      import_line,
+      "",
+      "results <- volume(",
+      "  input = my_inventory,",
+      paste0("  methods = ", methods_line),
+      ")",
+      sep = "\n"
+    )
+  })
 
   observeEvent(list(input$vol_file, input$vol_sheet), {
     vol_result(NULL)
