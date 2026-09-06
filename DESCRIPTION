@@ -24,7 +24,8 @@ Imports:
     openxlsx
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    shiny
 VignetteBuilder: knitr
 URL: https://ayersant-sys.github.io/nepalallometry/,
     https://github.com/ayersant-sys/nepalallometry
