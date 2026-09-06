@@ -12,6 +12,91 @@ read_inventory_file <- function(fileinfo, sheet = 1) {
   }
 }
 
+clean_gui_name <- function(x) {
+  exact <- c(
+    tree_id = "Tree ID",
+    plot_id = "Plot ID",
+    forest_id = "Forest ID",
+    species = "Species",
+    species_code = "Species code",
+    scientific_name = "Scientific name",
+    common_name = "Common name",
+    plot_area_ha = "Plot area (ha)",
+    forest_area_ha = "Forest area (ha)",
+    dbh_cm = "DBH (cm)",
+    height_m = "Height (m)",
+    dbh_class = "DBH class",
+    dbh_class_cm = "DBH class (cm)",
+    method = "Method",
+    status = "Status",
+    reason = "Reason",
+    note = "Note",
+    volume_type = "Volume type",
+    volume_definition = "Volume definition",
+    volume_m3 = "Volume (m³)",
+    stem_volume_m3 = "Stem volume (m³)",
+    branch_volume_m3 = "Branch volume (m³)",
+    total_volume_m3 = "Total volume (m³)",
+    volume_m3_ha = "Volume (m³/ha)",
+    biomass_kg = "Biomass (kg)",
+    biomass_mg = "Biomass (Mg)",
+    biomass_mg_ha = "Biomass (Mg/ha)",
+    carbon_kg = "Carbon (kg)",
+    carbon_mg = "Carbon (Mg)",
+    carbon_mg_ha = "Carbon (Mg/ha)",
+    wood_density = "Wood density (g/cm³)",
+    wood_density_g_cm3 = "Wood density (g/cm³)",
+    tree_coverage_pct = "Tree coverage (%)",
+    stem_coverage_pct = "Stem coverage (%)",
+    species_coverage_pct = "Species coverage (%)",
+    basal_area_coverage_pct = "Basal-area coverage (%)",
+    n_trees = "Trees (n)",
+    n_plots = "Plots (n)",
+    n_species = "Species (n)",
+    mean = "Mean",
+    sd = "SD",
+    se = "SE",
+    ci_lower = "Lower 95% CI",
+    ci_upper = "Upper 95% CI",
+    lower_ci = "Lower 95% CI",
+    upper_ci = "Upper 95% CI"
+  )
+
+  out <- unname(exact[x])
+  missing <- is.na(out)
+  if (!any(missing)) return(out)
+
+  fallback <- x[missing]
+  fallback <- sub("_pct$", " (%)", fallback)
+  fallback <- sub("_mg_ha$", " (Mg/ha)", fallback)
+  fallback <- sub("_m3_ha$", " (m³/ha)", fallback)
+  fallback <- sub("_kg_ha$", " (kg/ha)", fallback)
+  fallback <- sub("_m3$", " (m³)", fallback)
+  fallback <- sub("_kg$", " (kg)", fallback)
+  fallback <- sub("_cm$", " (cm)", fallback)
+  fallback <- sub("_ha$", " (ha)", fallback)
+  fallback <- sub("_m$", " (m)", fallback)
+  fallback <- gsub("_", " ", fallback, fixed = TRUE)
+  fallback <- vapply(fallback, function(z) {
+    if (!nzchar(z)) return(z)
+    paste0(toupper(substr(z, 1, 1)), substr(z, 2, nchar(z)))
+  }, character(1))
+  fallback <- gsub("\\bDbh\\b", "DBH", fallback)
+  fallback <- gsub("\\bId\\b", "ID", fallback)
+  fallback <- gsub("\\bSd\\b", "SD", fallback)
+  fallback <- gsub("\\bSe\\b", "SE", fallback)
+  fallback <- gsub("\\bCi\\b", "CI", fallback)
+  fallback <- gsub("\\bFrtc\\b", "FRTC", fallback)
+  out[missing] <- fallback
+  out
+}
+
+clean_gui_labels <- function(x) {
+  if (!is.data.frame(x)) return(x)
+  names(x) <- clean_gui_name(names(x))
+  x
+}
+
 fmt_num <- function(x, digits = 2) {
   ifelse(is.finite(x), format(round(x, digits), nsmall = digits, big.mark = ","), "NA")
 }
@@ -265,7 +350,7 @@ server <- function(input, output, session) {
 
   output$bio_preview <- renderTable({
     dat <- bio_data(); req(dat)
-    utils::head(dat, 8)
+    clean_gui_labels(utils::head(dat, 8))
   }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
 
   observeEvent(input$run_biomass, {
@@ -318,12 +403,12 @@ server <- function(input, output, session) {
   output$bio_has_results <- reactive(!is.null(bio_result()))
   outputOptions(output, "bio_has_results", suspendWhenHidden = FALSE)
 
-  output$bio_forest <- renderTable({ req(bio_result()); bio_result()$forest_summary }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$bio_plot <- renderTable({ req(bio_result()); bio_result()$plot_summary }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$bio_species <- renderTable({ req(bio_result()); bio_result()$species_summary }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$bio_dbh <- renderTable({ req(bio_result()); bio_result()$dbh_class_summary }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$bio_trees <- renderTable({ req(bio_result()); utils::head(bio_result()$tree_results, 100) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$bio_audit <- renderTable({ req(bio_result()); bio_result()$method_audit }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$bio_forest <- renderTable({ req(bio_result()); clean_gui_labels(bio_result()$forest_summary) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$bio_plot <- renderTable({ req(bio_result()); clean_gui_labels(bio_result()$plot_summary) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$bio_species <- renderTable({ req(bio_result()); clean_gui_labels(bio_result()$species_summary) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$bio_dbh <- renderTable({ req(bio_result()); clean_gui_labels(bio_result()$dbh_class_summary) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$bio_trees <- renderTable({ req(bio_result()); clean_gui_labels(utils::head(bio_result()$tree_results, 100)) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$bio_audit <- renderTable({ req(bio_result()); clean_gui_labels(bio_result()$method_audit) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
 
   output$download_biomass <- downloadHandler(
     filename = function() paste0("nepalallometry_biomass_results_", Sys.Date(), ".xlsx"),
@@ -383,7 +468,7 @@ server <- function(input, output, session) {
 
   output$vol_preview <- renderTable({
     dat <- vol_data(); req(dat)
-    utils::head(dat, 8)
+    clean_gui_labels(utils::head(dat, 8))
   }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
 
   observeEvent(input$run_volume, {
@@ -441,25 +526,25 @@ server <- function(input, output, session) {
   output$vol_forest <- renderTable({
     res <- vol_result(); req(res)
     if (is.null(res$forest_summary)) return(data.frame(Note = "Forest summaries require plot_id and plot_area_ha."))
-    res$forest_summary
+    clean_gui_labels(res$forest_summary)
   }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
   output$vol_plot <- renderTable({
     res <- vol_result(); req(res)
     if (is.null(res$plot_summary)) return(data.frame(Note = "Plot summaries require plot_id and plot_area_ha."))
-    res$plot_summary
+    clean_gui_labels(res$plot_summary)
   }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
   output$vol_species <- renderTable({
     res <- vol_result(); req(res)
     if (is.null(res$species_summary)) return(data.frame(Note = "Species summaries require inventory-level input."))
-    res$species_summary
+    clean_gui_labels(res$species_summary)
   }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
   output$vol_dbh <- renderTable({
     res <- vol_result(); req(res)
     if (is.null(res$dbh_class_summary)) return(data.frame(Note = "DBH-class summaries require inventory-level input."))
-    res$dbh_class_summary
+    clean_gui_labels(res$dbh_class_summary)
   }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$vol_trees <- renderTable({ req(vol_result()); utils::head(vol_result()$tree_results, 100) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
-  output$vol_audit <- renderTable({ req(vol_result()); vol_result()$method_audit }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$vol_trees <- renderTable({ req(vol_result()); clean_gui_labels(utils::head(vol_result()$tree_results, 100)) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
+  output$vol_audit <- renderTable({ req(vol_result()); clean_gui_labels(vol_result()$method_audit) }, striped = TRUE, bordered = TRUE, spacing = "xs", na = "")
 
   output$download_volume <- downloadHandler(
     filename = function() paste0("nepalallometry_volume_results_", Sys.Date(), ".xlsx"),
