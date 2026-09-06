@@ -1,7 +1,7 @@
 Package: nepalallometry
 Type: Package
 Title: Allometric Estimation for Nepal's Forest Trees
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: person("Santosh", "Ayer", role = c("aut", "cre"),
     email = "ayer.sant@gmail.com")
 Author: Santosh Ayer [aut, cre]
@@ -16,7 +16,8 @@ Description: Implements published allometric methods for estimating tree
     Forest Regulations 2079. The package provides auditable tree- and
     inventory-level workflows while retaining method-specific species coverage,
     units, component boundaries, calibration information, and source
-    documentation.
+    documentation. An optional Shiny interface provides a graphical workflow
+    for users who prefer not to write R code.
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.3
