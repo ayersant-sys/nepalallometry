@@ -3,17 +3,19 @@ citHeader(paste(
   "regulatory source used in your analysis:"
 ))
 
+pkg_version <- as.character(utils::packageVersion("nepalallometry"))
+
 citEntry(
   entry = "Manual",
   title = "nepalallometry: Allometric estimation for Nepal's forest trees",
   author = personList(as.person("Santosh Ayer")),
   year = "2026",
-  note = "R package, development version",
+  note = paste("R package version", pkg_version),
   url = "https://github.com/ayersant-sys/nepalallometry",
   textVersion = paste(
     "Ayer, S. (2026). nepalallometry: Allometric estimation for Nepal's",
-    "forest trees [R package].",
-    "https://github.com/ayersant-sys/nepalallometry"
+    "forest trees (Version", pkg_version, ") [R package].",
+"https://github.com/ayersant-sys/nepalallometry"
   )
 )
 
