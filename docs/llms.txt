@@ -24,10 +24,10 @@ coefficients, units, and component boundaries. Methodologically
 different estimates are not silently substituted, averaged, or forced to
 agree.
 
-> **Release note:** Version 1.0.0 established the first stable
-> biomass-and-carbon release. The current GitHub build extends the
-> package with tree-volume estimation. The Zenodo DOI badge above refers
-> to the archived Version 1.0.0 release.
+> **Release note:** Version 1.1.0 extends *nepalallometry* with
+> tree-volume estimation while retaining the biomass and carbon
+> workflows introduced in Version 1.0.0. The archived Version 1.1.0
+> release is available through Zenodo (DOI: 10.5281/zenodo.22388960).
 
 ## Installation
 
@@ -229,16 +229,20 @@ citation("nepalallometry")
 allometry_references()
 ```
 
-For the archived Version 1.0.0 release:
+For the current stable Version 1.2.0 release:
 
 Ayer, S. (2026). *nepalallometry: Allometric estimation for Nepal’s
-forest trees* (Version 1.0.0) \[R package\]. Zenodo. DOI:
-10.5281/zenodo.22299266
+forest trees* (Version 1.2.0) \[R package\]. Zenodo. DOI:
+10.5281/zenodo.22549316
+
+Version 1.0.0 remains the archived first stable biomass-and-carbon
+release (DOI: 10.5281/zenodo.22299266).
 
 Users should also cite the methodological and regulatory sources used by
 their selected pathway, including FRTC (2025), Sharma and Pukkala
-(1990), Chave et al. (2014), Nepal’s Forest Regulations 2079, IPCC
-(2006), and relevant wood-density sources as applicable.
+(1990), Chave et al. (2014), Nepal’s Forest Regulations 2079 (Government
+of Nepal, 2022), IPCC (2006), and relevant wood-density sources as
+applicable.
 
 ## Future development
 
@@ -250,8 +254,9 @@ units, calibration domains, component boundaries, and limitations.
 
 ## Development status
 
-The current development build is maintained on GitHub. Please report
-problems or suggestions through the GitHub issue tracker.
+The current stable release is Version 1.2.0. Ongoing development is
+maintained on GitHub. Please report problems or suggestions through the
+GitHub issue tracker.
 
 # Package index
 
@@ -293,6 +298,14 @@ published pathways.
   : Estimate tree volume using Sharma-Pukkala and Forest Regulations
 - [`forest_regulation_branch_parameters()`](https://ayersant-sys.github.io/nepalallometry/reference/forest_regulation_branch_parameters.md)
   : Forest Regulation branch-volume parameters
+
+## Graphical user interface
+
+Launch the interactive interface for using nepalallometry without
+writing R code.
+
+- [`run_gui()`](https://ayersant-sys.github.io/nepalallometry/reference/run_gui.md)
+  : Launch the nepalallometry graphical user interface
 
 ## Models, species, and sources
 
@@ -344,6 +357,12 @@ Earlier FRTC-specific estimators and export functions.
 
 - [Estimating FRTC Biomass and Carbon from a Forest
   Inventory](https://ayersant-sys.github.io/nepalallometry/articles/frtc-inventory-workflow.md):
+
+- [Methods &
+  Equations](https://ayersant-sys.github.io/nepalallometry/articles/methods-equations.md):
+
+- [Help &
+  Troubleshooting](https://ayersant-sys.github.io/nepalallometry/articles/troubleshooting.md):
 
 - [Developer](https://ayersant-sys.github.io/nepalallometry/articles/developer.md):
 
