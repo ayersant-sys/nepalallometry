@@ -47,6 +47,7 @@ conversion factor is credited to its original source through the package
 reference registry.
 
 ``` r
+
 allometry_references()
 ```
 
