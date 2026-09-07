@@ -39,14 +39,6 @@ published pathways.
 - [`forest_regulation_branch_parameters()`](https://ayersant-sys.github.io/nepalallometry/reference/forest_regulation_branch_parameters.md)
   : Forest Regulation branch-volume parameters
 
-## Graphical user interface
-
-Launch the interactive interface for using nepalallometry without
-writing R code.
-
-- [`run_gui()`](https://ayersant-sys.github.io/nepalallometry/reference/run_gui.md)
-  : Launch the nepalallometry graphical user interface
-
 ## Models, species, and sources
 
 Inspect supported taxa, equations, density rules, and references.

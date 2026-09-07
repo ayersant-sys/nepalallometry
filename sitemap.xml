@@ -1,15 +1,12 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/404.html</loc></url>
-<url><loc>https://ayersant-sys.github.io/nepalallometry/LICENSE-text.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/articles/developer.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/articles/frtc-inventory-workflow.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/articles/index.html</loc></url>
-<url><loc>https://ayersant-sys.github.io/nepalallometry/articles/methods-equations.html</loc></url>
-<url><loc>https://ayersant-sys.github.io/nepalallometry/articles/troubleshooting.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/articles/why-nepalallometry.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/authors.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/index.html</loc></url>
-<url><loc>https://ayersant-sys.github.io/nepalallometry/news/index.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/LICENSE-text.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/allometry_references.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/biomass.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/biomass_from_csv.html</loc></url>
@@ -30,7 +27,6 @@
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/frtc_total_biomass.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/frtc_volume.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/index.html</loc></url>
-<url><loc>https://ayersant-sys.github.io/nepalallometry/reference/run_gui.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/sharma_pukkala_biomass.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/sharma_pukkala_species.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/reference/sharma_pukkala_volume.html</loc></url>

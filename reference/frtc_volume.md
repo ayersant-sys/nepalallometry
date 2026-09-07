@@ -55,22 +55,5 @@ frtc_volume(
   species = c("sal", "pinus_roxburghii"),
   keep_inputs = TRUE
 )
-#>            species species_code dbh_cm height_m frtc_total_volume_m3
-#> 1              sal           Sr     60       25             2.952055
-#> 2 pinus_roxburghii           Pr     45       22             1.635950
-#>   frtc_volume_ub_20cm_m3 frtc_volume_ub_10cm_m3 top20_status top10_status
-#> 1               2.289756               2.274572    estimated    estimated
-#> 2               1.147634               1.238026    estimated    estimated
-#>   estimation_status calibration_dbh_min_cm calibration_dbh_max_cm
-#> 1         estimated                    6.7                  102.4
-#> 2         estimated                    6.7                   91.2
-#>   calibration_height_min_m calibration_height_max_m within_calibration_range
-#> 1                      4.9                     42.0                     TRUE
-#> 2                      2.5                     36.4                     TRUE
-#>      calibration_status volume_source
-#> 1 within_observed_range   FRTC (2025)
-#> 2 within_observed_range   FRTC (2025)
-#>                                                                                                                                                     volume_boundary
-#> 1 Stem only; 30-cm stump excluded; total = over-bark stem to tip; 20-cm and 10-cm outputs = under-bark stem to the stated over-bark top diameter; branches excluded
-#> 2 Stem only; 30-cm stump excluded; total = over-bark stem to tip; 20-cm and 10-cm outputs = under-bark stem to the stated over-bark top diameter; branches excluded
+#> Error in frtc_volume(dbh = c(60, 45), height = c(25, 22), species = c("sal",     "pinus_roxburghii"), keep_inputs = TRUE): could not find function "frtc_volume"
 ```

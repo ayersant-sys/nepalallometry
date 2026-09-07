@@ -115,7 +115,6 @@ Complete APA-style references for every model, database, regulatory
 source, and conversion factor used by the package are available with:
 
 ``` r
-
 allometry_references()
 ```
 

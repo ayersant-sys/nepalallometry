@@ -3,14 +3,18 @@
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/articles/developer.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/articles/frtc-inventory-workflow.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/articles/index.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/articles/methods-equations.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/articles/troubleshooting.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/articles/why-nepalallometry.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/authors.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/index.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/news/index.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/allometry_references.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/biomass.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/biomass_from_csv.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/chave_biomass.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/estimate_frtc_biomass.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/forest_regulation_branch_parameters.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/forest_summary.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_biomass_from_csv.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_dbh_summary.html</loc></url>
@@ -23,8 +27,12 @@
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_species.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_species_summary.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_total_biomass.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_volume.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/index.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/run_gui.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/sharma_pukkala_biomass.html</loc></url>
 <url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/sharma_pukkala_species.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/sharma_pukkala_volume.html</loc></url>
+<url><loc>https://ayersant-sys.github.io/nepalallometry/dev/reference/volume.html</loc></url>
 </urlset>
 

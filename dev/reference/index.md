@@ -1,8 +1,8 @@
 # Package index
 
-## Complete inventory workflow
+## Biomass and carbon workflow
 
-Estimate biomass and extract auditable summaries.
+Estimate biomass and carbon and extract auditable inventory summaries.
 
 - [`biomass()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/biomass.md)
   : Estimate biomass and produce complete inventory summaries
@@ -24,6 +24,28 @@ Run individual published biomass methods.
   : Estimate biomass using Sharma and Pukkala (1990)
 - [`chave_biomass()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/chave_biomass.md)
   : Estimate aboveground biomass using Chave et al. (2014)
+
+## Tree volume workflow
+
+Estimate individual-tree or forest-inventory volume using supported
+published pathways.
+
+- [`volume()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/volume.md)
+  : Estimate individual-tree or forest-inventory volume
+- [`frtc_volume()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/frtc_volume.md)
+  : Estimate FRTC 2025 stem volumes
+- [`sharma_pukkala_volume()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/sharma_pukkala_volume.md)
+  : Estimate tree volume using Sharma-Pukkala and Forest Regulations
+- [`forest_regulation_branch_parameters()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/forest_regulation_branch_parameters.md)
+  : Forest Regulation branch-volume parameters
+
+## Graphical user interface
+
+Launch the interactive interface for using nepalallometry without
+writing R code.
+
+- [`run_gui()`](https://ayersant-sys.github.io/nepalallometry/dev/reference/run_gui.md)
+  : Launch the nepalallometry graphical user interface
 
 ## Models, species, and sources
 

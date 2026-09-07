@@ -11,12 +11,6 @@
 - [Estimating FRTC Biomass and Carbon from a Forest
   Inventory](https://ayersant-sys.github.io/nepalallometry/articles/frtc-inventory-workflow.md):
 
-- [Methods &
-  Equations](https://ayersant-sys.github.io/nepalallometry/articles/methods-equations.md):
-
-- [Help &
-  Troubleshooting](https://ayersant-sys.github.io/nepalallometry/articles/troubleshooting.md):
-
 - [Developer](https://ayersant-sys.github.io/nepalallometry/articles/developer.md):
 
   About Santosh Ayer, developer of nepalallometry.

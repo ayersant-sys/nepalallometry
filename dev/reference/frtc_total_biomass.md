@@ -2,8 +2,6 @@
 
 Estimates biomass above the FRTC felling height of 0.30 m. Consequently,
 the result excludes stump biomass between ground level and 0.30 m.
-Predictions outside the observed species-specific DBH or height range
-are returned with an extrapolation warning.
 
 ## Usage
 
@@ -35,14 +33,14 @@ frtc_total_biomass(dbh, height, species, keep_inputs = FALSE)
 ## Value
 
 Biomass in kg/tree, excluding the 0-30 cm stump. A numeric vector when
-\`keep_inputs = FALSE\`; otherwise a data frame including observed
+\`keep_inputs = FALSE\`; otherwise a data frame containing observed
 calibration limits, \`within_calibration_range\`, and
 \`calibration_status\`.
 
 ## References
 
-Forest Research and Training Centre. (2025). *Allometric equations for
-seven major tree species of Nepal* (Vol. I). Ministry of Forests and
+Forest Research and Training Centre. (2025). \*Allometric equations for
+seven major tree species of Nepal\* (Vol. I). Ministry of Forests and
 Environment, Government of Nepal.
 
 ## Examples

@@ -16,5 +16,5 @@ frtc_plot_summary(data)
 
 ## Value
 
-One row per plot, with biomass and carbon in Mg/ha, supported-species
-coverage, extrapolated-tree counts, and calibration summary status.
+One row per plot, with biomass and carbon in Mg/ha, model coverage, and
+calibration-range/extrapolation counts.

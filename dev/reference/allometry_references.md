@@ -15,7 +15,7 @@ allometry_references(source_id = NULL)
 
 - source_id:
 
-  Optional source identifier. If `NULL`, return all sources.
+  Optional source identifier. If \`NULL\`, return all sources.
 
 ## Value
 
