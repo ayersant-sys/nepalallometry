@@ -604,40 +604,20 @@ volume <- function(input, output = NULL, sheet = 1,
   k <- 1L
 
   if ("frtc" %in% names(method_tables)) {
-    x <- .volume_long_method(method_tables$frtc)
-    for (type in unique(x$volume_type)) {
-      z <- x[x$volume_type == type, , drop = FALSE]
-      rows[[k]] <- data.frame(
-        method = "FRTC",
-        volume_type = type,
-        volume_definition = z$volume_definition[1],
-        stem_volume_source = "Forest Research and Training Centre (2025)",
-        branch_volume_source = NA_character_,
-        total_trees = nrow(z),
-        estimated_trees = sum(.volume_estimated(z)),
-        branch_group_required = 0L,
-        unsupported_species = sum(z$estimation_status == "unsupported_species",
-                                  na.rm = TRUE),
-        stringsAsFactors = FALSE
-      )
-      k <- k + 1L
-    }
-  }
-
-  if ("sharma_pukkala" %in% names(method_tables)) {
-    x <- method_tables$sharma_pukkala
+    x <- method_tables$frtc
     z <- .volume_long_method(x)
     rows[[k]] <- data.frame(
-      method = "Sharma & Pukkala + Forest Regulation",
-      volume_type = "total_tree",
-      volume_definition = "Total tree volume (stem + regulatory branch volume)",
-      stem_volume_source = "Sharma and Pukkala (1990)",
-      branch_volume_source = "Nepal Forest Regulations 2079, Schedule 9",
-      total_trees = nrow(x),
-      estimated_trees = sum(.volume_estimated(z)),
-      branch_group_required = sum(
-        x$estimation_status == "stem_only_branch_category_required", na.rm = TRUE
+      method = "FRTC",
+      volume_type = "multiple_stem_definitions",
+      volume_definition = paste(
+        "Total over-bark stem volume; under-bark stem volume to 20-cm",
+        "and 10-cm over-bark top diameters (reported separately)."
       ),
+      stem_volume_source = "Forest Research and Training Centre (2025)",
+      branch_volume_source = NA_character_,
+      total_trees = nrow(x),
+      estimated_trees = sum(is.finite(x$frtc_total_ob_m3)),
+      branch_group_required = 0L,
       unsupported_species = sum(
         x$estimation_status == "unsupported_species", na.rm = TRUE
       ),
