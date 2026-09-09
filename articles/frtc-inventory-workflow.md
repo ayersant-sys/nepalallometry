@@ -13,7 +13,6 @@ The 0-0.30 m stump is excluded.
 ## 1. Check supported species
 
 ``` r
-
 frtc_species()
 #>                 species_id nepali_name species_code          scientific_name
 #> 1         alnus_nepalensis        utis           An         Alnus nepalensis
@@ -43,7 +42,6 @@ Each row represents one tree. The following columns are required:
 - `height_m`: total tree height in metres.
 
 ``` r
-
 inventory <- data.frame(
   tree_id = 1:4,
   plot_id = c("p01", "p01", "p02", "p02"),
@@ -67,7 +65,6 @@ identifiers must be present and unique.
 ## 3. Estimate tree biomass and carbon
 
 ``` r
-
 tree_results <- estimate_frtc_biomass(inventory)
 #> Warning: FRTC total-biomass models are unavailable for 1 tree(s). Unsupported
 #> species: acacia_catechu. Biomass was returned as NA for these trees.
@@ -120,7 +117,6 @@ A prediction outside either limit is returned but identified as an
 extrapolation.
 
 ``` r
-
 frtc_models()[, c(
   "species_id", "sample_size",
   "dbh_min_cm", "dbh_max_cm",
@@ -147,7 +143,6 @@ frtc_models()[, c(
 ## 4. Produce plot and forest summaries
 
 ``` r
-
 plot_results <- frtc_plot_summary(tree_results)
 species_results <- frtc_species_summary(tree_results)
 dbh_results <- frtc_dbh_summary(tree_results)
@@ -211,14 +206,12 @@ A partial estimate must not be described as whole-plot biomass.
 A blank CSV template can be created with:
 
 ``` r
-
 frtc_inventory_template("frtc_inventory.csv", rows = 100)
 ```
 
 After filling the template, run:
 
 ``` r
-
 results <- frtc_biomass_from_csv(
   input = "frtc_inventory.csv",
   output_format = "excel"
@@ -239,7 +232,6 @@ for separate CSV files or `output_format = "both"` for both formats.
 ## 6. Inspect model information
 
 ``` r
-
 frtc_equation("sal")
 #> Species: Shorea robusta (sal)
 #> Response: Total aboveground biomass above 0.30 m; stump excluded

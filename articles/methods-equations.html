@@ -12,9 +12,9 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Methods &amp; Equations">
 <meta name="theme-color" content="#123f2d">
@@ -74,7 +74,7 @@
 Ayer</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ayersant-sys/nepalallometry/blob/main/vignettes/methods-equations.Rmd" class="external-link"><code>vignettes/methods-equations.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ayersant-sys/nepalallometry/blob/HEAD/vignettes/methods-equations.Rmd" class="external-link"><code>vignettes/methods-equations.Rmd</code></a></small>
       <div class="d-none name"><code>methods-equations.Rmd</code></div>
     </div>
 
@@ -95,7 +95,7 @@ work.</p>
 <p>The FRTC pathway uses species-specific equations selected and
 reported by the Forest Research and Training Centre (FRTC, 2025). The
 implemented models use one of two forms:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
 B=a(D^2H\rho)^b
 </annotation></semantics></math></p>
 <p>or</p>
@@ -105,14 +105,14 @@ B=aD^bH^c
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
 is biomass (kg
-tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>),
+tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
 is DBH (cm),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
 is total height (m),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
 is basic wood density (g
-cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
+cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mo>−</mo><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
@@ -165,7 +165,7 @@ representation.</p>
 <tr class="odd">
 <td align="left">Alnus nepalensis</td>
 <td align="left">utis</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
 <td align="right">0.067139</td>
 <td align="right">0.956808</td>
 <td align="right">NA</td>
@@ -193,7 +193,7 @@ representation.</p>
 <tr class="odd">
 <td align="left">Lagerstroemia parviflora</td>
 <td align="left">botdhayero</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
 <td align="right">0.060964</td>
 <td align="right">0.971369</td>
 <td align="right">NA</td>
@@ -221,7 +221,7 @@ representation.</p>
 <tr class="odd">
 <td align="left">Shorea robusta</td>
 <td align="left">sal</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
 <td align="right">0.054968</td>
 <td align="right">0.980885</td>
 <td align="right">NA</td>
@@ -235,7 +235,7 @@ representation.</p>
 <tr class="even">
 <td align="left">Schima wallichii</td>
 <td align="left">chilaune</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
 <td align="right">0.071359</td>
 <td align="right">0.951091</td>
 <td align="right">NA</td>
@@ -249,7 +249,7 @@ representation.</p>
 <tr class="odd">
 <td align="left">Terminalia alata</td>
 <td align="left">asna</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math></td>
 <td align="right">0.080156</td>
 <td align="right">0.943341</td>
 <td align="right">NA</td>
@@ -270,7 +270,7 @@ model-development dataset as recorded in the package registry.</p>
 <h4 id="frtc-wood-density-rules">FRTC wood-density rules<a class="anchor" aria-label="anchor" href="#frtc-wood-density-rules"></a>
 </h4>
 <p>Wood density is required only for FRTC models using
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mi>ρ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">B=a(D^2H\rho)^b</annotation></semantics></math>.
 For <em>Castanopsis</em> spp. and <em>Pinus roxburghii</em>, density is
 not required by the selected FRTC biomass equation. <em>Shorea
 robusta</em> and <em>Terminalia alata</em> use DBH-class-specific
@@ -395,7 +395,7 @@ are part of the FRTC biomass pathway implemented in
 </h3>
 <p>The Sharma &amp; Pukkala pathway first calculates species-specific
 stem volume using the published volume equation:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>D</mi><mo>+</mo><mi>c</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>ln</mo><mi>D</mi><mo>+</mo><mi>c</mi><mo>ln</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
 V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
 </annotation></semantics></math></p>
 <p>The original equation produces volume in
@@ -409,7 +409,7 @@ B_s=V_s\rho
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
 is the air-dry wood density in kg
-m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>
+m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mo>−</mo><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>
 reported by Sharma &amp; Pukkala (1990).</p>
 <p>Branch and foliage biomass ratios are <strong>species-specific and
 DBH-dependent</strong>. Each species or species group has separate
@@ -419,10 +419,10 @@ foliage. For species or species group
 <em>nepalallometry</em> first selects that group’s published parameters
 and then calculates the applicable branch and foliage ratios
 independently from DBH:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>b</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>b</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>b</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>b</mi><mo>,</mo><mi>j</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 B_b=B_sR_{b,j}(D)
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>f</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>f</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>f</mi></msub><mo>=</mo><msub><mi>B</mi><mi>s</mi></msub><msub><mi>R</mi><mrow><mi>f</mi><mo>,</mo><mi>j</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 B_f=B_sR_{f,j}(D)
 </annotation></semantics></math></p>
 <p>and total aboveground biomass is:</p>
@@ -431,16 +431,16 @@ B_t=B_s+B_b+B_f
 </annotation></semantics></math></p>
 <p>For each component (branch or foliage), the selected species-specific
 ratio is interpolated according to DBH as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>s</mi><mi>j</mi></msub><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>s</mi><mi>j</mi></msub><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
 R_j(D)=s_j, \quad D&lt;10
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><msub><mi>m</mi><mi>j</mi></msub><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>s</mi><mi>j</mi></msub></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>m</mi><mi>j</mi></msub><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>s</mi><mi>j</mi></msub></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
 R_j(D)=\frac{(D-10)m_j+(40-D)s_j}{30}, \quad 10\le D\le40
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="false" form="postfix">)</mo><msub><mi>l</mi><mi>j</mi></msub><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>m</mi><mi>j</mi></msub></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>l</mi><mi>j</mi></msub><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>m</mi><mi>j</mi></msub></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
 R_j(D)=\frac{(D-40)l_j+(70-D)m_j}{30}, \quad 40&lt;D\le70
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>l</mi><mi>j</mi></msub><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>l</mi><mi>j</mi></msub><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
 R_j(D)=l_j, \quad D&gt;70
 </annotation></semantics></math></p>
 <p>where
@@ -907,20 +907,20 @@ does not infer this geographic classification.</p>
 </h3>
 <p>The height-inclusive pantropical aboveground-biomass equation
 implemented by the package is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi><mo>=</mo><mn>0.0673</mn><mo stretchy="false" form="prefix">(</mo><mi>ρ</mi><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>0.976</mn></msup></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi><mo>=</mo><mn>0.0673</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>ρ</mi><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>0.976</mn></msup></mrow><annotation encoding="application/x-tex">
 AGB=0.0673(\rho D^2H)^{0.976}
 </annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>G</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">AGB</annotation></semantics></math>
 is oven-dry aboveground biomass (kg
-tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>),
+tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
 is DBH (cm),
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
 is total height (m), and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
 is basic wood density (g
-cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
+cm<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mo>−</mo><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">^{-3}</annotation></semantics></math>),
 defined as oven-dry mass divided by fresh volume.</p>
 <p><strong>Equation source:</strong> Chave et al. (2014), <em>Global
 Change Biology</em>, 20(10), 3177–3190.</p>
@@ -1003,18 +1003,18 @@ Forestry and Other Land Use.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mi>D</mi><mi>b</mi></msup><msup><mi>H</mi><mi>c</mi></msup></mrow><annotation encoding="application/x-tex">
 V=aD^bH^c
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">
 V=a(D^2H)^b
 </annotation></semantics></math></p>
 <p>or</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 V=a+b(D^2H)
 </annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
 is
 m<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>
-tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>,
+tree<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><annotation encoding="application/x-tex">^{-1}</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
 is DBH (cm), and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>H</mi><annotation encoding="application/x-tex">H</annotation></semantics></math>
@@ -1061,7 +1061,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Castanopsis spp.</td>
 <td align="left">Total over-bark stem</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000064</td>
 <td align="right">0.936534</td>
 <td align="right">NA</td>
@@ -1069,7 +1069,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Lagerstroemia parviflora</td>
 <td align="left">Total over-bark stem</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000064</td>
 <td align="right">0.936459</td>
 <td align="right">NA</td>
@@ -1077,7 +1077,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Pinus roxburghii</td>
 <td align="left">Total over-bark stem</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000058</td>
 <td align="right">0.957300</td>
 <td align="right">NA</td>
@@ -1085,7 +1085,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Shorea robusta</td>
 <td align="left">Total over-bark stem</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000059</td>
 <td align="right">0.948535</td>
 <td align="right">NA</td>
@@ -1101,7 +1101,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Terminalia alata</td>
 <td align="left">Total over-bark stem</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000070</td>
 <td align="right">0.928364</td>
 <td align="right">NA</td>
@@ -1109,7 +1109,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Alnus nepalensis</td>
 <td align="left">Under-bark to 20-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000023</td>
 <td align="right">1.016204</td>
 <td align="right">NA</td>
@@ -1117,7 +1117,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Castanopsis spp.</td>
 <td align="left">Under-bark to 20-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000009</td>
 <td align="right">1.089575</td>
 <td align="right">NA</td>
@@ -1125,7 +1125,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Lagerstroemia parviflora</td>
 <td align="left">Under-bark to 20-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">V=a+b(D^2H)</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">V=a+b(D^2H)</annotation></semantics></math></td>
 <td align="right">-0.147542</td>
 <td align="right">0.000031</td>
 <td align="right">NA</td>
@@ -1133,7 +1133,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Pinus roxburghii</td>
 <td align="left">Under-bark to 20-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000007</td>
 <td align="right">1.121720</td>
 <td align="right">NA</td>
@@ -1141,7 +1141,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Shorea robusta</td>
 <td align="left">Under-bark to 20-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000007</td>
 <td align="right">1.113125</td>
 <td align="right">NA</td>
@@ -1157,7 +1157,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Terminalia alata</td>
 <td align="left">Under-bark to 20-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000010</td>
 <td align="right">1.074116</td>
 <td align="right">NA</td>
@@ -1173,7 +1173,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Castanopsis spp.</td>
 <td align="left">Under-bark to 10-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000031</td>
 <td align="right">0.987658</td>
 <td align="right">NA</td>
@@ -1181,7 +1181,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Lagerstroemia parviflora</td>
 <td align="left">Under-bark to 10-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000014</td>
 <td align="right">1.068129</td>
 <td align="right">NA</td>
@@ -1189,7 +1189,7 @@ equations implemented in the package.</p>
 <tr class="even">
 <td align="left">Pinus roxburghii</td>
 <td align="left">Under-bark to 10-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000014</td>
 <td align="right">1.064049</td>
 <td align="right">NA</td>
@@ -1213,7 +1213,7 @@ equations implemented in the package.</p>
 <tr class="odd">
 <td align="left">Terminalia alata</td>
 <td align="left">Under-bark to 10-cm top</td>
-<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
+<td align="left"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>a</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>D</mi><mn>2</mn></msup><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">V=a(D^2H)^b</annotation></semantics></math></td>
 <td align="right">0.000021</td>
 <td align="right">1.013348</td>
 <td align="right">NA</td>
@@ -1228,7 +1228,7 @@ reproduced without re-fitting, adjustment, or harmonization.</p>
 <h3 id="sharma-pukkala-stem-volume">2.2 Sharma &amp; Pukkala stem volume<a class="anchor" aria-label="anchor" href="#sharma-pukkala-stem-volume"></a>
 </h3>
 <p>The stem-volume equation is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>s</mi><mo>,</mo><mi>d</mi><msup><mi>m</mi><mn>3</mn></msup></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>D</mi><mo>+</mo><mi>c</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>s</mi><mo>,</mo><mi>d</mi><msup><mi>m</mi><mn>3</mn></msup></mrow></msub><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>ln</mo><mi>D</mi><mo>+</mo><mi>c</mi><mo>ln</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
 V_{s,dm^3}=\exp(a+b\ln D+c\ln H)
 </annotation></semantics></math></p>
 <p>followed by the explicit unit conversion:</p>
@@ -1236,7 +1236,7 @@ V_{s,dm^3}=\exp(a+b\ln D+c\ln H)
 V_{s,m^3}=\frac{V_{s,dm^3}}{1000}
 </annotation></semantics></math></p>
 <p>or equivalently:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>D</mi><mo>+</mo><mi>c</mi><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mi>H</mi><mo stretchy="false" form="postfix">)</mo></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>s</mi></msub><mo>=</mo><mfrac><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>ln</mo><mi>D</mi><mo>+</mo><mi>c</mi><mo>ln</mo><mi>H</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mn>1000</mn></mfrac></mrow><annotation encoding="application/x-tex">
 V_s=\frac{\exp(a+b\ln D+c\ln H)}{1000}
 </annotation></semantics></math></p>
 <p>This division by 1000 is part of the implemented calculation and is
@@ -1260,20 +1260,20 @@ equations and biomass prediction of forest trees of Nepal</em>
 <p>Branch volume is calculated from the Sharma &amp; Pukkala stem volume
 using the branch ratio prescribed in Schedule 9 of Nepal’s Forest
 Regulations 2079:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>b</mi></msub><mo>=</mo><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>V</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>b</mi></msub><mo>=</mo><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>V</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">
 V_b=R(D)V_s
 </annotation></semantics></math></p>
 <p>The DBH-dependent ratio is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>s</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>s</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">
 R(D)=s, \quad D&lt;10
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mi>m</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>s</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>10</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>m</mi><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>40</mn><mo>−</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>s</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>10</mn><mo>≤</mo><mi>D</mi><mo>≤</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">
 R(D)=\frac{(D-10)m+(40-D)s}{30}, \quad 10\le D\le40
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="false" form="postfix">)</mo><mi>b</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mi>m</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo>−</mo><mn>40</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>b</mi><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>70</mn><mo>−</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>m</mi></mrow><mn>30</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mn>40</mn><mo>&lt;</mo><mi>D</mi><mo>≤</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
 R(D)=\frac{(D-40)b+(70-D)m}{30}, \quad 40&lt;D\le70
 </annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>b</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>b</mi><mo>,</mo><mspace width="1.0em"></mspace><mi>D</mi><mo>&gt;</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">
 R(D)=b, \quad D&gt;70
 </annotation></semantics></math></p>
 <p>and total tree volume is:</p>

@@ -24,17 +24,14 @@ coefficients, units, and component boundaries. Methodologically
 different estimates are not silently substituted, averaged, or forced to
 agree.
 
-> **Release note:** Version 1.2.0 adds the interactive Shiny graphical
-> interface, reproducible **View R code** support, and expanded
-> technical documentation, including **Methods & Equations** and **Help
-> & Troubleshooting**, while retaining the biomass, carbon, and
-> tree-volume workflows. The archived Version 1.2.0 release is available
-> through Zenodo (DOI: 10.5281/zenodo.22549316).
+> **Release note:** Version 1.1.0 extends *nepalallometry* with
+> tree-volume estimation while retaining the biomass and carbon
+> workflows introduced in Version 1.0.0. The archived Version 1.1.0
+> release is available through Zenodo (DOI: 10.5281/zenodo.22388960).
 
 ## Installation
 
 ``` r
-
 install.packages("remotes")
 remotes::install_github("ayersant-sys/nepalallometry")
 library(nepalallometry)
@@ -50,7 +47,6 @@ For inventory-level biomass analysis, provide one row per tree with
 `height_m`.
 
 ``` r
-
 inventory <- data.frame(
   tree_id = 1:4,
   plot_id = c("p01", "p01", "p02", "p02"),
@@ -79,7 +75,6 @@ stump.
 ### Individual biomass functions
 
 ``` r
-
 frtc_total_biomass(30, 20, "sal", keep_inputs = TRUE)
 sharma_pukkala_biomass(30, 20, "sal", keep_inputs = TRUE)
 chave_biomass(30, 20, "Dalbergia sissoo", keep_inputs = TRUE)
@@ -95,7 +90,6 @@ Volume estimation is intentionally separate from biomass estimation.
 For an individual tree, `plot_id` and `plot_area_ha` are not required:
 
 ``` r
-
 trees <- data.frame(
   tree_id = c("T1", "T2"),
   species = c("sal", "pinus_roxburghii"),
@@ -126,7 +120,6 @@ Branches are excluded from all FRTC volume outputs, and the 30-cm stump
 is outside the FRTC stem-volume boundary.
 
 ``` r
-
 frtc_volume(60, 25, "sal", keep_inputs = TRUE)
 ```
 
@@ -148,7 +141,6 @@ the regulatory procedure for deriving branch volume.
 from the applicable Forest Regulation ratio.**
 
 ``` r
-
 sharma_pukkala_volume(60, 25, "sal", keep_inputs = TRUE)
 ```
 
@@ -179,7 +171,6 @@ Both high-level workflows accept R data frames, CSV files, and Excel
 workbooks.
 
 ``` r
-
 biomass("forest_inventory.xlsx", sheet = "Inventory")
 volume("tree_inventory.xlsx")
 ```
@@ -192,7 +183,6 @@ containing `Read_Me`, `Tree_Results`, and `Method_Audit`.
 ## Supported taxa and model information
 
 ``` r
-
 frtc_species()
 sharma_pukkala_species()
 frtc_models()
@@ -235,7 +225,6 @@ and provenance, but it cannot remove biological or model uncertainty.
 ## Citation
 
 ``` r
-
 citation("nepalallometry")
 allometry_references()
 ```
