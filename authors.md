@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/ayersant-sys/nepalallometry/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/ayersant-sys/nepalallometry/blob/v1.2.2/inst/CITATION)
 
 Ayer, S. (2026). nepalallometry: Allometric estimation for Nepal's
 forest trees (Version 1.2.2 ) \[R package\].
