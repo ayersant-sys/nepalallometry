@@ -95,9 +95,9 @@ volume(trees)
 #>   tree_id          species dbh_cm height_m    branch_group basal_area_m2
 #> 1      T1              sal     60       25            <NA>     0.2827433
 #> 2      T2 terminalia_alata     45       22 other_broadleaf     0.1590431
-#>   frtc_frtc_total_ob_m3 frtc_frtc_ub_20cm_m3 frtc_frtc_ub_10cm_m3
-#> 1              2.952055            2.2897561             2.274572
-#> 2              1.448508            0.9849217             1.079244
+#>   frtc_total_volume_m3 frtc_volume_ub_20cm_m3 frtc_volume_ub_10cm_m3
+#> 1             2.952055              2.2897561               2.274572
+#> 2             1.448508              0.9849217               1.079244
 #>   frtc_estimation_status frtc_top20_status frtc_top10_status
 #> 1              estimated         estimated         estimated
 #> 2              estimated         estimated         estimated
@@ -166,9 +166,9 @@ volume(trees, methods = "frtc")
 #>   tree_id          species dbh_cm height_m    branch_group basal_area_m2
 #> 1      T1              sal     60       25            <NA>     0.2827433
 #> 2      T2 terminalia_alata     45       22 other_broadleaf     0.1590431
-#>   frtc_frtc_total_ob_m3 frtc_frtc_ub_20cm_m3 frtc_frtc_ub_10cm_m3
-#> 1              2.952055            2.2897561             2.274572
-#> 2              1.448508            0.9849217             1.079244
+#>   frtc_total_volume_m3 frtc_volume_ub_20cm_m3 frtc_volume_ub_10cm_m3
+#> 1             2.952055              2.2897561               2.274572
+#> 2             1.448508              0.9849217               1.079244
 #>   frtc_estimation_status frtc_top20_status frtc_top10_status
 #> 1              estimated         estimated         estimated
 #> 2              estimated         estimated         estimated
