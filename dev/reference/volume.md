@@ -115,31 +115,14 @@ volume(trees)
 #> 2         within_observed_dbh_range
 #> 
 #> $method_audit
-#>                                 method volume_type
-#> 1                                 FRTC    total_ob
-#> 2                                 FRTC     ub_20cm
-#> 3                                 FRTC     ub_10cm
-#> 4 Sharma & Pukkala + Forest Regulation  total_tree
-#>                                        volume_definition
-#> 1                            Total over-bark stem volume
-#> 2 Under-bark stem volume to 20-cm over-bark top diameter
-#> 3 Under-bark stem volume to 10-cm over-bark top diameter
-#> 4    Total tree volume (stem + regulatory branch volume)
-#>                           stem_volume_source
-#> 1 Forest Research and Training Centre (2025)
-#> 2 Forest Research and Training Centre (2025)
-#> 3 Forest Research and Training Centre (2025)
-#> 4                  Sharma and Pukkala (1990)
-#>                        branch_volume_source total_trees estimated_trees
-#> 1                                      <NA>           2               2
-#> 2                                      <NA>           2               2
-#> 3                                      <NA>           2               2
-#> 4 Nepal Forest Regulations 2079, Schedule 9           2               2
-#>   branch_group_required unsupported_species
-#> 1                     0                   0
-#> 2                     0                   0
-#> 3                     0                   0
-#> 4                     0                   0
+#>   method               volume_type
+#> 1   FRTC multiple_stem_definitions
+#>                                                                                                       volume_definition
+#> 1 Total over-bark stem volume; under-bark stem volume to 20-cm and 10-cm over-bark top diameters (reported separately).
+#>                           stem_volume_source branch_volume_source total_trees
+#> 1 Forest Research and Training Centre (2025)                 <NA>           2
+#>   estimated_trees branch_group_required unsupported_species
+#> 1               2                     0                   0
 #> 
 #> attr(,"class")
 #> [1] "nepal_volume_result"
@@ -177,18 +160,14 @@ volume(trees, methods = "frtc")
 #> 2   within_observed_range
 #> 
 #> $method_audit
-#>   method volume_type                                      volume_definition
-#> 1   FRTC    total_ob                            Total over-bark stem volume
-#> 2   FRTC     ub_20cm Under-bark stem volume to 20-cm over-bark top diameter
-#> 3   FRTC     ub_10cm Under-bark stem volume to 10-cm over-bark top diameter
+#>   method               volume_type
+#> 1   FRTC multiple_stem_definitions
+#>                                                                                                       volume_definition
+#> 1 Total over-bark stem volume; under-bark stem volume to 20-cm and 10-cm over-bark top diameters (reported separately).
 #>                           stem_volume_source branch_volume_source total_trees
 #> 1 Forest Research and Training Centre (2025)                 <NA>           2
-#> 2 Forest Research and Training Centre (2025)                 <NA>           2
-#> 3 Forest Research and Training Centre (2025)                 <NA>           2
 #>   estimated_trees branch_group_required unsupported_species
 #> 1               2                     0                   0
-#> 2               2                     0                   0
-#> 3               2                     0                   0
 #> 
 #> attr(,"class")
 #> [1] "nepal_volume_result"
