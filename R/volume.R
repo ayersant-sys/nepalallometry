@@ -369,8 +369,9 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_estimated <- function(z) {
-  is.finite(z$volume_m3) &
-    z$estimation_status %in% c("estimated", "estimated_no_branches")
+  # A reported finite volume is an estimate. Status is retained in the output
+  # for auditing, but should not suppress a valid FRTC volume in summaries.
+  is.finite(z$volume_m3)
 }
 
 .volume_coverage_status <- function(n, estimated) {
