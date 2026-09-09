@@ -345,6 +345,23 @@ volume <- function(input, output = NULL, sheet = 1,
   z
 }
 
+.volume_long_tables <- function(method_tables) {
+  required <- c(
+    "forest_id", "plot_id", "plot_key", "plot_area_ha", "tree_id",
+    "species", "dbh_cm", "basal_area_m2", "method_id", "method",
+    "calibration_status", "volume_type", "volume_definition",
+    "volume_m3", "estimation_status"
+  )
+  tables <- lapply(method_tables, function(x) {
+    z <- as.data.frame(.volume_long_method(x), stringsAsFactors = FALSE)
+    z[, required, drop = FALSE]
+  })
+  do.call(rbind.data.frame, c(tables, list(
+    make.row.names = FALSE,
+    stringsAsFactors = FALSE
+  )))
+}
+
 .volume_estimated <- function(z) {
   is.finite(z$volume_m3) &
     z$estimation_status %in% c("estimated", "estimated_no_branches")
@@ -390,7 +407,7 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_plot_summary_table <- function(method_tables) {
-  long <- do.call(rbind, lapply(method_tables, .volume_long_method))
+  long <- .volume_long_tables(method_tables)
   out <- .volume_plot_method_summary(long)
   out <- out[order(out$forest_id, out$plot_id, out$method, out$volume_type), ]
   out$method_id <- NULL
@@ -458,7 +475,7 @@ volume <- function(input, output = NULL, sheet = 1,
 }
 
 .volume_category_summary <- function(method_tables, inventory, category, label) {
-  long <- do.call(rbind, lapply(method_tables, .volume_long_method))
+  long <- .volume_long_tables(method_tables)
   result <- list()
   k <- 1L
 
