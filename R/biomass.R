@@ -196,9 +196,11 @@
     plot_keys <- unique(inventory$.plot_key[inventory$forest_id == forest])
     for (cat in cats) for (id in names(method_tables)) {
       x <- method_tables[[id]]
-      ids <- inventory$tree_id[inventory$forest_id == forest &
-                                as.character(inventory[[category]]) == cat]
-      z <- x[x$tree_id %in% ids, ]
+      selected <- inventory$forest_id == forest &
+        as.character(inventory[[category]]) == cat
+      keys <- paste(inventory$.plot_key[selected], inventory$tree_id[selected],
+                    sep = "\r")
+      z <- x[paste(x$plot_key, x$tree_id, sep = "\r") %in% keys, ]
       ok <- z$estimation_status == "estimated" & is.finite(z$biomass_kg)
       plot_areas <- vapply(plot_keys, function(key)
         unique(inventory$plot_area_ha[inventory$.plot_key == key])[1], numeric(1))
