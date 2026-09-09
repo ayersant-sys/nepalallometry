@@ -24,10 +24,12 @@ coefficients, units, and component boundaries. Methodologically
 different estimates are not silently substituted, averaged, or forced to
 agree.
 
-> **Release note:** Version 1.1.0 extends *nepalallometry* with
-> tree-volume estimation while retaining the biomass and carbon
-> workflows introduced in Version 1.0.0. The archived Version 1.1.0
-> release is available through Zenodo (DOI: 10.5281/zenodo.22388960).
+> **Release note:** Version 1.2.0 adds the interactive Shiny graphical
+> interface, reproducible **View R code** support, and expanded
+> technical documentation, including **Methods & Equations** and **Help
+> & Troubleshooting**, while retaining the biomass, carbon, and
+> tree-volume workflows. The archived Version 1.2.0 release is available
+> through Zenodo (DOI: 10.5281/zenodo.22549316).
 
 ## Installation
 
