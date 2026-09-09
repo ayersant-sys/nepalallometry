@@ -581,7 +581,19 @@ volume <- function(input, output = NULL, sheet = 1,
         "branch_group_used", "estimation_status", "calibration_status"
       )]
     }
-    names(cols) <- paste0(id, "_", names(cols))
+    if (id == "frtc") {
+      names(cols) <- c(
+        "frtc_total_volume_m3",
+        "frtc_volume_ub_20cm_m3",
+        "frtc_volume_ub_10cm_m3",
+        "frtc_estimation_status",
+        "frtc_top20_status",
+        "frtc_top10_status",
+        "frtc_calibration_status"
+      )
+    } else {
+      names(cols) <- paste0(id, "_", names(cols))
+    }
     out <- cbind(out, cols)
   }
   out
