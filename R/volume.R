@@ -132,7 +132,7 @@ volume <- function(input, output = NULL, sheet = 1,
 
 .volume_method_label <- function(method) {
   unname(c(
-    frtc = "FRTC",
+    frtc = "FRTC 2025",
     sharma_pukkala = "Sharma & Pukkala + Forest Regulation"
   )[method])
 }
