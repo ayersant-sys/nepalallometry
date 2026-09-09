@@ -5,7 +5,8 @@
   for (nm in c("tree_id", "plot_id", "species")) if (
     anyNA(data[[nm]]) || any(!nzchar(trimws(as.character(data[[nm]])))))
     stop(sprintf("`%s` cannot be missing or blank.", nm), call. = FALSE)
-  if (anyDuplicated(data$tree_id)) stop("`tree_id` must be unique.", call. = FALSE)
+  if (anyDuplicated(paste(data$forest_id, data$plot_id, data$tree_id, sep = "\r")))
+    stop("`tree_id` must be unique within each plot.", call. = FALSE)
   if (any(!is.finite(data$dbh_cm) | data$dbh_cm <= 0))
     stop("`dbh_cm` must contain positive finite values.", call. = FALSE)
   if (any(!is.finite(data$height_m) | data$height_m <= 0))
