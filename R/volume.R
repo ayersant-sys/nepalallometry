@@ -279,7 +279,11 @@ volume <- function(input, output = NULL, sheet = 1,
       estimation_status = raw$estimation_status,
       top20_status = raw$top20_status,
       top10_status = raw$top10_status,
-      calibration_status = raw$calibration_status,
+      calibration_status = if ("calibration_status" %in% names(raw)) {
+        raw$calibration_status
+      } else {
+        rep(NA_character_, nrow(inventory))
+      },
       stringsAsFactors = FALSE
     )))
   }
