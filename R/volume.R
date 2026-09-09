@@ -192,7 +192,11 @@ volume <- function(input, output = NULL, sheet = 1,
       sprintf("`%s` cannot be missing or blank.", nm), call. = FALSE
     )
   }
-  if (anyDuplicated(data$tree_id)) stop("`tree_id` must be unique.", call. = FALSE)
+  if (identical(analysis_level, "inventory") &&
+      anyDuplicated(paste(
+        if ("forest_id" %in% names(data)) data$forest_id else "Forest_1",
+        data$plot_id, data$tree_id, sep = "\r"
+      ))) stop("`tree_id` must be unique within each plot.", call. = FALSE)
   if (any(!is.finite(data$dbh_cm) | data$dbh_cm <= 0)) stop(
     "`dbh_cm` must contain positive finite values.", call. = FALSE
   )
@@ -467,11 +471,14 @@ volume <- function(input, output = NULL, sheet = 1,
     equal_plots <- length(unique(plot_areas)) == 1L
 
     for (cat in cats) {
-      ids <- inventory$tree_id[
-        inventory$forest_id == forest &
-          as.character(inventory[[category]]) == cat
+      selected <- inventory$forest_id == forest &
+        as.character(inventory[[category]]) == cat
+      keys <- paste(inventory$.plot_key[selected], inventory$tree_id[selected],
+                    sep = "\r")
+      subset_long <- long[
+        paste(long$plot_key, long$tree_id, sep = "\r") %in% keys,
+        , drop = FALSE
       ]
-      subset_long <- long[long$tree_id %in% ids, , drop = FALSE]
       combos <- unique(subset_long[c(
         "method_id", "method", "volume_type", "volume_definition"
       )])
