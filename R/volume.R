@@ -629,7 +629,7 @@ volume <- function(input, output = NULL, sheet = 1,
     x <- method_tables$frtc
     z <- .volume_long_method(x)
     rows[[k]] <- data.frame(
-      method = "FRTC",
+      method = "FRTC 2025",
       volume_type = "multiple_stem_definitions",
       volume_definition = paste(
         "Total over-bark stem volume; under-bark stem volume to 20-cm",
