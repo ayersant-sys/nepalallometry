@@ -496,8 +496,40 @@ server <- function(input, output, session) {
 
   output$vol_run_status <- renderUI({
     if (!is.null(vol_error())) return(div(class = "error-box", vol_error()))
-    if (is.null(vol_result())) return(div(class = "help-note", "Run the calculation to generate volume results."))
-    div(class = "success-box", "Volume calculation completed. Volume definitions remain separated in the result tables.")
+    res <- vol_result()
+    if (is.null(res)) return(div(class = "help-note", "Run the calculation to generate volume results."))
+
+    tr <- res$tree_results
+    messages <- character()
+    status_col <- "sharma_pukkala_estimation_status"
+    if (status_col %in% names(tr)) {
+      missing_group <- sum(
+        tr[[status_col]] == "stem_only_branch_category_required",
+        na.rm = TRUE
+      )
+      unsupported <- sum(tr[[status_col]] == "unsupported_species", na.rm = TRUE)
+      if (missing_group) messages <- c(
+        messages,
+        paste0(
+          missing_group, " tree(s) need a branch_group. Stem volume is retained, ",
+          "but branch and total-tree volume are not calculated. Add a branch_group ",
+          "column with other_broadleaf or other_conifer."
+        )
+      )
+      if (unsupported) messages <- c(
+        messages,
+        paste0(
+          unsupported, " tree(s) have no Sharma-Pukkala stem-volume equation ",
+          "and are not estimated by that method."
+        )
+      )
+    }
+
+    tagList(
+      div(class = "success-box",
+          "Volume calculation completed. Volume definitions remain separated in the result tables."),
+      if (length(messages)) div(class = "warning-box", paste(messages, collapse = " "))
+    )
   })
 
   output$vol_status_cards <- renderUI({
