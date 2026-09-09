@@ -51,8 +51,8 @@ estimate_frtc_biomass <- function(data) {
   if (anyNA(data$tree_id) || any(!nzchar(trimws(as.character(data$tree_id))))) {
     stop("`tree_id` cannot be missing or blank.", call. = FALSE)
   }
-  if (anyDuplicated(data$tree_id)) {
-    stop("`tree_id` must be unique.", call. = FALSE)
+  if (anyDuplicated(paste(data$plot_id, data$tree_id, sep = "\r"))) {
+    stop("`tree_id` must be unique within each plot.", call. = FALSE)
   }
   if (anyNA(data$plot_id) || any(!nzchar(trimws(as.character(data$plot_id))))) {
     stop("`plot_id` cannot be missing or blank.", call. = FALSE)
