@@ -755,6 +755,64 @@ volume <- function(input, output = NULL, sheet = 1,
   )
 }
 
+.volume_excel_labels <- function() c(
+  item = "Item", guidance = "Guidance",
+  forest_id = "Forest ID", forest_area_ha = "Forest area (ha)",
+  plot_id = "Plot ID", plot_area_ha = "Plot area (ha)",
+  tree_id = "Tree ID", species = "Species", dbh_cm = "DBH (cm)",
+  height_m = "Height (m)", basal_area_m2 = "Basal area (m²)",
+  branch_group = "Branch group",
+  method = "Method", volume_type = "Volume type",
+  volume_definition = "Volume definition",
+  total_plots = "Number of plots", plots_with_estimates = "Plots with estimates",
+  total_trees = "Total trees", estimated_trees = "Estimated trees",
+  unestimated_trees = "Unestimated trees",
+  extrapolated_trees = "Extrapolated trees",
+  tree_coverage_pct = "Tree coverage (%)",
+  basal_area_coverage_pct = "Basal-area coverage (%)",
+  volume_m3_ha = "Volume (m³/ha)",
+  mean_volume_m3_ha = "Mean volume (m³/ha)",
+  sd_volume_m3_ha = "Volume SD (m³/ha)",
+  se_volume_m3_ha = "Volume SE (m³/ha)",
+  ci95_lower_volume_m3_ha = "Volume 95% CI lower (m³/ha)",
+  ci95_upper_volume_m3_ha = "Volume 95% CI upper (m³/ha)",
+  total_forest_volume_m3 = "Total forest volume (m³)",
+  mean_tree_volume_m3 = "Mean tree volume (m³/tree)",
+  mean_plot_volume_m3_ha = "Mean plot volume (m³/ha)",
+  se_plot_volume_m3_ha = "Plot volume SE (m³/ha)",
+  ci95_lower_plot_volume_m3_ha = "Plot volume 95% CI lower (m³/ha)",
+  ci95_upper_plot_volume_m3_ha = "Plot volume 95% CI upper (m³/ha)",
+  plot_area_design = "Plot-area design",
+  coverage_status = "Coverage status",
+  uncertainty_status = "Uncertainty status",
+  summary_status = "Summary status",
+  frtc_total_volume_m3 = "FRTC total over-bark stem volume (m³/tree)",
+  frtc_volume_ub_20cm_m3 = "FRTC under-bark volume to 20-cm top (m³/tree)",
+  frtc_volume_ub_10cm_m3 = "FRTC under-bark volume to 10-cm top (m³/tree)",
+  frtc_estimation_status = "FRTC total-volume status",
+  frtc_top20_status = "FRTC 20-cm volume status",
+  frtc_top10_status = "FRTC 10-cm volume status",
+  frtc_calibration_status = "FRTC calibration status",
+  sharma_pukkala_stem_volume_m3 = "Sharma–Pukkala stem volume (m³/tree)",
+  sharma_pukkala_branch_volume_m3 = "Regulatory branch volume (m³/tree)",
+  sharma_pukkala_total_tree_volume_m3 = "Sharma–Pukkala total tree volume (m³/tree)",
+  sharma_pukkala_branch_group_used = "Branch group used",
+  sharma_pukkala_estimation_status = "Sharma–Pukkala status",
+  sharma_pukkala_calibration_status = "Sharma–Pukkala calibration status",
+  stem_volume_source = "Stem-volume source",
+  branch_volume_source = "Branch-volume source",
+  branch_group_required = "Trees requiring branch group",
+  unsupported_species = "Unsupported trees"
+)
+
+.volume_excel_table <- function(data) {
+  labels <- .volume_excel_labels()
+  original <- names(data)
+  matched <- labels[original]
+  names(data) <- ifelse(is.na(matched), gsub("_", " ", original), matched)
+  data
+}
+
 .write_volume_workbook <- function(result, path) {
   if (length(path) != 1L || is.na(path) ||
       !grepl("\\.xlsx$", path, ignore.case = TRUE)) stop(
@@ -786,9 +844,12 @@ volume <- function(input, output = NULL, sheet = 1,
     halign = "center", valign = "center", wrapText = TRUE
   )
   wrap <- openxlsx::createStyle(valign = "top", wrapText = TRUE)
+  four_decimal <- openxlsx::createStyle(numFmt = "0.0000")
+  integer <- openxlsx::createStyle(numFmt = "0")
 
   for (sheet_name in names(tables)) {
-    dat <- tables[[sheet_name]]
+    raw <- tables[[sheet_name]]
+    dat <- .volume_excel_table(raw)
     openxlsx::addWorksheet(wb, sheet_name)
     openxlsx::writeData(
       wb, sheet_name, dat,
@@ -798,7 +859,9 @@ volume <- function(input, output = NULL, sheet = 1,
       wb, sheet_name, header, rows = 1, cols = seq_len(ncol(dat)),
       gridExpand = TRUE
     )
+    openxlsx::setRowHeights(wb, sheet_name, rows = 1, heights = 32)
     openxlsx::freezePane(wb, sheet_name, firstRow = TRUE)
+
     if (sheet_name == "Read_Me") {
       openxlsx::addStyle(
         wb, sheet_name, wrap,
@@ -811,8 +874,29 @@ volume <- function(input, output = NULL, sheet = 1,
       openxlsx::setColWidths(
         wb, sheet_name, cols = seq_len(ncol(dat)), widths = "auto"
       )
+      wide <- which(nchar(names(dat)) > 28)
+      if (length(wide)) {
+        openxlsx::setColWidths(wb, sheet_name, cols = wide, widths = 28)
+      }
+      if (nrow(dat)) {
+        numeric_cols <- which(vapply(raw, is.numeric, logical(1)))
+        count_cols <- which(grepl(
+          "(^|_)(plots|trees)$|^plots_with_estimates$|^branch_group_required$|^unsupported_species$",
+          names(raw)
+        ))
+        decimal_cols <- setdiff(numeric_cols, count_cols)
+        if (length(decimal_cols)) openxlsx::addStyle(
+          wb, sheet_name, four_decimal, rows = 2:(nrow(dat) + 1),
+          cols = decimal_cols, gridExpand = TRUE, stack = TRUE
+        )
+        if (length(count_cols)) openxlsx::addStyle(
+          wb, sheet_name, integer, rows = 2:(nrow(dat) + 1),
+          cols = count_cols, gridExpand = TRUE, stack = TRUE
+        )
+      }
     }
   }
   openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
   invisible(path)
 }
+
