@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/r.yml)
 [![pkgdown](https://github.com/ayersant-sys/nepalallometry/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/ayersant-sys/nepalallometry/actions/workflows/pkgdown.yaml)
 [![release](https://img.shields.io/github/v/release/ayersant-sys/nepalallometry?label=release)](https://github.com/ayersant-sys/nepalallometry/releases/latest)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22388960.svg)](https://doi.org/10.5281/zenodo.22388960)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22549316.svg)](https://doi.org/10.5281/zenodo.22549316)
 <!-- badges: end -->
 
 ***nepalallometry*** is an extensible umbrella R package for transparent and reproducible allometric estimation for Nepal's forest trees. It brings published equations, assumptions, source documentation, validation checks, and practical inventory workflows into one auditable platform.
@@ -19,7 +19,7 @@ The package currently provides two separate operational workflows:
 
 The methods are reproduced according to their published equations, coefficients, units, and component boundaries. Methodologically different estimates are not silently substituted, averaged, or forced to agree.
 
-> **Release note:** Version 1.1.0 extends *nepalallometry* with tree-volume estimation while retaining the biomass and carbon workflows introduced in Version 1.0.0. The archived Version 1.1.0 release is available through Zenodo (DOI: 10.5281/zenodo.22388960).
+> **Release note:** Version 1.2.0 adds the interactive Shiny graphical interface, reproducible **View R code** support, and expanded technical documentation, including **Methods & Equations** and **Help & Troubleshooting**, while retaining the biomass, carbon, and tree-volume workflows. The archived Version 1.2.0 release is available through Zenodo (DOI: 10.5281/zenodo.22549316).
 
 ## Installation
 
