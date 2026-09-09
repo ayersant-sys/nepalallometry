@@ -1,8 +1,8 @@
 # Changelog
 
-## nepalallometry 1.2.2.9000
+## nepalallometry 1.2.2
 
-### Development version
+### Improved volume Excel workbooks
 
 - Improved volume Excel workbooks with reader-friendly column headings,
   explicit units, wrapped headers, sensible widths, and consistent
