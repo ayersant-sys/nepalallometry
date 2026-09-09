@@ -354,7 +354,9 @@ volume <- function(input, output = NULL, sheet = 1,
   )
   tables <- lapply(method_tables, function(x) {
     z <- as.data.frame(.volume_long_method(x), stringsAsFactors = FALSE)
-    z[, required, drop = FALSE]
+    missing <- setdiff(required, names(z))
+    for (nm in missing) z[[nm]] <- NA
+    z[required]
   })
   do.call(rbind.data.frame, c(tables, list(
     make.row.names = FALSE,
