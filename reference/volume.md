@@ -13,7 +13,7 @@ volume(
   input,
   output = NULL,
   sheet = 1,
-  methods = c("sharma_pukkala", "frtc"),
+  methods = c("frtc", "sharma_pukkala"),
   dbh_breaks = c(0, 10, 20, 30, 40, 50, Inf)
 )
 ```
@@ -95,51 +95,48 @@ volume(trees)
 #>   tree_id          species dbh_cm height_m    branch_group basal_area_m2
 #> 1      T1              sal     60       25            <NA>     0.2827433
 #> 2      T2 terminalia_alata     45       22 other_broadleaf     0.1590431
-#>   sharma_pukkala_stem_volume_m3 sharma_pukkala_branch_volume_m3
-#> 1                      3.050025                        1.072592
-#> 2                      1.479857                        0.805289
-#>   sharma_pukkala_total_tree_volume_m3 sharma_pukkala_branch_group_used
-#> 1                            4.122617                   shorea_robusta
-#> 2                            2.285146                  other_broadleaf
-#>   sharma_pukkala_estimation_status sharma_pukkala_calibration_status
-#> 1                        estimated         within_observed_dbh_range
-#> 2                        estimated         within_observed_dbh_range
 #>   frtc_total_volume_m3 frtc_volume_ub_20cm_m3 frtc_volume_ub_10cm_m3
 #> 1             2.952055              2.2897561               2.274572
 #> 2             1.448508              0.9849217               1.079244
-#>   frtc_top20_status frtc_top10_status frtc_estimation_status
-#> 1         estimated         estimated              estimated
-#> 2         estimated         estimated              estimated
-#>   frtc_calibration_status
-#> 1   within_observed_range
-#> 2   within_observed_range
+#>   frtc_estimation_status frtc_top20_status frtc_top10_status
+#> 1              estimated         estimated         estimated
+#> 2              estimated         estimated         estimated
+#>   frtc_calibration_status sharma_pukkala_stem_volume_m3
+#> 1   within_observed_range                      3.050025
+#> 2   within_observed_range                      1.479857
+#>   sharma_pukkala_branch_volume_m3 sharma_pukkala_total_tree_volume_m3
+#> 1                        1.072592                            4.122617
+#> 2                        0.805289                            2.285146
+#>   sharma_pukkala_branch_group_used sharma_pukkala_estimation_status
+#> 1                   shorea_robusta                        estimated
+#> 2                  other_broadleaf                        estimated
+#>   sharma_pukkala_calibration_status
+#> 1         within_observed_dbh_range
+#> 2         within_observed_dbh_range
 #> 
 #> $method_audit
-#>                                 method
-#> 1 Sharma & Pukkala + Forest Regulation
-#> 2                            FRTC 2025
-#>                          total_volume_definition
-#> 1                 Stem volume plus branch volume
-#> 2 Total stem volume over bark; branches excluded
-#>                                                           stem_volume_source
-#> 1                                                  Sharma and Pukkala (1990)
-#> 2 FRTC (2025), Allometric Equations of Major Tree Species of Nepal, Volume I
-#>                                  branch_volume_source
-#> 1           Nepal Forest Regulations 2079, Schedule 9
-#> 2 Not applicable; FRTC volume equations are stem-only
-#>                                                      stump_boundary total_trees
-#> 1 As defined by the underlying Sharma-Pukkala stem-volume equations           2
-#> 2                                              30-cm stump excluded           2
-#>   estimated_trees branch_group_required unsupported_species
-#> 1               0                     0                   0
-#> 2               0                     0                   0
+#>                                 method               volume_type
+#> 1 Sharma & Pukkala + Forest Regulation                total_tree
+#> 2                            FRTC 2025 multiple_stem_definitions
+#>                                                                                                       volume_definition
+#> 1                                                                   Total tree volume (stem + regulatory branch volume)
+#> 2 Total over-bark stem volume; under-bark stem volume to 20-cm and 10-cm over-bark top diameters (reported separately).
+#>                           stem_volume_source
+#> 1                  Sharma and Pukkala (1990)
+#> 2 Forest Research and Training Centre (2025)
+#>                        branch_volume_source total_trees estimated_trees
+#> 1 Nepal Forest Regulations 2079, Schedule 9           2               2
+#> 2                                      <NA>           2               2
+#>   branch_group_required unsupported_species
+#> 1                     0                   0
+#> 2                     0                   0
 #> 
 #> attr(,"class")
 #> [1] "nepal_volume_result"
 #> attr(,"input_source")
 #> [1] "R data frame"
 #> attr(,"methods")
-#> [1] "sharma_pukkala" "frtc"          
+#> [1] "frtc"           "sharma_pukkala"
 #> attr(,"analysis_level")
 #> [1] "tree"
 volume(trees, methods = "frtc")
@@ -162,22 +159,22 @@ volume(trees, methods = "frtc")
 #>   frtc_total_volume_m3 frtc_volume_ub_20cm_m3 frtc_volume_ub_10cm_m3
 #> 1             2.952055              2.2897561               2.274572
 #> 2             1.448508              0.9849217               1.079244
-#>   frtc_top20_status frtc_top10_status frtc_estimation_status
-#> 1         estimated         estimated              estimated
-#> 2         estimated         estimated              estimated
+#>   frtc_estimation_status frtc_top20_status frtc_top10_status
+#> 1              estimated         estimated         estimated
+#> 2              estimated         estimated         estimated
 #>   frtc_calibration_status
 #> 1   within_observed_range
 #> 2   within_observed_range
 #> 
 #> $method_audit
-#>      method                        total_volume_definition
-#> 1 FRTC 2025 Total stem volume over bark; branches excluded
-#>                                                           stem_volume_source
-#> 1 FRTC (2025), Allometric Equations of Major Tree Species of Nepal, Volume I
-#>                                  branch_volume_source       stump_boundary
-#> 1 Not applicable; FRTC volume equations are stem-only 30-cm stump excluded
-#>   total_trees estimated_trees branch_group_required unsupported_species
-#> 1           2               0                     0                   0
+#>      method               volume_type
+#> 1 FRTC 2025 multiple_stem_definitions
+#>                                                                                                       volume_definition
+#> 1 Total over-bark stem volume; under-bark stem volume to 20-cm and 10-cm over-bark top diameters (reported separately).
+#>                           stem_volume_source branch_volume_source total_trees
+#> 1 Forest Research and Training Centre (2025)                 <NA>           2
+#>   estimated_trees branch_group_required unsupported_species
+#> 1               2                     0                   0
 #> 
 #> attr(,"class")
 #> [1] "nepal_volume_result"
