@@ -13,7 +13,7 @@ volume(
   input,
   output = NULL,
   sheet = 1,
-  methods = c("sharma_pukkala", "frtc"),
+  methods = c("frtc", "sharma_pukkala"),
   dbh_breaks = c(0, 10, 20, 30, 40, 50, Inf)
 )
 ```
