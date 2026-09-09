@@ -117,7 +117,7 @@ volume(trees)
 #> $method_audit
 #>                                 method               volume_type
 #> 1 Sharma & Pukkala + Forest Regulation                total_tree
-#> 2                                 FRTC multiple_stem_definitions
+#> 2                            FRTC 2025 multiple_stem_definitions
 #>                                                                                                       volume_definition
 #> 1                                                                   Total tree volume (stem + regulatory branch volume)
 #> 2 Total over-bark stem volume; under-bark stem volume to 20-cm and 10-cm over-bark top diameters (reported separately).
@@ -167,8 +167,8 @@ volume(trees, methods = "frtc")
 #> 2   within_observed_range
 #> 
 #> $method_audit
-#>   method               volume_type
-#> 1   FRTC multiple_stem_definitions
+#>      method               volume_type
+#> 1 FRTC 2025 multiple_stem_definitions
 #>                                                                                                       volume_definition
 #> 1 Total over-bark stem volume; under-bark stem volume to 20-cm and 10-cm over-bark top diameters (reported separately).
 #>                           stem_volume_source branch_volume_source total_trees
